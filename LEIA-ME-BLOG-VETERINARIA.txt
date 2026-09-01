@@ -1,0 +1,20 @@
+PACOTE LOCAL — BLOG E SEO | DRA. FERNANDA TEO
+Data de preparação: 26/08/2026
+
+Este pacote foi criado a partir do arquivo siteveterinaria-index.html recebido como referência oficial. A identidade visual, a navegação, os CTAs, as áreas de atendimento e as informações profissionais existentes foram preservados. O link Conteúdos foi adicionado ao menu da cópia local.
+
+O pacote inclui:
+- blog/ com a página inicial e um artigo-piloto;
+- blog/blog.css com os componentes editoriais compatíveis com o site atual;
+- robots.txt e sitemap.xml;
+- o artigo “Viagem internacional com pets: o que planejar antes da documentação”, baseado em fontes do MAPA.
+
+CONDIÇÃO OBRIGATÓRIA PARA PUBLICAÇÃO
+O artigo-piloto e qualquer conteúdo futuro sobre saúde animal devem ser revisados e aprovados expressamente pela Dra. Fernanda Teo antes de publicação. O blog não deve ser utilizado para diagnóstico, prescrição, triagem de urgências, promessas de resultado ou substituição de consulta.
+
+PUBLICAÇÃO FUTURA
+1. Fazer cópia de segurança do site publicado.
+2. Revisar e aprovar clinicamente o artigo-piloto.
+3. Enviar os arquivos preservando a hierarquia de pastas.
+4. Conferir /blog/, /robots.txt e /sitemap.xml depois do upload.
+5. Submeter o sitemap ao Google Search Console e ao Bing Webmaster Tools quando os acessos estiverem disponíveis.
