@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página não encontrada | Dra. Fernanda Teo</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .pagina-404 {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px 24px;
+      background-color: var(--cor-fundo-alt);
+    }
+    .pagina-404-conteudo {
+      max-width: 520px;
+    }
+    .pagina-404-icone {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 24px;
+      display: block;
+    }
+    .pagina-404 h1 {
+      font-family: var(--fonte-titulo);
+      font-weight: 800;
+      font-size: clamp(28px, 5vw, 40px);
+      color: var(--cor-primaria);
+      margin: 0 0 12px;
+    }
+    .pagina-404 p {
+      font-family: var(--fonte-corpo);
+      color: var(--cor-texto-suave);
+      font-size: 17px;
+      line-height: 1.6;
+      margin: 0 0 32px;
+    }
+    .pagina-404-acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .pagina-404-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-family: var(--fonte-corpo);
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      transition: background-color 0.2s ease, transform 0.15s ease;
+    }
+    .pagina-404-btn:hover {
+      transform: translateY(-1px);
+    }
+    .pagina-404-btn-primario {
+      background-color: var(--cor-cta);
+      color: #FFFFFF;
+    }
+    .pagina-404-btn-primario:hover {
+      background-color: var(--cor-cta-hover);
+    }
+    .pagina-404-btn-secundario {
+      background-color: #FFFFFF;
+      color: var(--cor-primaria);
+      border: 1.5px solid var(--cor-primaria);
+    }
+    .pagina-404-btn-secundario:hover {
+      background-color: var(--cor-primaria-clara);
+    }
+  </style>
+</head>
+<body>
+  <main class="pagina-404">
+    <div class="pagina-404-conteudo">
+      <svg class="pagina-404-icone" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="#2E7D32" stroke-width="1.5"/>
+        <path d="M9.5 9.5c0-1 .8-1.8 2.5-1.8s2.5.8 2.5 1.8c0 1.2-1 1.6-1.8 2.2-.6.5-.9.9-.9 1.6" stroke="#2E7D32" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="12" cy="16.3" r="0.9" fill="#2E7D32"/>
+      </svg>
+      <h1>Essa página não foi encontrada</h1>
+      <p>O endereço pode ter mudado ou não existe mais. Mas o site da Dra. Fernanda Teo continua aqui — veterinária domiciliar humanizada no sul da ilha de Florianópolis.</p>
+      <div class="pagina-404-acoes">
+        <a class="pagina-404-btn pagina-404-btn-primario" href="https://wa.me/5548999690448?text=Olá%20Dra.%20Fernanda%2C%20cheguei%20numa%20página%20que%20não%20existe%20mais%20no%20site%20e%20gostaria%20de%20agendar%20uma%20consulta.">Falar no WhatsApp</a>
+        <a class="pagina-404-btn pagina-404-btn-secundario" href="/">Voltar para o início</a>
+        <a class="pagina-404-btn pagina-404-btn-secundario" href="/blog/">Ver conteúdos do blog</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
