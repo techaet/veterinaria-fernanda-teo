@@ -1451,7 +1451,7 @@ body.agenda-page { background: var(--cor-fundo-alt); }
   border: 0;
 }
 
-.agenda-embed { padding: 24px 0 72px; }
+.agenda-embed { padding: 24px 0; }
 
 .agenda-vet-wrap { max-width: 1180px; margin: 0 auto; }
 
@@ -1460,35 +1460,19 @@ body.agenda-page { background: var(--cor-fundo-alt); }
 .agenda-vet-frame {
   display: block;
   width: 100%;
-  height: 2900px;            /* iframe >= ~1024px: layout em 2 colunas (~2.570px) */
+  height: 2700px;            /* iframe >= ~1024px: layout em 2 colunas (~2.570px) */
   border: 1px solid #dce7de;
   border-radius: 24px;
   background: #fff;
   box-shadow: var(--sombra-card);
 }
-.agenda-vet-fallback {
-  margin-top: 14px;
-  text-align: center;
-  font-size: 0.95rem;
-  color: var(--cor-texto-suave);
-}
-.agenda-vet-fallback a {
-  color: var(--cor-primaria-escura);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.agenda-vet-fallback a:hover { color: var(--cor-primaria); }
-.agenda-vet-fallback--wa { margin-top: 6px; }
-.agenda-vet-frame:focus-visible,
-.agenda-vet-fallback a:focus-visible { outline: 3px solid var(--cor-cta); outline-offset: 3px; }
+.agenda-vet-frame:focus-visible { outline: 3px solid var(--cor-cta); outline-offset: 3px; }
 
 @media (max-width: 1079px) {
-  .agenda-vet-frame { height: 4400px; }   /* 1 coluna: ~4.000px (800-1000) a ~4.700px (500) */
+  .agenda-vet-frame { height: 4200px; }   /* 1 coluna: ~4.000px (700-1000) */
 }
 @media (max-width: 640px) {
-  .agenda-embed { padding: 8px 0 56px; }
+  .agenda-embed { padding: 8px 0; }
   .agenda-embed .container { padding-left: 8px; padding-right: 8px; }
-  .agenda-vet-frame { height: 5400px; border-radius: 16px; }  /* ~4.700px (500) a ~5.000px (320) */
-  .agenda-vet-fallback { padding: 0 8px; }
+  .agenda-vet-frame { height: 5100px; border-radius: 16px; }  /* ~4.700px (500) a ~5.000px (320) */
 }
