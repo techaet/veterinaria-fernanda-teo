@@ -74,6 +74,17 @@
     </section>
   </main>
   <script>
+    /* Celular: vai direto para a agenda em tela cheia, sem passar por esta página.
+       Sem JavaScript (ou no computador) a página continua funcionando normalmente. */
+    (function () {
+      try {
+        if (window.matchMedia('(max-width: 768px)').matches) {
+          window.location.replace('https://vetplatform-alf9ll8o.manus.space/agendar/dra-fernanda-teo');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <script>
     /* Ajuste automático da altura do iframe.
        A agenda (Tech VET) envia {type:'techvet:height', height:<px>} via postMessage.
        Enquanto isso não chega, vale a altura fixa definida no CSS. */
