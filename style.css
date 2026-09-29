@@ -1222,6 +1222,40 @@ footer {
   fill: white;
 }
 
+/* Botão flutuante "Agendar Consulta" (laranja) */
+.agendar-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  background: var(--cor-cta);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: 50px;
+  box-shadow: 0 6px 24px rgba(255, 111, 0, 0.45);
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  animation: pulse-agendar 2.5s infinite;
+}
+
+.agendar-float:hover {
+  background: var(--cor-cta-hover);
+  color: #fff;
+  transform: translateY(-2px);
+  animation: none;
+}
+
+@keyframes pulse-agendar {
+  0%, 100% { box-shadow: 0 6px 24px rgba(255, 111, 0, 0.45); }
+  50% { box-shadow: 0 6px 32px rgba(255, 111, 0, 0.7), 0 0 0 10px rgba(255, 111, 0, 0.12); }
+}
+
 @keyframes pulse-whatsapp {
   0%, 100% { box-shadow: 0 6px 24px rgba(37, 211, 102, 0.5); }
   50% { box-shadow: 0 6px 32px rgba(37, 211, 102, 0.75), 0 0 0 10px rgba(37, 211, 102, 0.1); }
@@ -1297,10 +1331,13 @@ footer {
     border-bottom: none;
   }
 
-  .btn-navbar {
+  .btn-navbar,
+  .navbar-menu a.btn-navbar {
     display: inline-block;
     text-align: center;
-    margin-top: 4px;
+    margin-top: 8px;
+    padding: 14px 40px;
+    border-bottom: none;
   }
 
   .navbar-toggle {
