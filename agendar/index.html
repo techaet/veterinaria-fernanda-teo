@@ -60,18 +60,27 @@
             loading="lazy"
             referrerpolicy="strict-origin-when-cross-origin"
             allow="clipboard-write"></iframe>
-          <p class="agenda-vet-fallback">
-            A agenda não carregou ou prefere abrir em tela cheia?
-            <a href="https://vetplatform-alf9ll8o.manus.space/agendar/dra-fernanda-teo" target="_blank" rel="noopener noreferrer">Abrir a agenda em uma nova aba</a>.
-          </p>
-          <p class="agenda-vet-fallback agenda-vet-fallback--wa">
-            Prefere conversar antes?
-            <a href="https://wa.me/5548999690448?text=Ol%C3%A1%20Dra.%20Fernanda%2C%20gostaria%20de%20agendar%20uma%20consulta!" target="_blank" rel="noopener noreferrer">Fale pelo WhatsApp</a>.
-          </p>
         </div>
       </div>
     </section>
   </main>
-  <footer><div class="container"><div class="footer-inner"><div class="footer-logo" aria-hidden="true"><div class="footer-logo-icon"><img src="../images/brand/cuidado-em-casa.webp" alt="" width="42" height="42"></div><span class="footer-nome">Dra. Fernanda Teo</span></div><p class="footer-crmv">CRMV/SC 5669 — Médica Veterinária</p><p class="footer-tagline">Medicina Veterinária com amor, ciência e propósito.</p><nav class="footer-links" aria-label="Links de contato"><a href="../#contato">Contato</a><a href="https://instagram.com/fernandateoveterinaria" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://wa.me/5548999690448" target="_blank" rel="noopener noreferrer">WhatsApp</a></nav><hr class="footer-divider"><p class="footer-copy">© 2026 Dra. Fernanda Teo. Todos os direitos reservados.</p></div></div></footer>
+  <script>
+    /* Ajuste automático da altura do iframe.
+       A agenda (Tech VET) envia {type:'techvet:height', height:<px>} via postMessage.
+       Enquanto isso não chega, vale a altura fixa definida no CSS. */
+    (function () {
+      var ORIGEM = 'https://vetplatform-alf9ll8o.manus.space';
+      var frame = document.querySelector('.agenda-vet-frame');
+      if (!frame) return;
+      window.addEventListener('message', function (e) {
+        if (e.origin !== ORIGEM || e.source !== frame.contentWindow) return;
+        var d = e.data;
+        if (!d || d.type !== 'techvet:height') return;
+        var h = Math.ceil(Number(d.height));
+        if (!isFinite(h) || h < 600 || h > 20000) return;
+        frame.style.height = h + 'px';
+      });
+    })();
+  </script>
 </body>
 </html>
