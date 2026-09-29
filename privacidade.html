@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de Privacidade | Dra. Fernanda Teo, Veterinária Domiciliar</title>
+<meta name="description" content="Como a Dra. Fernanda Teo (CRMV/SC 5669) usa e protege os dados de tutores que pedem consulta veterinária domiciliar no Sul da Ilha de Florianópolis.">
+<link rel="canonical" href="https://veterinaria.aetsolidez.com.br/privacidade.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Política de Privacidade | Dra. Fernanda Teo">
+<meta property="og:description" content="Como tratamos os dados dos tutores no agendamento e no atendimento veterinário domiciliar.">
+<meta property="og:url" content="https://veterinaria.aetsolidez.com.br/privacidade.html">
+<meta property="og:locale" content="pt_BR">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --verde: #2E7D32;
+    --verde-escuro: #1B5E20;
+    --menta: #E8F5E9;
+    --texto: #1A1A2E;
+    --suave: #546E7A;
+    --fundo: #F5F7FA;
+    --branco: #FFFFFF;
+    --rodape: #0D1117;
+    --linha: #DDE5E0;
+    --raio: 16px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    font-family: "Inter", "Roboto", system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--texto);
+    background: var(--fundo);
+  }
+  a { color: var(--verde-escuro); text-underline-offset: 3px; }
+  a:hover { color: var(--verde); }
+  :focus-visible { outline: 3px solid var(--verde); outline-offset: 3px; border-radius: 4px; }
+
+  /* Cabeçalho */
+  .topo {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--branco);
+    border-bottom: 1px solid var(--linha);
+  }
+  .topo-interno {
+    max-width: 1080px; margin: 0 auto; padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--texto); }
+  .logo-img { height: 52px; width: auto; flex: none; display: block; }
+  .logo-nome { display: block; font-family: "Poppins", "Montserrat", sans-serif; font-weight: 700; font-size: 1.05rem; line-height: 1.15; }
+  .logo-desc { display: block; font-size: .8rem; color: var(--suave); line-height: 1.2; }
+  .voltar {
+    font-weight: 600; font-size: .95rem; text-decoration: none;
+    color: var(--verde-escuro); border: 2px solid var(--verde);
+    padding: 8px 16px; border-radius: 999px; white-space: nowrap;
+  }
+  .voltar:hover { background: var(--menta); }
+
+  /* Abertura */
+  .abertura { background: var(--menta); border-bottom: 1px solid #CFE6D2; }
+  .abertura-interno { max-width: 1080px; margin: 0 auto; padding: 56px 20px 48px; }
+  h1 {
+    margin: 0 0 12px;
+    font-family: "Poppins", "Montserrat", sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; letter-spacing: -0.02em;
+    color: var(--texto); max-width: 18ch;
+  }
+  .atualizacao { margin: 0 0 28px; color: var(--suave); font-size: .95rem; }
+  .resumo {
+    background: var(--branco); border-radius: var(--raio);
+    border-left: 6px solid var(--verde);
+    padding: 22px 24px; max-width: 720px;
+  }
+  .resumo h2 { margin: 0 0 8px; font-family: "Poppins", sans-serif; font-size: 1.1rem; font-weight: 700; }
+  .resumo p { margin: 0 0 8px; }
+  .resumo p:last-child { margin-bottom: 0; }
+
+  /* Corpo */
+  .corpo {
+    max-width: 1080px; margin: 0 auto; padding: 40px 20px 72px;
+    display: grid; grid-template-columns: 1fr; gap: 32px;
+  }
+  .indice {
+    background: var(--branco); border-radius: var(--raio);
+    padding: 20px 22px; border: 1px solid var(--linha); align-self: start;
+  }
+  .indice h2 { margin: 0 0 10px; font-family: "Poppins", sans-serif; font-size: 1rem; font-weight: 700; }
+  .indice ol { margin: 0; padding-left: 1.25rem; font-size: .95rem; line-height: 1.5; }
+  .indice li { margin: 6px 0; }
+  .indice a { text-decoration: none; }
+  .indice a:hover { text-decoration: underline; }
+
+  @media (min-width: 900px) {
+    .corpo { grid-template-columns: 260px minmax(0, 1fr); gap: 48px; }
+    .indice { position: sticky; top: 96px; }
+  }
+
+  article section { margin-bottom: 40px; max-width: 70ch; }
+  article h2 {
+    font-family: "Poppins", "Montserrat", sans-serif; font-weight: 700;
+    font-size: 1.4rem; line-height: 1.25; margin: 0 0 12px; letter-spacing: -0.01em;
+  }
+  article p { margin: 0 0 14px; }
+  article ul { margin: 0 0 14px; padding-left: 1.3rem; }
+  article li { margin: 6px 0; }
+
+  .contato-caixa {
+    background: var(--branco); border: 1px solid var(--linha); border-radius: var(--raio);
+    padding: 20px 22px; margin-top: 8px;
+  }
+  .contato-caixa p { margin: 0 0 6px; }
+  .contato-caixa p:last-child { margin-bottom: 0; }
+
+  /* Rodapé */
+  footer { background: var(--rodape); color: #C9D1D9; }
+  .rodape-interno { max-width: 1080px; margin: 0 auto; padding: 32px 20px; font-size: .95rem; }
+  .rodape-interno strong { color: #fff; }
+  .rodape-interno p { margin: 0 0 6px; }
+  footer a { color: #A5D6A7; }
+</style>
+</head>
+
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="logo" href="/" aria-label="Dra. Fernanda Teo, Veterinária Domiciliar. Ir para a página inicial">
+      <img class="logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAABoCAYAAADcm/8NAAA1MUlEQVR42u19eXydVZn/9/uc894sLZRFQEpJ0oIiYSdJWUSD0iVpVXDGi+I6OAojiuDG6IzO5ToMDjiK+wiuqDj8vI7I1qQt2xWFtknY1AhaSm4pdCib0CXJve95nt8f73vT272lKZscPvkQwr3vcr7nPOv3eQ7xtzWIbFY6V61isfav++5rKBQCXhkvO7DdNj+1PZ95WUzGy33kIMhDAWBK9vgGrq60ifBIglNgRqUshYX7l/cM/A4AYGA6K/YK6C/F0dnpUSzGaG3NTG2Z+FFTOwvE6+gkQZaAmcGCBhB3Uu3Sh3r7r994sbzchnu5Az61u+O1k/bIXCfe/SOAVwEWm6ECtYqpxmZQmIk41wKRM/Y4aPLB0QF7LFx35eOj6Oz0KJV2DPhs1mFwsLqhtv2Tg2DfrGBw0F7Z6Tv/Tja1q+0dSvmWONlP4xCDgFA8nSQfMIAELChUrUJAJHJOQ+hDsPcNze9/YExavCLeX6Qjm3VVK7ylqz0HkQthBjNUSETiHUIl/r2Q883wB8KCAa8HcJpE/tVaiYOBKo6RqT0B43uGepcsQC4nyOdtG3qeyIHNSzrOF/KtaioAjWYBpJiZgDQYKoSJkRkAgcCzYvj6st6+m2FGkPYK6Dsozg/umr57TP2OePcejVUNCEJGZlY24HORPf3tpb1LR2u/2jS7bX+Ku1Qc32tBYzMYBRGAGMTnh27suyRZVHAoIGxpsTV3Tz/NebnGbPtxowi0HP81du7wFTcuerQqpXblVPmXi++NQiFumTX9qJj4GZ07PMRhlEaRyEUWh+Uh6IceXjCwcGyB1Izl84srAbyvubv9T0L5D9BgijJpQuf/s2XO9COlHM5ZVhh4ZrPiftUqAgANR5lBNYQKDJ5krc1kG20yg5kZgkFkD2rYH8AjqQG5S0GXlzjgAgNQKISWOR2nQ/RWCg63WNfRKJJxkQW92VQ6H14wsDAFmygW4w1+AEE260o9/RerhbfD7ElxkoGxrHEo08m7LZJi88yOo1Esxqk/v4mUNGqZMCHIxDfAWgOegdnTgD1tsGfNbDXMnobZCEgBKTAzOqfP36S9lPU3oGCOLXM6Lobh/xk50YIOQ9go3kVWsf9qnLBmTmn+4iFk4VKAN7eLFIVCQGenL/UM/Fpgb1LT39NJI2FqcTwC4VHieWtLd9v7U7vBkNt0/lLFb3QiqvaR2Hj4qK872gUc7ZwdYQ5Hq9lhIH4s3sFgAQR8CM8bFi9N8d7Z6VEoxPt3tr0q03DjjyjuLRZrmUAMkUbA1oYQn1vq6f9Rjc+97TBruouXFQq/nzaj7Q0a4bt0/l0W4thURwDuTnFXNs/pOKy0tvFfkU93/apV1a1uFALBAAoArHykd8mKzd2qeXbH2kQ30QCyMrYWcwDyr+z0TcKpxWLc3HXs8XUT3G3i5C0WwghoKpFrBGzQlDNKPf0/GhPDOxJkKRQCcjlZdtPAM0M9fWdoCJ8GCZD1MBvVYGURuaBl4nBP0+y2/VEohIMbGhwAkKrJVidhBqEJAEFbW5TOtaC1NZNgDTVYCrXBoKlxmX9FvG/yrIVCaOrqeA/FLSBxmAYrm1HoXL2G8OtR0c5S75JFqTQIz8kSzue1usBKPX1fQdB3kFxJ5xpIU421THIGxS1qnt128tLe3lHkIAaJzQzVQC7pDYBi2jQFkPzss48CMAKBIAgjAIi58PxO5EtFfwNs7u74snPyMxh202AVCjIUZiwOFw7N63v7yhsGnqjR3zszrKrnh+YPXKsxT1TVBXSungQ1hFEhmiAyv7m741PIQ6nmWLURSGjQLUY8LZECic0PAib1r4C+of4OzXM6Xt3cPX2ec/JpCyGYoey8iwA+YRbePtTbn08tatmsL/1cR6rnS/MXD7Wsa5yrwb4pIhHBOjUdJRCJk/9q7m7/MWinWWLJiZkZPdZtUU8pNvDmHWO3Xqf/7YLOsfh5V3sHDbc6L7ND0IqR6iKXUQ13uWAnl3oGfl3je4+/61MoBOQgxWIxLvUs+bgFfS+Ap0WkzgwVi7XivP8AnT/RQlASAtWnM6KD6fc3eSYTkEkoOJHvavxb3+ms+tPNXce9y8ibSb4uVEKZZuK8izQOV9f56OQH5/f9sSZgsuuCGokxSGSz7qHevquMeLMZ/uAilwFMNI5HVLUCUlwmcgZ+6883DDyRqibbjHxnTZQGIfLhb9eQS3xfA6At3e1fch7/A2CimY6IMEPnnFbi3FBP3xkPXHfH6qo1/zw93ZieL83ru8fWjr4hxOFyCNZSXL04iShcE0YrF5dW6UWJqtkCI6eatSdIEFHNBPxt+enZrEO+EJrmHrGnaP23xckZGjQYLBZKvcJWmeo5y3v7/zddsC8MzalYjJGDlPL3/hXAP7XMbr9MnZ4A4yhRuWOo9+7StmVZVaUbAcJUnzfx/uIBPQ24TO065khTfxWdHK5B1xrMi3N1GvReM757eW/f4Isi3VkV9zlwKN//AIAHNli8iR7forphgJp7Ycg5Lwbxvj7g0j39NKO7hSKHWwgjZojEuToL4ZoQ3JuX9y4ZfJHltw15KHJJ7D7V37Jd8QGmrhqSVKqZ/Y3s9ColqVAILd0dXyAtb0aYhrWAZMQhMrULh3r68zU76MVHaMhDgcKOrRaiLKkVZwQCXB0AYHCQL1/QU/3d3HnUHmjIfF28e7/GcQxgFGQjwWHVcHYaP3+u+pvIbZQNW5+2fKGJj6vTJzQKQdVmAL9Fa8FenqCn+nvKrGMOpo/+hyLtIY5HCSidm6BqD5jaP5R6+xdtj37cQF1lsxzzrRPxa1uUMrd1CopF3SW+/bZWI/GwmYEwpQjAcCgA4LZOAYr6cgKdyOWIfD5untXRRY/vEZiicSgTFHpXZxoWBpbPXNF77yPVxbFdUqMKdGG9mJ0y6/i9JIr3oLk6SGyhrLFEThtc5vEH8nesHpvcHASDWT4vnsDJRUURoMr9alqBITJVEGiv/f+7Ogjy/OpvAE3d0z8mtMsAejMdJVhHJ9Bg3yxNX3I+8tBavts2rjnGXTuga/qUOtobFXizwY4gMBmGvUFGST6LAcAIgP8jrd9UbrEIty6/fslDGxm2uovn3Dpznb60eN1ddDxC1coEKhWRYx65cfHSdGPoSxv01OKecvzxDX6v8C2KfNBiDWaIxbPODGVTfKTUu+SHWE8P1m3u7nRRNHV1nOIEHzJDl3i3hyVhTZgZoKogNCliIAEISUCSV1fVZ0ncGIJ+5+Hegd9ufO1dOR/NXe2XuMhfoHFYK04mhIpeUZrfd3ZnZ6cv7kIPhc8X4Ad2tR3kKD+hkxMtDgGE0TkP1SEEvv+h+Utu3279nYLSMmv6UebtUgKzSIGpwgzlJMqFiCSqdOcxq9kMpgZTq6TB0IhOqtnt/w3D+s8P3zrw4HYyYHdK6k3t7nitmfWDbDQzUIQMOvuh+f037UrXlLtUjOUSAsPU7raZCvmeOGnWoKMAqvHz22Mpn7HixlR/b/slqzaBNnV1nCuCiykyUUOIaahA2CDOwcygQZ+B2RDIx2hYY8Q6wOoITDHja8TJqyiEhgAzGyXg6Jw31VWm/FwidYxVP3qXeC+FQmjpbv+SRP6zWo6HIVIH2KNB9eSHewce3FXA7xrQa3Rtc1fHRyj4BgGvhlGaeXrvLA4/8nj6I0t7l45utzhNJ6FldvuXGLnPWlA1WIUGz8g7i8NKgxUA12sa37N892mrNnfdyad07B1FehxE3knD39G7iRYHBawMsp7iYHH8laHj5l6Q7vZd4eIlPPl7jtod5UwfyYMsaFkiqdNgD7iKvHXZTYv/siuA565awdls1i1ZM/QdcXJWuhNjiNQDMMb2mYcW9H2lVhps/86YfgEdL7GgZQMoTiIL+rRRLhWHHz10/eLHNlmAg9n177mR+pg247jXaKTnAPgoRSLTMGIgXeTqtBL/91BP/zkbG4zjtzlygnxeW+Z0vBHgTTBzZhZTJAPYClTwnqGFfb/ZQbf1eQa9aqDMPq4FopeL4yyNrUxYoJMGU/wfLZz7UO/AL3dIZ1YBn9nxRkS81cxiwoTivJkuEtqHl93Y/4eN3DfdaIcm/PjWQuK7Z7NS48/jwK62kxzlCjo5VEOICRqdRKGiX1g+v++iXaZjq+82p+1s0n3X1KoJpjojRs3wudK8JZdt7AG9GECvFhyEpq6OU0TwE4pMtjgMAwC9a7Bg94jw9GU3PieRJa3ZVr/22Qm/FS8dqmFUxNVZ0FtHvb5l5Q0D69DWFmFgYHtz6qz5nKCzU1AsxlPfetx+VtGf0stMCyE2MIhIncXxaUPzB67dZVZ9FfjZbWdD5FsAvcFGCWQoQlX9KdaVP14q3vvX8Vh84wG6VN2rlu6ODwP2DVDqYToC0DERv/9TLuPcR2/ue3KHHzqdkKautnc47wsaa1mE3sweC5W4/eGb7n50G2AQgO3/lrbGBvNvs1AefKj37vs2An7sPvu/pa2xLsgNdPImi8MwyDoDHgExvTSvb9Uu8+OrUrK7vZuUH1G4n8ZaBgwu8hkNep8GOXP5/EV37ay4l51eoYAe3DV99+au6VfQyRWWRJjWAawH6RHbRUM9fe9+9Oa+J5HLyQ6uUmLZMkl+4YdgSeaZToRmn3/4prsfrWG9bnFRt7W1RXUx/xde/sfof5foUBhyOanR9QHZrFt5w8A6I95tQR9Kremy8+5AKD4PQMfCvOM9qly8nv4eCzweqkWX8RkCLlRCmcIjndObp3a1ZcfeN/fc8Htu9enVmupCITTNnD5VHX7hIvk7DVohUKFII4Cn1fT9pd7+byMHQRFAsWg7dP3BQcXKldo0u32GOH7B1IKIZDSEpTY84ZxnSqWw1frxpFZc6486oI1OLtFY17rIT7RY/++vSx+9GYDb4PuDg4Zs1j1z7cLVexx0wP0QnGEJh50UHLXbtAN+/ex1Cx9LF+/4u3LV+1+34OlJk19zNfzoRDp/Ig1Og46CmEgn2UkHTW585phHb8F3oGkNve2qnc6xnPFYOrT9neLtdhG+McRxTBgl8g0wvUfE3ri8d+CXY5/ftihKrp/LjaVb9+lsndjU1f5ecfxRElEzpXcE8eNSsTgyZoxtaaSFhUYenZQNgzAzCLfMbCkUArJwQ/P75pvif1zkIpiV6Vy9CD6RgsMN5jA3jryElIRZKhZHhub1fQKxfshoq8W7hISpVnGRu6BlbUdPy6yjjxrjBnZ2+vQ5+Fx0OmtAYHXiasVy0+y2Yyn8rDiXtSTcOUogI95Rg/7cKz6ytHfJs9ulv9dnu8Y+1zznuEOp8XuN8vcicoiZwhRlccyY2kqJ/dHLFt75eFoHatu2jDu+JeI+GuJQFicZi7VraH7f/C1aw6mLNvnU9ilRmX2ETUrVFSwOh5YWDNyPzk6Pk0/Wmhg5x9mlGzOOm2d3nEDBD8S7Q0MllAFAvGQs6GqjfU2c+/YGrmqVGbzvvjbmrdQ8G7cUz954tLW1RU/uH51oqmfSLEsnjRYHNTAWx4yZxVD796He/i9uV/w6m3XpAykA7DfzyAmNvqFLaVmavVW8a9QQALORxB93dWZWNtXTSj39PdvlvqSfae7umO+czNKgBsMzaS34I1sFKn3+qd0dX5aM/3Qox4+a4isu6A+WVSaurS7Sprnt0wBg+Y39y3ZlGLtp7hF7ijX8RJy8RSshGC0m6OnEWdCHYVZQpz9ffuNdd2/B0BwzuDe302XajLbdynXxxAj+gGB8LQ3TSZ4C8FBxQo2DwmzUgDoXedGgf1a1c5b39t28nYGMscme2nXckUr9e8LOoHOvAQALaoCNAvAi4kFB0HAfAy4Ymt83fztdJwKwbDbr+tY8dB9FWpNr219suPHIUrE4slXQ0/domTX9SIlwgVrlX4bmrSc8Nne1H0ORT9FsrhHeYP9cmtf/nWrAZVe4dMhmXcvqoU9TcCEo9apagcFIZOgdrBIU4F0A+gG9G8L7EfMZZVi1fP7Ayg13enVHzOp4t0TyLxbCHiDqAe5NJyCZJClCCADKIOvFe2qI18LwvdF1+h8riynHe9uuBAHY1NntMyA8V4Eu8S5jQWFqFcJCcn0HjYOBuAPGKxpLa64eHBws74CvTADWNPeIPal195GcQhForItLvX3HP1dxfNCs9gNDJP9mah8Q5yKLg9KLWAiDQz39h2N984HxFfXrr2nTujvalbyYwpkwQDXENJaNlhFxno6AIZk/YJjCETM9f2he/0+RzbpE8eehLXNOaKbg2wAOA3kAwL0NFlvQkRCHUVMFnTiJfAOIp0McXx4Cjhvq6fvEGOAJ1cdqHnJzLp41dbe93kTmwcnbCEQWxyNmVhHHSDK+HsTjIY6vFNM3Ds3rO2moZ8lPdhDwsQVdB2mEYRIM1VYBq9Jn2T7jq8Y4ap7d8Q/ByRIhP0Qz0RBGkySwmRknHDnzyMZdkBvZJJ6wrKevf2jeklka69+ZWi9JSOQaRZw3VYRyKIc4jBqsbDAHci8oL6hGKseYM3E8EjnnG2CWTg5BwlPo01UzDLX7FOEapRWWz0t1WHV3pzu8tbU1Mzg4WN6aNS2Qd9AxsljXAagX7+s1hKCqtwP6K1e2Xy27aWD5RuJNn0s0bFTqMhKsWmVCEuUdEqv5QmjNtk5ct3biNyg804JCg46ArBfSmSV1qqTtvc7ZngDWjuNONyBperiisGi41rpHHlrq7bsGwDUHdne0oxLeDqILwCEuchOSHnkAzCDeIQ5aJYrQI+2osCJ/99LmrvZPUniBBgNpTwL4PwtWMnIJgi4aWjBw/6aGWFLPjXxem+e0nbEO8vmW5vaVwezsh3sHHqw1IGpy2mUClogjYQj6C3N6yfIbBu7aSCpUKVDhuU5YphIkJnVM8Cgad0SPtsw5oXnd6vgqieT1IQ6jhBmdq7dY1xnsSZAHwgwG1AMNu6fSYWerkwgAB3dN3y2mfpfDNr25u+2qUs9ADuvr7avWvT7c09ef6HH8a9Pc9mlWCUeB9joamozcX4P+XxD371t02fbpbJ04qWGiLO1d8uz2WN01Yc5X1cXyJzq+is4hVOIrSj19Z28gkscYI9PPd5FcpnE8LJFvCOVwTqm377/R1hZh4kRDsRjGYacQgE3Ltk0Ka/gHUqZQCI3196XhxmNT63vzO3IsFt5+CITXU+Q1qjoKA13kMhrrH1TDB0h0uyi6KFRChcIIqicP9fbfjuxO8u2qKeSujnNdnf9GKFdiinihnfjgDX13buK5bMbt3f7gTA7yeHFwTQ3gScBkveOf7LzaG6a6sd54NIV7WdBhC6qA7QUAm6X0ii6HAVZtFER7EwDiLQNhHAsRDQCWFQaeBbgybRJoIJqm7j6y91YCU4JCIUx7y+ubILyeTl5jQUdgoDjJhDhcLpVw0vL5A3cBTFqIEIFCaCI5FXsuk51qLrzvvtWSpzqNQzDDMEjTgBMApIzZmpGHjgFeLbzo7PRJsAuycWMkv8mXN257VV2xxa1HvVQxXRzFlE5IIdiYXtNq4svJYgnuLtWwjmSDBgWBjtbO1gmD+cE142r5pjuWZvdSXLtpPOqcm6SVcCqAK1qzrZnBwmBco36IXA7T7liwbwij14nIazRohURGhGJBP1vq7bukGoWzxXzcDInXlNSrzDro1PY/P3hF/8PAAHaIL1A7WlvTqhf+DmokWQ+Aajhqw0WxmbHZwovCNsOwVvOzPYmCqsPfzvSXtJPKPjXXY012iqX5i4dA3EMnNLMKRVpGJkzs3CGrekfkPHltWjbkNaiCvKh5ZsfRg4XB8gb2RjYryOc1uMoVzvujLGiZCZFSNNg5Q719l6Cz06OzU5CHkvaUmRoN3lSNwgtCmfdNnTO9t7m7493ohBtj9u7ISNk6Bh0yw1MAfIrGIQCqquM5J35kHPSmtp3VFpnJYaqW/C35915Tjj++YTO7T1LJ0JMU6VoAiRD0E7WSY5zi2AqAu8V73GpB7ybFG1ABuQ88epu72j7RMmv6UUj7yKFQCM1dHR8R708NcaiAEDpxBjuv1Nv332Nh5ZPTha5YBjVSxBksJOlk2x3C2c7JVS2NHbc0dR//+mrzoh1VTfs8gScArKQkjYtATN4n2zlhPHLhO21lPrlCJxO2P8yMSesNAHi17Kav3sRgTHW8OP9TjeNnAWY0aJDIndIyu/19SYox7cA0Hno9B963cOFaCs8zs5DuyjJh+/r6uq+a6CVVNTa1u+O1FH4ptUkokfcW9DtD8/q+kQIexkRoDjI0v//PZrjUiLVC8eJ9PUjRWMsaQkwnbyDCLc1d7R9EPq8bd6rcVnxgYGCgQmAFSFgyt3tPWFvee2e5EDubT0+yWMr9jaiHQZOGSVCQEyj26trPjU1YNuuG5t1ZovJnLvJCmFnQGMLvTO1um4lE7NpYVi+XSzJZ1Z/q39dXinKrOi4HeejGJbcD+AgEoEjGDJVQiUcBubCqgszsEgonGSyIc14roc/WNX4qrard0KNIM4el3r5/hrnD1HSOVuJvwfBQ0p2CXmMtwwDx7gcts9vOruk2uR1p1uqcsUQhzFAB0WghnrzJnO7gGJeyJid+bxNGFkIMUEAL4pzEGqYBuHMTkV0oGHIQ3iVfDHE8B2ATzMoUmWiQa1q6Oj5Xl4l+/EChsHoLcntLRpttNtmQhyILN1To+97U7rYhA/M+E50QRivXlOb3LwKAqd0dcyE8NeEEGKE6bMRZSQoXbis2Dofm3VkCUALQ09x51BdCY+aDAP5NBJNUUbagBidfb55z3G9KhcL925MsWn/OjD6YNKgxFecQYPvtLF47B3o1X222P8XBQlgvdggI7fUArtrMNxWDcA9dv/ix5jnTP0jaAoAZVY1JTqCXb4xWKp9s7u5YYIbfeOKB2LiOQhNFZBI3GGRPBpiIrsnUyf33FwpP1uYRNrNOAnKQh/IDC1uzrcWR4Ulv8LShqoWtS/DpJMugQbyv10r89VJv/z0JM2er/q+hWji5ahVLxeJfAXy1ae5xRTO9jo6ToVYRkboQ9D8BnLo9ork4NlH2dFKyy7RRie6zs7bPuFjKatgvifkxsfqNtGAA0FnTE4abgJDNutK8JbfC9B8hUHHizVBOm/O1OO/Ocl5+pkAfafdA9R6j3kO6RULpoWev0v12ZAT3tczt+H7L7PZDtmotp6J+sDBYXnbDnTcvTSKGmLak7QQSJ2nQMigZjcOjsfqLAbBqtG1rClAohLH3zLZmlt+4eADQvwP4LADROAQh3zqtu6N9uyz61C0jZThdWqlzpHUvtCGXukQ2ESlHBUkLHTFVA/m6A9cMHZNMxGbuVW3O1zPwEwvhDaZ2t4tcJiFLaAhxGNWgowaUCTgSEcxUg1U0aDnpFqkxhJPF+X+Elzubuzrenro0smU/tiboBFgwnkfnHGEqTsSA769YsOipxIXbYRKkoTBYRltbNDRvYDHMLqKIA1GhEwbYO3Zkp4qxMtY/noBCXhygA6zbxKo3UzonkrykYVUnt+DnJ4TA3rsWjTo9KcT6r6r2AEWcOKlz3tU57zJ0InRCOudc5CKXSf4REQ+1EMpxBWZ7Unjl1Llt04FEj28ZmIKiWIwPmtV+IMk5FquBrNc4XlMJ9n0A3KkGAQMDAQDp+BML4WmAGVMDDF2dtZ7ANkWIOtYIyfFoUzI+oNOsxsyxsf0fFDS8c9qMtknpS3IL/nRADrLyhoF1pZ4lF2PdqqNVcYLG4ROhEn8/VMJCi/V3GsJvNehNIQ7XayVcHSrxlaa6iEJHQWSKCoW7aeA3Ojs7PQqbRBhr49suCQ6yi85NMFhZvAOAax9d0P/wc9zlG+IF4KHrFz9m5B8pIhZCIHnIirq1+yfeyVaIqWlUTgBvNfUaAo6+sIZcqnfMuKYGcgNMQZqpBRf5FpXKuwBcvtV8eE3mqFQojAClRQAWbc9jtMxtf5sF/oDEXhprWbw7bnn92pMB3LTFe6bF/2b2Nqatm5PmALwa41UE0tnpUCzGNFsCwUlQVEjWB0EewAdR2Arh4rbbJDGX6CThAViazYtf2J1e1Uuqz2yU9r8tyaeYaAhqJp/Yp7NzYjVCtnV9mIYYqzp3U5YnN04qDN3Yfx1pF9E5ISwAMBXM2IruJPLQ153WsTeJ6RbUhJLRoI9Vwto7xsT/zo6TT9Zkku0aBIOBTtXK9O7Mlq6OH24Q89+SuKDutoEMJZ55cYh34dPJUmUszokBN9OwRLwTqI067w6Z0Lj2H9OAy/bc08as4WIx3ohCbVWKdGItF4Bs1qmX6zSEUUuaL5LgERskeTYTCl43Go4iZV8AMZJDOG5fsWDwKWCsa+XOjXxekYMs6x34rap9XbyLAMBCHEvkzmzuar+ira3Nb9IMaQOA3Ktr9DmsusG2lnTZpaBXb0yuTEUPIQTU6gzyLYrQQJeUFPNfDnzbMZPRWrDx5YknC8DXh6doWEVKNTmxf6ozdUsSisYTIAJLP2Nmt6ZiefyeL5+QVFqGGz9tlfArF7mMgSMhjkcl8h9+fB//zs26cFXVCZ0yZsirGslHa3X+8w96NQUYdJXFGmDmYQYTHvkqH1+n5cpDIozUtCJO9pWy/yry0A1Kh8dphMaJowYb4XrTQlJDblPxWSwGZLOOwByYgmaRBQt08rsxfT9+w5CHFYvF2IYb36NBv0uiHoCDmQr0zVtLFhF4ramBBg/Y03XeHq7NxD3/oKc3ro+w3IinKHSmBgKHD6weKCvsgoRKS2rQinh5Z8vstrOr/vm4gv7AKAm69fCyvFkRnVrM09Ysa4W4jhRsMej9jY1r/jS2O8d3GDo7falYHBENV5H0BGKSBOypLSSybPIpHXsBbDEz0JEAH91t8otEp//5hoEnCFuaUKXVaJjSNLG9aXnvwC9V9ZfiJQODWQgBTr7W1N32+h1KPmzPi+ymrzbaq0wTYifN1odla8FP4gUWVN4v3kVGi+kENCkMFgbL1YANdtEIlFMhBIxqaoRwyaYZthwBwDtpAbCPmcbJ+aBYOnDFQGWL7cSfJ9CtChyJP1AkOeLSuQaJcTgA+mCf1BAeE8dM6m7UC+XnTXPbp43Ljk+NIEY2ieDugMUJkSOlOteqkhwExWKYMvf4AyB4v8bBCEYahzh2+r+7QLSP5aRwclEnn9axN4EzkkAQ6k11LeAXjyWhNnTXQBeOpJNEKghhxH07G3cfn51efQCz+9KQjFIICKYDsAcX9D+MwH+AYYSgJAEUaaJyXsucE5pRLMY7BXzKFzOzgygCS3rFAWRS21UTVetMPmtOw785L/vCdFS8E1PMX3Fj/x/HiifHKUyJHCR9N0UeGo3Yv4lzB8BshE4ERO/QvDtLKcFi/X33LVYPcTox9dS8BYMZfrOzlvv4gJ76oibu9lAJ5bQ+HQbOrL50aUFfb9BwgXgXERZrCLEIDwHi3gNndxy208ADEJPD6QimbG8oBmsXBdLebE3d099M8qwQa8Us8SzEmBApxqMZb5WMWHUti8W4NdsatXS1/xvJj4UQykZ6C6qm/K9EGm1wX6KAcOTMIyeQfDPUQIq3oE9UhvXeTaTCCwJ6asztfUAYNNiD4pxLmCc4prnvuENQLMZtbW3R8t6Bb4ZK+Da9awAYNNZRgq8TQc+0rraTxjJUO+rOVcUxrSPp10JnQQnavWOLsqYXjsAuh5kCpi7jIjX9aU0Pu7BTO7vKX8tDp81omzR17vQ3tMxu/8y61RPupHd5MxjN1EU+MtOrSr1LFiG30ekPaQzhGVd/BGAtahpTBAD6VhYHnsBm6gheCEPOkM26gSsGKiQWUgiQZeddRAuzAGBg4kRDDlLq7fuYxuH74lwdhEhPOzpQxc1v7u745NjuqJ6Juj0TnYfuk+2cCLNjKOKcd5Gq/WHC8Lq/ACBuyLtq80I6vQ7gQQarMEmhrohMPo+E9mw7CbgBsKbu9r9v6Z5+nXr5o6n9hpG7lI7HatBRwsrifb2WK/0R3MdSdbJ5dQmdS+cERk1sOFswXjGE8WWe0n6diHbzaTrwXWN+cRqkKPX2f1jj+BvOuzoaPQwVmDWKk69M7e74dcus6esL7deLSm5BlAoANK5efbhRglbiX2kcvyuo6xzc97BhAIYBVFrmdLxRKPMpcoRBywQ9CSLgQ0t7l6xIqUe6M4DvN/PICc1dHVeLyC/p5K0UHgBYbHEY0WAVknWMfINquIWRe8vS3iXPIp/HRvclisUwJXt8A8kzkhIzeI3DcBy7G8fL0BzPIAmbOzvr0LDuHnE8xIIGCE1hncvn9d8xVo+W8sBbZrd/Bo4Xk/SqNgqDOC+RxrqOxLeD6mW15bVj7t36IvuxCX/dKR17VSZa44PX9j9c+0BNc0/aU8LI50GeCyAyS47HFu99iMOnSj19X91JsZ50sBzMs3lN+/+6KDo1lOMyAFCQEecSSrgaLNgyEN9tnND89cFCobxZMZ3OUcvs9rfSu2s1aMVFLtJKfMtQb/8p49VSbPwCJJ2drlQsjjTP7riaIjlVi51zdVYJnwRwRxq9M+QT12ko3//lptltg+Lc5eLdARrHcYhDmWQjvfsMY3t/S1f7NQHuqod3a7pzC8AYANx/c9+TAJ6s/nFqd8drjTwDOvoBejc1aQ+GUYrUgUSoVD5Z6h24bKf1eMKTD81d7ee4yJ+aEC3Ni3fOYv1rsLAEwJ2ALa6PMr994Lo7VgNLqot1U/DSql8jPsbEQtD0LX+83ih9Me30dBWm9V/3AMggKZyMzXjs8t4lf0K25nTEdMIP7po+JaZ9mSLvQtKst2I0JaWOkjb5Vb3XgJscbBED77d697irjGpl2Cou05gRF15VgR1Cw2FGeyOB4+ndbglpwUYAA52rN7OnLOhHS739V4+DQcRkrXe6UsPaPjo5ylQDRbwGfN/F4d83qLyteefNLyA4FKBTZ7V1mJffmEFIeqgOrc5kjnryujvW1C70F4t4r2n30V4Q595hQdfSyQSNw09Kvf0f2OSla/57WnfHuxX4vDh3aNLNWWMYKpZUxWcSGrDBgsYwrAExDIMarR6G3cS7DJl+JlYFrWyAF3EeAEztemPln0vz7v7TODUBFAA6dW7bdFP5bSLSJTINi4Z6+k8YA3JVJ7HvvrYdzRoEyVl0v6Jzb7cQRsT5+hCHz5V6+/5zPBsX7pLTmhx4iQatwKxeQ4gpfM+B3R3tY7XV65MKVS6bLOvp+/lwPNqhIZylqn+miKf3DSLMmIZY43hYg47CICD2ILk/hAcQ3JuA01jLGocRDVqBQOh9vYh4U12kam8f6lnytnEEfD3vPLgmCiPAkqiZ8Vqk5EgUkKR/t316UwL4nI43GmRuSgzNaByejlD5QeoKjlukcHxBz0ORy8mynr5+g90gkXcAA0WcM/3iJmHR1DcBku89tvC+tUM9fd8Lu/mjofZWC+FnBnsQRhHnGpxzdfQiTBv0kwCFSHlzGfGuXsgIwAoL+qNYw6yhiS0nlXqW/HosBjDObT6DYTiJCCbJHlbBXbWP7pC0zWadqV0qggxhChFR4rKlvfc8nnopNn6bcrzHvvsKBgdtr4MnLzPgAwDETGPx/nWTpu3/wDPX3fT7tKmfbZTuTHgh2ax7trCg/Nelj/75r0sfvWa/Q1t+FMfxQoP9BWaPw3S1GdYBeAaGp2F4zEwfsNh+A7WfO/LiwLpcad6d/+/ZpSuX2R8HMTiYdYODg4ri9vWNtYRuLLcVt9JbIDtIFGG7v3byJBo+DBpERALs4Wf+8ui1+IcStut+aYPDluaG94n3H9Ng5US62Qpkymc+88Bjo5vM1YtKp6/PEiWdKbravibOn2chDEOk3syWT5jojh1sXfRXXAjbSg+4tGNzq22uU1NbW1v0WBT5+j2e0KW7HRNvvHs3Rzr7RTbrTt/GLt/cZ36Rzbpsa6tx0+cgAGs+tXMPjK69X0T2AwEN9vvS49qGgYEKtlV2ncsJLsxby9wTmmCVRQD3Aawi3teHSvzRUm//d3ZFE+JddbIDEz/5iD0Y6u8R4YGmOkLvGjQOhVJv/+k1BYHb00lSsGpVUniw+XZlRDYrWfzRFZI6OCz8+Iym3cm9goTHT7zslkeSOYZcmIdxM/dMW+1YZ2en/8LBbu+JjZmoPhOePvorC9cCgOVysgnw6z2WmyTjT9FKUIOtjSCtS3uXrNgm6GOdOdquFuffaSGM0Em9BRuw4caTSicXy7uiz/yuOnbTkM3K8ht//zSA80HQQKexVsS7bEtX27lpksVt17WqfLj1XDlu9GO/AFAoDJbvOrertf/8mVfuSS7y4G0ZcwMD5826eeD8mW/N56Fp/52aY6zBXC4nJGzgE7P+/qvHZBbusZu/K+N0cRzjrv7zZ155y0fe1MZ8Xm3jcuNqMkf4+3TplUlODIaptRHDrQLe3fZPIu6dqmEUpDdYbODH0j53wC7I7e+6s1bTZnel3r5rVO1nLnIZ0BRBFU6+2tLV3rkT2bXaxglmuZycXiiE331sxlx6XZRx7v1C7g9ikqPs5x3fDOCagfNnXfrnc7vqqju7eql8Pq/Fc2d+TsCCo5zsyMkkJ3snr52Q8e/foy669a7zZ8/YLPCJP7gMZNK1TIQmOnmberxYjKd1d7QTcpkZAg0U77zFenGpd8mimp66eOmAXk0BGohM+VyLwwMirk7NAowOlKsPmHvca3aWQZNLT4hYdO6bWzNefgBwYjnWEUsXRDCzWDXAaBMy/jPPSvgyAbvwQtByObkwR95x3swv7e7x78G0EkxDMEu+F8zWlkNFhLsp7Mo/fHxGE/N5zVWBr5IXiYdN02SfEBA3acPkyUYqoVAIB844ZrICvwCRgWmZ3mU0DotKIxP/vaYJI156oAOKC3MsXXvvX436AYOtTXl0FQpfHaldM/mUjr2rnZefyw0uTOS7iZOPN3q3X1CNQdRVRX/iRdGB8OtG4zjj3bkD5828MJ+H3oaEoeJpGUfnkpO9mEZAk2PtCURBtdIYuckj5HsA4OT0ezUmxWgiOqxKFHUA0LmF4NV+M4+c4CJ/NUWmQq0MMmPBnjDGH0SxGI+FrF+ioKPagWFo3sBirdjZFBEITINW6HhYXQY3JsAnVaw7ajAyn9dbP9BZL8aOWM2QkA43a6Aq4WLVincud9cnZnzqTflifCE6ZfrXbvpURfVLdd5FZutLoarXMYOz5Ay3EwHgto3j38Z6UJJy4uSLttm5zkMP7jq4rsHVFejdGzSEMshMYkLiPWPBo114+uLzA3rig8fo7PTLF/RdZXHIOe/qQJjFYRjC46IMeqbNPHLfHeXMVYs599jL7U1gf91GcR+TDk0+1hBU5cuLzptxPvPF2HKdvu1rC/5lJA7fcEJnY1euWTBmNHBK/1ltUb6qa6v8edg+aeWRpofmPg3UNORK+fdTssc3xNzjZ3TSrXE8SpL0TkzDp4d6lyzY5Sc/Pq+gJ8AnZcm9/V/Ucvi28y5jpGhso+KkQ6O6hc0zjjt0h4y7FOK1z0x8FoZnZSsOUqrjkZyuRwHMMpSv9J8/8wPMJ00HYuKHahYnYr6mPzphktxsePX+Ey1VGzUFCTw2vYdYUCBpdpCwdrJZhwLCfjOPnODXhF/SuXdYCMM0Bol8pJX40lLvwGXbOJbkJQo6YNUig6Hevo9pJXzLeVcHgWisFZJHSmS3NHUf++Ya4Le1c81yOTnph9ethsO9XsRI0y3t8o1/T1pI8IqB82edNfCpNzV7s7MdGaU1uLVuXcJANix5U74YWy6XtI0rFEJzZ2c9aMdbUBCMDHi8PCpLAQA33JB0rJp9VEuDr7uBTuZYCCNGCr00arny1VJv/z/X9LTByw30qs+tAGSot+9cjcN3XOQiEKaxjhrwaqHvaZ7Tfs4G7JmtOQgpqVBj+fmOBpssaWeWMeC7iP2dMP5TMDNyw+sIyJFKUNAKY/dMfHBK3ZojCWlV01E6JzQbePTmvqez2azDwECleW7byXSZ20GebHEYNqO4yNVprF8f6u3/FHI5Gc+D9l6MoK/3sXOQoZ6+j4ZK+KKQGQojMyvDLCLl281dHVdOmXX8XlV/f0vPenqhECyXk45vzr92dTlc0Rh5B9g6M9OtW4AUGL1asq9FZH9u2OgQgAUYhhszXgLsoo6vLfxdNSaQ6nNT8hzxEtGggEEptwLQQmurtczp+DiV80hOgemIkSJeMqEcLi319p2/Sw/xfQHCsNt37zHqVNvZ8O7rNNSpWhmEiZc6C/Zng51XmtfXWxPF2iR0a6m9/JePd2XWeP2ekO8LyanJ0Q6sRNvE6qeNNnhft64cf7/96ws/nMtB8tXTGwuFkDTbx+0weAAOhmdGUHltvfm9TPgtcTJDYy0TFiDSADMFcf7QvL5v7rKjPF/koCf3Twv3W7raO0H5oThO0xBiADEp9Wmc5IfO20XLbkiZKJsB31K1+4ts1h00+a9X1kf+PSNxiAGIjfnrO7IATBsi74Yr4cfHXrbgg2PGQLJQbb+ZRzY2+LrbSR6jSdFEncZ6uZn2Cd0lFO6tGkZhZHLGDVYi6D8Nze+/LmXJhBdq0uUFBt2qRttQb3/RaK8PqteL9x5gxkxHYAaJ/IdVpa9lTvtnmuYesedm2LIgYLkc5PRCQW34qTOHK+FnTugNtgZmtgNPFBMYbYi8W1OOv//gI5M+xGobv6QliQGweslcTifHmGogWGexKmCnOee+D7M9LegaGiIXuYyp3QRUTkgAz76ggL8YdvqG8ejUZWnu6vgIiYvpZA+NtQJCCdSJc1AND0LtuyEOP3/4prsfXZ+/6PTFYlFzOSCfh807tyuznwtX13t/2kgcdkTUxw2R8yPl8NMvPTrpzF8UCnp6NiuFVatYLdx4ch+5nI5nWtBhkA1Vq5BCJjQvGh0jSxoQ/teECesuGizs8HEkfwOgVyVPciqCNs845lBG/st0MhdmSJrskxRmRAgNuhLA/6PZzx/q7e+rvchZZ7VFV1wxULn9syftmRluvHJCJG8drWhshNuCmDekUZV6791IHAp1k1a897AL/1i58MKTXT7141vmTj8Kql+huFNME9WRuuyEQQ2IRZiBEKbhFhf8Zx6cv+iu2hDsi2GSX2ygo0ZnJ+eezWl/rxj/Vbx7nQaFmY2mD15H52AhGAx3wOxac+6G0rzFf6rV8QC4+LyZhQYvf1+JdR2Y9KGvNdwsaeFTnpDxdesq4VdlPvveEy9bNJwabnrQqe0Hhgr/CYrz6aUxbYfqkXQEiZGEaDPiHTSEISoveqh3yQ9qJNjz6pK9NEFfvzMMgB1y4om7jewRf4jAR+nkIKjCggYjYoIRhQISFnStAYMAbylNbP7XXwDItrbaHx+/rXEkU/fryMkplRACQbdRODeekHF+XTn8cq89Rt839cLi6C9Oz8rpy5ZJ877yHwTPpPBVqiFOg+suqYcDKSJ0ghBrCWbfDequWLFg0VN4rg3+n4fhXrSgV/ll2ax7cv78kWf+8siiiVMP/BlQWUGTyXQyWZzzaXJrxMwCYZFQDnQZf9Kk4aemfO/ahb8G4N75y+LIWSceOs9C/PrISXPQmrZcNK2PvC/HYd6K4cy7j//qwuGzVrZFn/3pTXHz0Qf80EXROabaANURkKDBQUTEOwFBM9yjwS6tVOyjKxb2LXz2wRXDVd7bdnLyXtnpW3zO1DdOpEBOWhb3zKDg3aaYTc9XE0wLIywANgyRiTD72lBP3ydynZ0+XyzGiz96yt7eS8E7eVMlaBkAMt5lykF7JMgHjv1m7+O5XKfP54txc3fHpeLkM8kZ6ohI8XQCM8Di8IgRtwL289K6CQvHzk95EYrylzLom/j11T+87rSOvdeN6JuEbi5grzdYkzhXBwASeejI6Dcf6un/+OVntUVnXzFQ6f/4jCYRuVHIwyMnGI5Dz+ry6Olv+k5xTZUH1zKn41sS+Y9arKAAGitAPmhmd5K4niNSfOiWjQ60HZ8Tpl4BfZs7H0CtCzQle3xDtHr0NUrXBsgxgLUQOMLMvlzq7f/vs85q81dcMVC5+7zZLaOw6yPaykpw7zj+m73P5nKd/qrFj7iYe30BwrOh4Q8g/6iGe53ZPWt2m/CnxwvFNRu4mMn99aUC9stpsOaEh01Ga7Y1M2Xu8QdUF3iV6vS1f3zzfovO7dodSJiuANDc2Vl/0Ozjj502o23SFmMJ2zpJ4pXxgsTzZYMzyTbnGNT83bYM4MZn0r0C9EtqIWwGMDNwC4C/7AH+/18pXuIG+6ZnAAAAAElFTkSuQmCC" alt="" width="125" height="104">
+      <span>
+        <span class="logo-nome">Dra. Fernanda Teo</span>
+        <span class="logo-desc">Veterinária Domiciliar</span>
+      </span>
+    </a>
+    <a class="voltar" href="/">Voltar ao site</a>
+  </div>
+</header>
+
+<main>
+  <div class="abertura">
+    <div class="abertura-interno">
+      <h1>Política de Privacidade</h1>
+      <p class="atualizacao">Última atualização: 29 de setembro de 2026</p>
+
+      <div class="resumo">
+        <h2>Em poucas palavras</h2>
+        <p>Pedimos seu nome, telefone e informações sobre o seu pet para agendar e realizar a consulta em casa.</p>
+        <p>Usamos esses dados só para isso. Não vendemos seus dados e você pode pedir acesso, correção ou exclusão quando quiser, pelo contato no fim desta página.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="corpo">
+    <nav class="indice" aria-label="Índice desta página">
+      <h2>Nesta página</h2>
+      <ol>
+        <li><a href="#quem-somos">Quem somos</a></li>
+        <li><a href="#dados">Dados e finalidades</a></li>
+        <li><a href="#compartilhamento">Com quem compartilhamos</a></li>
+        <li><a href="#guarda">Guarda e segurança</a></li>
+        <li><a href="#direitos">Seus direitos</a></li>
+        <li><a href="#mensagens">Mensagens e cookies</a></li>
+        <li><a href="#contato">Fale com a gente</a></li>
+      </ol>
+    </nav>
+
+    <article>
+
+      <section id="quem-somos">
+        <h2>1. Quem somos</h2>
+        <p>Esta política vale para o atendimento veterinário domiciliar da <strong>Dra. Fernanda Teo</strong>, médica-veterinária (CRMV/SC 5669), no Sul da Ilha de Florianópolis/SC, e para o site <a href="https://veterinaria.aetsolidez.com.br">veterinaria.aetsolidez.com.br</a>, o agendamento online, os formulários dos anúncios e o atendimento por WhatsApp e Instagram.</p>
+        <p>Para a Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018), a Dra. Fernanda Teo é a responsável pelo tratamento dos dados descritos aqui.</p>
+      </section>
+
+      <section id="dados">
+        <h2>2. Dados e finalidades</h2>
+        <p>Coletamos só o que é necessário para o atendimento:</p>
+        <ul>
+          <li><strong>Nome e telefone</strong>, informados no agendamento, no formulário dos anúncios ou nas mensagens.</li>
+          <li><strong>Endereço da visita</strong>, para a consulta acontecer na sua casa.</li>
+          <li><strong>Informações do pet</strong>, como nome, espécie, histórico de saúde, vacinas e o motivo da consulta.</li>
+          <li><strong>Conteúdo das conversas</strong> por WhatsApp e Instagram, incluindo fotos ou documentos que você enviar.</li>
+          <li><strong>Dados de navegação</strong> no site, como páginas visitadas e tipo de dispositivo.</li>
+        </ul>
+        <p>Usamos esses dados para agendar e realizar a consulta, enviar prescrição e orientações, manter o prontuário do pet, emitir documentos (como atestados e certificados para viagem), acompanhar o retorno e cumprir obrigações legais e profissionais. Também usamos dados de navegação, sem identificar você, para melhorar o site e os anúncios.</p>
+      </section>
+
+      <section id="compartilhamento">
+        <h2>3. Com quem compartilhamos</h2>
+        <p>Não vendemos nem alugamos seus dados. Eles passam apenas por quem é necessário para o serviço funcionar:</p>
+        <ul>
+          <li><strong>Plataformas que usamos para atender você</strong>, como Facebook, Instagram e WhatsApp (Meta), o sistema de agendamento online e a hospedagem do site.</li>
+          <li><strong>Clínicas e hospitais veterinários parceiros</strong>, se o seu pet precisar de estrutura hospitalar e você concordar com o encaminhamento.</li>
+          <li><strong>Autoridades e conselhos profissionais</strong>, quando a lei exigir.</li>
+        </ul>
+        <p>Algumas dessas plataformas podem processar dados fora do Brasil, sempre de acordo com as regras de proteção de dados aplicáveis.</p>
+      </section>
+
+      <section id="guarda">
+        <h2>4. Guarda e segurança</h2>
+        <p>Guardamos os dados pelo tempo necessário para atender você e para cumprir as obrigações legais e as normas da medicina veterinária, como a manutenção do prontuário. Depois disso, eliminamos os dados ou os tornamos anônimos.</p>
+        <p>Usamos medidas técnicas e de organização para proteger seus dados contra acesso não autorizado, perda ou uso indevido. Nunca pedimos senhas nem dados de cartão por mensagem. O pagamento é feito na consulta.</p>
+      </section>
+
+      <section id="direitos">
+        <h2>5. Seus direitos</h2>
+        <p>Você pode, a qualquer momento:</p>
+        <ul>
+          <li>confirmar se tratamos seus dados e pedir acesso a eles;</li>
+          <li>corrigir dados incompletos ou desatualizados;</li>
+          <li>pedir a exclusão ou o bloqueio de dados desnecessários;</li>
+          <li>saber com quem compartilhamos seus dados;</li>
+          <li>retirar um consentimento que tenha dado.</li>
+        </ul>
+        <p>Basta usar o contato no fim da página. Alguns registros, como o prontuário, precisam ser mantidos por obrigação legal, e explicaremos isso se for o caso. Se achar que seus direitos não foram respeitados, você também pode procurar a Autoridade Nacional de Proteção de Dados (ANPD).</p>
+      </section>
+
+      <section id="mensagens">
+        <h2>6. Mensagens e cookies</h2>
+        <p>Usamos seu telefone para falar sobre o agendamento e o atendimento do seu pet. Se não quiser mais receber mensagens, responda "parar" ou avise pelo contato abaixo.</p>
+        <p>O site pode usar cookies e ferramentas de medição para entender como as páginas são visitadas. Você pode bloquear ou apagar cookies nas configurações do seu navegador.</p>
+      </section>
+
+      <section id="contato">
+        <h2>7. Fale com a gente</h2>
+        <p>Para dúvidas sobre esta política ou para exercer seus direitos:</p>
+        <div class="contato-caixa">
+          <p><strong>Dra. Fernanda Teo</strong> · CRMV/SC 5669</p>
+          <p>E-mail: <a href="mailto:nandateo84@gmail.com">nandateo84@gmail.com</a></p>
+          <p>WhatsApp: <a href="https://wa.me/5548999690448?text=Ol%C3%A1!%20Tenho%20uma%20d%C3%BAvida%20sobre%20privacidade%20e%20dados.">(48) 99969-0448</a></p>
+        </div>
+        <p style="margin-top:18px">Podemos atualizar esta política quando mudarmos a forma de atender ou quando a lei exigir. A data no topo mostra a última revisão.</p>
+      </section>
+
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="rodape-interno">
+    <p><strong>Dra. Fernanda Teo · CRMV/SC 5669</strong></p>
+    <p>Campeche, Rio Tavares e Lagoa da Conceição, Florianópolis/SC</p>
+    <p><a href="/">Voltar ao site</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
