@@ -2,6 +2,10 @@
 
 Site estático (HTML/CSS/JS puro, sem build) em `https://veterinaria.aetsolidez.com.br`. Marca administrada pela Tech AET Solidez. Escreva tudo em português do Brasil.
 
+## Perguntas ao usuário
+
+Sempre que precisar perguntar algo ao usuário, use o questionário no chat (ferramenta `AskUserQuestion`), com opções clicáveis. Não faça perguntas soltas no texto da resposta.
+
 ## Antes de qualquer mudança
 
 - **Regras de conteúdo e dados fixos do negócio: [regras-compliance.md](regras-compliance.md).** Leia antes de criar/editar qualquer texto público. Se um dado fixo mudar (bairro, preço, telefone), atualize esse arquivo primeiro e depois propague.
