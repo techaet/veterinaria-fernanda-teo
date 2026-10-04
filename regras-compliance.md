@@ -15,7 +15,7 @@ Estes valores devem aparecer **de forma idêntica** em toda página pública (ho
 | Áreas de atendimento | Campeche, Morro das Pedras, Rio Tavares e Lagoa da Conceição |
 | Valor da consulta | R$ 250,00 — podendo haver taxa extra dependendo do local e do horário do atendimento |
 
-**Nota sobre as áreas de atendimento:** em 2026-09-07, a home (`index.html`) ainda lista só três bairros ("Campeche, Rio Tavares e Lagoa da Conceição", sem Morro das Pedras) em três lugares — `meta description`, `og:description` e um `<span>` visível perto da linha 639 — enquanto os 8 artigos do blog já foram corrigidos para os quatro bairros. Isso precisa ser alinhado.
+**Nota sobre as áreas de atendimento:** em 2026-10-04 todas as páginas foram alinhadas aos quatro bairros. O `scripts/verificar.py` acusa erro se alguma página citar só parte da lista.
 
 **Nota sobre o preço:** até 2026-09-07, nenhuma página do site menciona o valor da consulta. Se/quando um texto passar a citar preço, ele deve usar exatamente o valor acima — não um número aproximado, arredondado ou extraído de memória.
 

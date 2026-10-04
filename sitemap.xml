@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://veterinaria.aetsolidez.com.br/blog/</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -41,5 +41,41 @@
     <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://veterinaria.aetsolidez.com.br/blog/alimentacao-fase-de-vida-pet/</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://veterinaria.aetsolidez.com.br/blog/checkup-veterinario-frequencia-ideal/</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://veterinaria.aetsolidez.com.br/blog/dia-do-medico-veterinario-atendimento-domiciliar-beneficios-florianopolis/</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://veterinaria.aetsolidez.com.br/blog/vacinacao-caes-gatos-protocolo/</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://veterinaria.aetsolidez.com.br/blog/vermifugacao-pulgas-carrapatos-prevencao/</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://veterinaria.aetsolidez.com.br/privacidade.html</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>

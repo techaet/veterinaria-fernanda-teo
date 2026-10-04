@@ -11,6 +11,9 @@ jobs:
       - name: Baixar o código do repositório
         uses: actions/checkout@v4
 
+      - name: Verificar o site (sitemap, feed, conformidade, imagens)
+        run: python3 scripts/verificar.py
+
       - name: Enviar arquivos via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -28,3 +31,9 @@ jobs:
             ATUALIZACAO_VISUAL_VETERINARIA_20260826.md
             LEIA-ME-BLOG-VETERINARIA.txt
             LEIA-ME_ATUALIZACAO.md
+            CLAUDE.md
+            regras-compliance.md
+            **/.claude/**
+            **/scripts/**
+            **/incorporacao-agenda-vet/**
+            **/.DS_Store
