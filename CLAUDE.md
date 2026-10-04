@@ -42,7 +42,14 @@ Analytics: GA4 `G-V1JL02NC6J` — todo HTML novo leva o snippet `gtag` no `<head
 6. **Links internos:** adicione o novo artigo no "Leia também" de 1–3 artigos relacionados.
 7. `python3 scripts/verificar.py` → commit → PR.
 
-**Aprovação clínica:** todo artigo de saúde precisa do OK da Dra. Fernanda antes do merge na `main`. Status de revisão fica na conversa/PR, **nunca** no HTML (já vazou antes).
+**Aprovação clínica:** todo artigo de saúde precisa do OK da Dra. Fernanda antes de ir para a `main`. Status de revisão fica na conversa/issue, **nunca** no HTML (já vazou antes).
+
+### Aprovação por e-mail (mesmo fluxo da pousada)
+
+- Rascunho = branch `artigo/<slug>` com **só** `blog/<slug>/` + `blog/assets/<slug>.webp` (sem mexer em `blog/index.html`, `feed.xml`, `sitemap.xml`). Pontos de atenção clínica vão no corpo da mensagem do commit.
+- Validar antes do push: `python3 scripts/publicar_artigo.py <slug> && python3 scripts/verificar.py`, depois `git checkout -- blog sitemap.xml` (o script também edita o "Leia também" de outros artigos).
+- Push em `artigo/**` → `artigo-revisao.yml` abre issue (label `artigo`) mencionando @LSFcamp → e-mail com prévia (raw.githack) e os pontos clínicos.
+- Leonardo confere com a Dra. e responde `PUBLICAR` ou `EXCLUIR` → `artigo-decisao.yml`: merge + `publicar_artigo.py` (card, feed, sitemap, "Leia também" recíproco, datas = hoje) + `verificar.py` + push na main + dispara `deploy.yml`.
 
 ## Novo guia (isca digital)
 

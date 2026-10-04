@@ -1,0 +1,58 @@
+name: Artigo para revisão
+
+# Rascunho enviado para um branch artigo/<slug> → abre uma issue que chega por e-mail.
+on:
+  push:
+    branches: ['artigo/**']
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  avisar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pedir revisão por e-mail
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ github.ref_name }}
+          PREVIA: https://raw.githack.com/${{ github.repository }}/${{ github.sha }}
+        run: |
+          slug="${BRANCH#artigo/}"
+          f="blog/$slug/index.html"
+          campo() { python3 -c "import re,html,sys;print(html.unescape(re.search(sys.argv[2],open(sys.argv[1],encoding='utf-8').read()).group(1)))" "$f" "$1"; }
+          titulo=$(campo 'property="og:title" content="([^"]+)"')
+          descricao=$(campo 'property="og:description" content="([^"]+)"')
+          idioma=$(campo '<html lang="([^"]+)"')
+          link="$PREVIA/blog/$slug/index.html"
+          # Pontos de atenção clínica: corpo da mensagem do último commit do rascunho
+          notas=$(git log -1 --format=%b | grep -v '^Co-Authored-By' || true)
+
+          gh label create artigo --color d77d55 --description "Artigo aguardando revisão" --force
+          aberta=$(gh issue list --label artigo --state open --json number,body -q ".[] | select(.body | contains(\"$BRANCH\")) | .number" | head -1)
+          if [ -n "$aberta" ]; then
+            gh issue comment "$aberta" --body "Rascunho atualizado. Nova prévia: $link"
+            exit 0
+          fi
+
+          cat > corpo.md <<EOF
+          @LSFcamp novo artigo para revisão ($idioma).
+
+          ### $titulo
+          $descricao
+
+          👉 **Ver como vai ficar no site:** $link
+
+          **Pontos para conferir com a Dra. Fernanda:**
+          $notas
+
+          **Responda este e-mail com uma palavra na primeira linha:**
+          - **PUBLICAR**: vai ao ar em cerca de 1 minuto
+          - **EXCLUIR**: descarta o rascunho
+
+          Rascunho: \`$BRANCH\`
+          EOF
+          gh issue create --title "Revisar artigo: $titulo" --label artigo --body-file corpo.md
