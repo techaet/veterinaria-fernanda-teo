@@ -3,6 +3,7 @@ name: Deploy para o cPanel (FTP)
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   deploy:

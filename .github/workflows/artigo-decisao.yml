@@ -1,0 +1,86 @@
+name: Decisão sobre artigo
+
+# Resposta "PUBLICAR" ou "EXCLUIR" (por e-mail ou na issue) a um pedido de revisão.
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+concurrency: decisao-artigo
+
+jobs:
+  decidir:
+    # Só aceita respostas do dono do site, em issues de artigo abertas
+    if: >-
+      !github.event.issue.pull_request &&
+      github.event.issue.state == 'open' &&
+      contains(github.event.issue.labels.*.name, 'artigo') &&
+      contains(fromJSON('["LSFcamp", "techaet"]'), github.event.comment.user.login)
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE: ${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Ler a resposta
+        id: d
+        env:
+          RESPOSTA: ${{ github.event.comment.body }}
+          CORPO: ${{ github.event.issue.body }}
+        run: |
+          # Só a 1ª palavra vale: a resposta por e-mail traz assinatura e o e-mail citado depois dela
+          palavra=$(printf '%s' "$RESPOSTA" | tr -cs '[:alpha:]' '\n' | grep -m1 . | tr '[:lower:]' '[:upper:]')
+          case "$palavra" in
+            PUBLICAR) acao=publicar ;;
+            EXCLUIR)  acao=excluir ;;
+            *)        acao=nada ;;
+          esac
+          branch=$(printf '%s' "$CORPO" | grep -o 'artigo/[a-z0-9-]*' | head -1)
+          echo "acao=$acao" >> "$GITHUB_OUTPUT"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          echo "slug=${branch#artigo/}" >> "$GITHUB_OUTPUT"
+
+      - name: Resposta não reconhecida
+        if: steps.d.outputs.acao == 'nada'
+        run: |
+          gh issue comment "$ISSUE" --body "Não entendi a resposta. Responda com **PUBLICAR** ou **EXCLUIR** na primeira linha."
+
+      - name: Publicar
+        if: steps.d.outputs.acao == 'publicar'
+        env:
+          BRANCH: ${{ steps.d.outputs.branch }}
+          SLUG: ${{ steps.d.outputs.slug }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin "$BRANCH"
+          git merge --no-edit "origin/$BRANCH"
+          python3 scripts/publicar_artigo.py "$SLUG"
+          python3 scripts/verificar.py
+          git add -A
+          git commit -m "Publica artigo: $SLUG"
+          git push origin main
+          git push origin --delete "$BRANCH"
+          gh workflow run deploy.yml --ref main
+          gh issue close "$ISSUE" --comment "✅ Publicado. No ar em cerca de 1 minuto: https://veterinaria.aetsolidez.com.br/blog/$SLUG/"
+
+      - name: Excluir
+        if: steps.d.outputs.acao == 'excluir'
+        env:
+          BRANCH: ${{ steps.d.outputs.branch }}
+        run: |
+          git push origin --delete "$BRANCH"
+          gh issue close "$ISSUE" --reason "not planned" --comment "🗑️ Rascunho excluído. Nada foi publicado."
+
+      - name: Avisar falha
+        if: failure()
+        run: |
+          gh issue comment "$ISSUE" --body "❌ Não consegui concluir. Nada foi ao ar. Detalhes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
