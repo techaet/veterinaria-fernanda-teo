@@ -38,9 +38,10 @@ jobs:
         run: |
           # Só a 1ª palavra vale: a resposta por e-mail traz assinatura e o e-mail citado depois dela
           palavra=$(printf '%s' "$RESPOSTA" | tr -cs '[:alpha:]' '\n' | grep -m1 . | tr '[:lower:]' '[:upper:]')
+          # O e-mail pode chegar sem quebra de linha antes da assinatura ("PublicarLeonardo…"): vale o prefixo
           case "$palavra" in
-            PUBLICAR) acao=publicar ;;
-            EXCLUIR)  acao=excluir ;;
+            PUBLICAR*) acao=publicar ;;
+            EXCLUIR*)  acao=excluir ;;
             *)        acao=nada ;;
           esac
           branch=$(printf '%s' "$CORPO" | grep -o 'artigo/[a-z0-9-]*' | head -1)
