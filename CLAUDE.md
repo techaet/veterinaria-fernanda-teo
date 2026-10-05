@@ -28,6 +28,7 @@ Arquivos internos (este, `regras-compliance.md`, `scripts/`, `.claude/`, `incorp
 | `blog/blog.css`, `blog/blog.js`, `blog/feed.xml` | Estilos do blog, filtro por tema e RSS |
 | `dra-fernanda-teo/` | Página da autora (E-E-A-T): credenciais, linkada na byline de todo artigo |
 | `scripts/site.json` | Fonte única: marca, autora, **temas** do blog e artigos de "Comece por aqui" |
+| `scripts/nav.html` | Menu de todas as páginas (o `sincronizar.py` o espalha) |
 | `scripts/sincronizar.py` | Gera o que se repete: menu, `<head>` padrão, tema/byline/caixa da autora nos artigos, chips e cards do blog, "Últimos artigos" da home. **Não edite à mão** esses trechos |
 | `pagefind/` | Índice de busca gerado no deploy (não versionado). Busca em `<pagefind-modal-trigger>` no menu |
 | `guia-cuidados-pele-pet.html` | Guia/isca digital (HTML autocontido) |

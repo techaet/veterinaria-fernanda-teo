@@ -35,25 +35,7 @@ def trocar_bloco(s, marca, conteudo):
 
 
 # ---------- menu e <head> (todas as páginas públicas) ----------
-NAV = """<nav class="navbar" id="navbar" role="navigation" aria-label="Menu principal">
-    <div class="container">
-      <div class="navbar-inner">
-        <a href="/#hero" class="navbar-logo" aria-label="Dra. Fernanda Teo – Início">
-          <span class="navbar-logo-icon" aria-hidden="true"><img src="/images/brand/cuidado-em-casa.webp" alt="" width="52" height="52"></span>
-          <span class="navbar-logo-text"><strong>Dra. Fernanda Teo</strong><span>Veterinária Domiciliar</span></span>
-        </a>
-        <ul class="navbar-menu" id="navbar-menu" role="list">
-          <li><a href="/blog/">Artigos</a></li>
-          <li><a href="/dra-fernanda-teo/">Sobre a Dra.</a></li>
-          <li><a href="/#servicos">Atendimento em casa</a></li>
-          <li><a href="/#contato">Contato</a></li>
-          <li class="navbar-busca"><pagefind-modal-trigger placeholder="Buscar artigos" hide-shortcut></pagefind-modal-trigger></li>
-          <li><a href="/agendar/" class="btn-navbar">Agendar Consulta</a></li>
-        </ul>
-        <button class="navbar-toggle" id="navbar-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="navbar-menu"><span></span><span></span><span></span></button>
-      </div>
-    </div>
-  </nav>"""
+NAV = ler(RAIZ / "scripts/nav.html").strip()  # o menu de TODAS as páginas; edite o arquivo, não as páginas
 NAV_BUSCA = """  <pagefind-modal></pagefind-modal>
 """
 HEAD = [  # (trecho que prova que já existe, linha a inserir) — só em páginas com og:title
@@ -93,8 +75,10 @@ def pagina(p):
                 s = s.replace("</head>", f"  {linha}\n</head>", 1)
     s = re.sub(r'\n[ \t]*<meta name="keywords"[^>]*>', "", s)  # o Google ignora
     # fontes hospedadas no lugar do Google Fonts (sem CSS bloqueante de terceiros)
-    s = re.sub(r'[ \t]*<link rel="preconnect" href="https://fonts\.g[^>]*>\n', "", s)
-    s = re.sub(r'<link href="https://fonts\.googleapis\.com/css2[^>]*>', lambda _: FONTES, s)
+    if (RAIZ / "fonts/fonts.css").exists():
+        s = re.sub(r'[ \t]*<link rel="preconnect" href="https://fonts\.g[^>]*>\n', "", s)
+    if (RAIZ / "fonts/fonts.css").exists():
+        s = re.sub(r'<link href="https://fonts\.googleapis\.com/css2[^>]*>', lambda _: FONTES, s)
     gravar(p, s)
 
 
@@ -108,14 +92,14 @@ def byline(pub, mod):
     datas = f'Publicado em <time datetime="{pub}">{data_br(pub)}</time>'
     if mod != pub:
         datas += f' · Atualizado em <time datetime="{mod}">{data_br(mod)}</time>'
-    return (f'<p class="article-byline" data-pagefind-ignore><span>Revisão clínica: <a href="{AUT["pagina"]}">{h(AUT["nome"])}</a>, '
-            f'médica-veterinária ({h(AUT["registro"])})</span><span class="article-datas">{datas}</span></p>')
+    quem = CFG["byline_html"].format(nome=h(AUT["nome"]), registro=h(AUT["registro"]), pagina=AUT["pagina"])
+    return f'<p class="article-byline" data-pagefind-ignore><span>{quem}</span><span class="article-datas">{datas}</span></p>'
 
 
 CAIXA = (f'<aside class="article-author" data-pagefind-ignore><img src="{AUT["foto"]}" alt="{h(AUT["nome"])}" '
          f'width="{AUT["foto_w"]}" height="{AUT["foto_h"]}" loading="lazy" decoding="async"><div>'
-         f'<p class="article-author-titulo">Sobre a autora</p><p><strong>{h(AUT["nome"])}</strong> · {h(AUT["registro"])}</p>'
-         f'<p>{h(AUT["resumo"])}</p><a href="{AUT["pagina"]}">Conheça a Dra. Fernanda →</a></div></aside>')
+         f'<p class="article-author-titulo">{h(AUT["caixa_titulo"])}</p><p><strong>{h(AUT["nome"])}</strong> · {h(AUT["registro"])}</p>'
+         f'<p>{h(AUT["resumo"])}</p><a href="{AUT["pagina"]}">{h(AUT["caixa_link"])}</a></div></aside>')
 
 
 def artigo(p):
@@ -204,9 +188,8 @@ def blog_e_home(temas_por_slug):
     home = RAIZ / "index.html"
     s = ler(home)
     bloco = ('<section id="artigos" class="home-artigos" aria-label="Artigos para tutores"><div class="container">'
-             '<div class="blog-intro"><div><p class="blog-section-label">Informação para tutores</p>'
-             '<h2>Aprenda com quem atende o seu pet em casa.</h2></div>'
-             '<p>Artigos sobre prevenção, rotina e bem-estar, com referências e revisão clínica da Dra. Fernanda Teo.</p></div>'
+             '<div class="blog-intro"><div><p class="blog-section-label">' + h(CFG["home"]["rotulo"]) + '</p>'
+             '<h2>' + h(CFG["home"]["titulo"]) + '</h2></div><p>' + h(CFG["home"]["texto"]) + '</p></div>'
              + chips(total, contagem).replace('aria-current="true"', "")
              + f'<div class="article-grid article-grid--3">{para_home}</div>'
              '<p class="home-artigos-link"><a class="btn-secundario" href="/blog/">Ver todos os artigos</a></p></div></section>')
