@@ -1,0 +1,51 @@
+name: "Instagram: últimos posts"
+
+# Todo dia às 08h (Brasília) busca os 2 posts mais recentes e atualiza a home. Só publica se mudou.
+# Secrets necessários (Settings > Secrets and variables > Actions):
+#   INSTAGRAM_TOKEN    token de longa duração (obrigatório)
+#   INSTAGRAM_USER_ID  só se o token for do login do Facebook (deixe em branco no login do Instagram)
+on:
+  schedule:
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: instagram-sync
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Buscar os 2 posts mais recentes
+        env:
+          INSTAGRAM_TOKEN: ${{ secrets.INSTAGRAM_TOKEN }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+        run: python3 scripts/instagram.py
+
+      - name: Verificar o site
+        run: python3 scripts/verificar.py
+
+      - name: Publicar se mudou
+        run: |
+          if git diff --quiet; then
+            echo "Nada a publicar."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Instagram: atualiza os 2 posts mais recentes"
+          git pull --rebase origin main
+          git push origin main
+          gh workflow run deploy.yml --ref main

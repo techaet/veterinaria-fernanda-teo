@@ -30,6 +30,7 @@ Arquivos internos (este, `regras-compliance.md`, `scripts/`, `.claude/`, `incorp
 | `scripts/site.json` | Fonte única: marca, autora, **temas** do blog e artigos de "Comece por aqui" |
 | `scripts/nav.html` | Menu de todas as páginas (o `sincronizar.py` o espalha) |
 | `scripts/sincronizar.py` | Gera o que se repete: menu, `<head>` padrão, tema/byline/caixa da autora nos artigos, chips e cards do blog, "Últimos artigos" da home. **Não edite à mão** esses trechos |
+| `scripts/instagram.py` + `.github/workflows/instagram-sync.yml` | Todo dia 08h (Brasília) busca os 2 posts mais recentes na API oficial do Instagram e reescreve o bloco entre `<!--instagram-posts-->` da home; só publica se mudou. Secrets do GitHub: `INSTAGRAM_TOKEN` (e `INSTAGRAM_USER_ID` só se o token for do login do Facebook). O token vence em 60 dias, a rotina o renova e falha avisando quando faltam <10 dias. Manual: `python3 scripts/instagram.py <link1> <link2>` |
 | `pagefind/` | Índice de busca gerado no deploy (não versionado). Busca em `<pagefind-modal-trigger>` no menu |
 | `guia-cuidados-pele-pet.html` | Guia/isca digital (HTML autocontido) |
 | `privacidade.html`, `404.html` | Política de privacidade e página de erro |

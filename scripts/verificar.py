@@ -84,6 +84,10 @@ for a in artigos:
     if f'href="{slug}/"' not in indice_blog:
         erro(a, "artigo sem card em blog/index.html")
 
+home = (RAIZ / "index.html").read_text(encoding="utf-8")
+if home.count('class="instagram-media"') != 2:
+    erro(RAIZ / "index.html", "a seção do Instagram deve ter exatamente 2 posts (rode scripts/instagram.py)")
+
 autora = RAIZ / sync.AUT["pagina"].strip("/") / "index.html"
 if not autora.exists():
     erro(autora, "página da autora não existe")
