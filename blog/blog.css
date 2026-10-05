@@ -506,21 +506,36 @@ body.blog-page {
 .article-author a { color: var(--cor-secundaria); font-weight: 700; }
 
 /* Chips de tema (busca por assunto) */
-.tema-chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 28px; }
+.tema-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 28px; }
 
 .tema-chip {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
+  gap: 6px;
+  padding: 7px 14px;
   border: 1px solid rgba(26,26,46,.14);
   border-radius: 999px;
   background: white;
   color: var(--cor-texto);
-  font-size: .9rem;
+  font-size: .86rem;
   font-weight: 600;
+  white-space: nowrap;
   text-decoration: none;
   transition: background .2s, color .2s, border-color .2s;
+}
+
+/* Celular: uma linha só, deslizável (em vez de 5 linhas irregulares) */
+@media (max-width: 720px) {
+  .tema-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 0 -24px 24px;
+    padding: 2px 24px 8px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tema-chips::-webkit-scrollbar { display: none; }
+  .tema-chip { flex: none; }
 }
 
 .tema-chip span {
@@ -558,7 +573,10 @@ body.blog-page {
 
 /* Bloco "Últimos artigos" da home */
 .home-artigos { padding: var(--secao-padding, 80px 0); background: var(--cor-fundo-alt); }
-.home-artigos .blog-intro { margin-bottom: 28px; }
+/* Introdução da home: título e texto empilhados à esquerda (lado a lado, o texto ficava solto, longe do título) */
+.home-artigos .blog-intro { display: block; margin-bottom: 24px; }
+.home-artigos .blog-intro h2 { max-width: 22ch; font-size: clamp(1.75rem, 3.2vw, 2.5rem); }
+.home-artigos .blog-intro p { max-width: 60ch; margin-top: 12px; }
 .home-artigos-link { margin-top: 32px; text-align: center; }
 
 .article-card[hidden] { display: none; }
