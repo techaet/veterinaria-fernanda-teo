@@ -4,7 +4,7 @@ Uso: python3 scripts/sincronizar.py   (publicar_artigo.py já chama)
 Faz: menu em todas as páginas; <head> padrão; em cada artigo, tema, byline, caixa da autora,
 schema de autoria e marcação do Pagefind; no blog, chips de tema, "Comece por aqui" e data-tema
 nos cards; na home, o bloco "Últimos artigos"."""
-import html, json, re, sys
+import hashlib, html, json, re, sys
 from datetime import date
 from pathlib import Path
 
@@ -54,6 +54,16 @@ FONTES = """<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="
   <link rel="stylesheet" href="/fonts/fonts.css">"""
 
 
+def versionar_css(p, s):
+    """?v=<hash do arquivo> nos CSS locais: o navegador baixa de novo quando o CSS muda (evita HTML novo com CSS velho em cache)."""
+    def v(m):
+        alvo = (RAIZ / href.lstrip("/")) if (href := m.group(2)).startswith("/") else (p.parent / href)
+        if not alvo.exists() or href.startswith("/pagefind/"):
+            return m.group(0)
+        return f'{m.group(1)}{href}?v={hashlib.md5(alvo.read_bytes()).hexdigest()[:8]}{m.group(3)}'
+    return re.sub(r'(<link [^>]*?href=")([^"?]+\.css)(?:\?v=[0-9a-f]+)?(")', v, s)
+
+
 def paginas_publicas():
     return [p for p in RAIZ.glob("**/*.html")
             if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", "node_modules", "pagefind"))
@@ -74,6 +84,7 @@ def pagina(p):
             if prova not in s:
                 s = s.replace("</head>", f"  {linha}\n</head>", 1)
     s = re.sub(r'\n[ \t]*<meta name="keywords"[^>]*>', "", s)  # o Google ignora
+    s = versionar_css(p, s)
     # fontes hospedadas no lugar do Google Fonts (sem CSS bloqueante de terceiros)
     if (RAIZ / "fonts/fonts.css").exists():
         s = re.sub(r'[ \t]*<link rel="preconnect" href="https://fonts\.g[^>]*>\n', "", s)
@@ -97,7 +108,7 @@ def byline(pub, mod):
 
 
 CAIXA = (f'<aside class="article-author" data-pagefind-ignore><img src="{AUT["foto"]}" alt="{h(AUT["nome"])}" '
-         f'width="{AUT["foto_w"]}" height="{AUT["foto_h"]}" loading="lazy" decoding="async"><div>'
+         f'width="84" height="84" loading="lazy" decoding="async"><div>'
          f'<p class="article-author-titulo">{h(AUT["caixa_titulo"])}</p><p><strong>{h(AUT["nome"])}</strong> · {h(AUT["registro"])}</p>'
          f'<p>{h(AUT["resumo"])}</p><a href="{AUT["pagina"]}">{h(AUT["caixa_link"])}</a></div></aside>')
 

@@ -39,6 +39,8 @@ for p in paginas:
         erro(p, f'texto de status editorial visível: "{m.group(0)}"')
     if '<nav class="navbar"' in s and sync.NAV not in s:
         erro(p, "menu desatualizado — rode python3 scripts/sincronizar.py")
+    if sync.versionar_css(p, s) != s:
+        erro(p, "?v= dos CSS desatualizado — rode python3 scripts/sincronizar.py")
     if "CRMV" in s and CRMV not in s:
         erro(p, f"CRMV fora do padrão (esperado {CRMV})")
     for num in re.findall(r"wa\.me/(\d+)", s):
