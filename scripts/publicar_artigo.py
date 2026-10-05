@@ -2,13 +2,17 @@
 """Registra um artigo já escrito em blog/index.html, blog/feed.xml, sitemap.xml e no
 "Leia também" dos artigos que ele mesmo indica.
 Uso: python3 scripts/publicar_artigo.py <slug>
-Lê título, descrição, kicker e capa do próprio artigo e usa a data de hoje como data de
-publicação. Rodar de novo para o mesmo slug não duplica nada."""
+Lê título, descrição, tema e capa do próprio artigo e usa a data de hoje como data de
+publicação. No fim roda sincronizar.py (tema, byline, caixa da autora, chips e home).
+Rodar de novo para o mesmo slug não duplica nada."""
 import html, re, sys
 from datetime import date, datetime, timedelta, timezone
 from email.utils import format_datetime
 from pathlib import Path
 from xml.sax.saxutils import escape
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import sincronizar
 
 RAIZ = Path(__file__).resolve().parent.parent
 BASE = "https://veterinaria.aetsolidez.com.br"
@@ -30,7 +34,7 @@ def main(slug):
 
     titulo = campo(s, r'property="og:title" content="([^"]+)"')
     descricao = campo(s, r'property="og:description" content="([^"]+)"')
-    kicker = campo(s, r'class="article-meta"><span>(.*?)</span>')
+    kicker = campo(s, r'class="article-meta">(?:<span>|<a [^>]*>)(.*?)</(?:span|a)>')
     img = re.search(r'class="article-feature-image"><img ([^>]+)>', s).group(1)
     alt, w, h_ = (re.search(f'{a}="([^"]*)"', img).group(1) for a in ("alt", "width", "height"))
     url = f"{BASE}/blog/{slug}/"
@@ -73,6 +77,7 @@ def main(slug):
         fim = '</ul></section><section class="article-cta">'
         if f'href="../{slug}/"' not in t and fim in t:
             p.write_text(t.replace(fim, f'<li><a href="../{slug}/">{h(titulo)}</a></li>' + fim, 1), encoding="utf-8")
+    sincronizar.main()
     print(f"Registrado: {url}")
 
 

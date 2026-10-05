@@ -1539,3 +1539,37 @@ body.agenda-page { background: var(--cor-fundo-alt); }
     margin-bottom: 10px;
   }
 }
+
+
+/* ============================================================
+   BUSCA (Pagefind) e menu com 4 itens + busca + CTA
+   ============================================================ */
+:root {
+  --pf-font: var(--fonte-corpo);
+  --pf-text: var(--cor-texto);
+  --pf-text-secondary: var(--cor-texto-suave);
+  --pf-border: #d7dfd8;
+  --pf-border-focus: var(--cor-primaria);
+  --pf-hover: var(--cor-primaria-clara);
+  --pf-mark: var(--cor-primaria-escura);
+  --pf-outline-focus: var(--cor-primaria);
+  --pf-border-radius: var(--raio-borda);
+}
+
+.navbar-busca { display: flex; align-items: center; }
+.navbar-busca pagefind-modal-trigger { --pf-input-height: 38px; }
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .navbar-menu { gap: 18px; }
+}
+
+@media (max-width: 768px) {
+  .navbar-busca { padding: 6px 0 2px; }
+  .navbar-busca pagefind-modal-trigger { width: 100%; }
+}
+
+#sobre.autor-sobre { padding-top: 148px; }
+.autor-links { padding: 56px 0 80px; text-align: center; background: var(--cor-fundo-alt); }
+.autor-links h2 { font-family: var(--fonte-titulo); font-size: 1.6rem; }
+.autor-links p { margin: 10px 0 22px; color: var(--cor-texto-suave); }
+.autor-links .btn-secundario, .autor-links .btn-whatsapp { margin: 0 6px 10px; }

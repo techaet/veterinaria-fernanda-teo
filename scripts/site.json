@@ -1,0 +1,46 @@
+{
+  "dominio": "https://veterinaria.aetsolidez.com.br",
+  "marca": "Dra. Fernanda Teo – Veterinária Domiciliar",
+  "feed_titulo": "Conteúdos da Dra. Fernanda Teo",
+  "autora": {
+    "nome": "Dra. Fernanda Teo",
+    "funcao": "Médica Veterinária",
+    "registro": "CRMV/SC 5669",
+    "pagina": "/dra-fernanda-teo/",
+    "foto": "/images/dra-fernanda.webp",
+    "resumo": "Médica-veterinária com pós-graduação em dermatologia de animais de companhia. Atende em domicílio no Campeche, Morro das Pedras, Rio Tavares e Lagoa da Conceição, em Florianópolis.",
+    "sameAs": [
+      "https://www.instagram.com/fernandateoveterinaria",
+      "https://www.facebook.com/nandateovet/"
+    ],
+    "foto_w": 832,
+    "foto_h": 1248
+  },
+  "temas": [
+    {
+      "slug": "prevencao-e-vacinas",
+      "nome": "Prevenção e vacinas"
+    },
+    {
+      "slug": "clima-e-estacoes",
+      "nome": "Clima e estações"
+    },
+    {
+      "slug": "saude-no-dia-a-dia",
+      "nome": "Saúde no dia a dia"
+    },
+    {
+      "slug": "comportamento",
+      "nome": "Comportamento e bem-estar"
+    },
+    {
+      "slug": "viagem",
+      "nome": "Viagem com pets"
+    }
+  ],
+  "comece_por_aqui": [
+    "vacinacao-caes-gatos-protocolo",
+    "checkup-veterinario-frequencia-ideal",
+    "vermifugacao-pulgas-carrapatos-prevencao"
+  ]
+}

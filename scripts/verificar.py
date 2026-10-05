@@ -5,6 +5,8 @@ import html, json, re, sys
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import sincronizar as sync
 DOMINIO = "https://veterinaria.aetsolidez.com.br"
 CRMV = "CRMV/SC 5669"
 WHATS = "5548999690448"
@@ -35,6 +37,8 @@ for p in paginas:
     visivel = texto_visivel(s)
     if m := VAZAMENTOS.search(visivel):
         erro(p, f'texto de status editorial visível: "{m.group(0)}"')
+    if '<nav class="navbar"' in s and sync.NAV not in s:
+        erro(p, "menu desatualizado — rode python3 scripts/sincronizar.py")
     if "CRMV" in s and CRMV not in s:
         erro(p, f"CRMV fora do padrão (esperado {CRMV})")
     for num in re.findall(r"wa\.me/(\d+)", s):
@@ -64,12 +68,25 @@ for a in artigos:
         erro(a, "falta o aviso aside.article-safety")
     if f'href="{url}"' not in s:
         erro(a, f"canonical ausente ou diferente de {url}")
+    for classe, o_que in (("article-tema", "tema (1º item de article-meta deve ser um tema de scripts/site.json)"),
+                          ("article-byline", "byline (rode scripts/sincronizar.py)"),
+                          ("article-author", "caixa da autora (rode scripts/sincronizar.py)")):
+        if f'class="{classe}"' not in s:
+            erro(a, f"falta {o_que}")
+    if '"datePublished"' not in s:
+        erro(a, "schema Article sem datePublished")
     if f"<loc>{url}</loc>" not in sitemap:
         erro(a, "artigo não está no sitemap.xml")
     if f"<link>{url}</link>" not in feed:
         erro(a, "artigo não está no blog/feed.xml")
     if f'href="{slug}/"' not in indice_blog:
         erro(a, "artigo sem card em blog/index.html")
+
+autora = RAIZ / sync.AUT["pagina"].strip("/") / "index.html"
+if not autora.exists():
+    erro(autora, "página da autora não existe")
+elif f'<loc>{DOMINIO}{sync.AUT["pagina"]}</loc>' not in sitemap:
+    erro(autora, "página da autora não está no sitemap.xml")
 
 for img in list(RAIZ.glob("images/**/*")) + list(RAIZ.glob("blog/assets/*")):
     if img.suffix.lower() in (".png", ".jpg", ".jpeg", ".webp") and img.stat().st_size > MAX_IMG_KB * 1024:
