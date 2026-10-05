@@ -4,7 +4,7 @@ Uso: python3 scripts/sincronizar.py   (publicar_artigo.py já chama)
 Faz: menu em todas as páginas; <head> padrão; em cada artigo, tema, byline, caixa da autora,
 schema de autoria e marcação do Pagefind; no blog, chips de tema, "Comece por aqui" e data-tema
 nos cards; na home, o bloco "Últimos artigos"."""
-import html, json, re, sys
+import hashlib, html, json, re, sys
 from datetime import date
 from pathlib import Path
 
@@ -54,14 +54,38 @@ FONTES = """<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="
   <link rel="stylesheet" href="/fonts/fonts.css">"""
 
 
+def versionar_css(p, s):
+    """?v=<hash do arquivo> nos CSS locais: o navegador baixa de novo quando o CSS muda (evita HTML novo com CSS velho em cache)."""
+    def v(m):
+        alvo = (RAIZ / href.lstrip("/")) if (href := m.group(2)).startswith("/") else (p.parent / href)
+        if not alvo.exists() or href.startswith("/pagefind/"):
+            return m.group(0)
+        return f'{m.group(1)}{href}?v={hashlib.md5(alvo.read_bytes()).hexdigest()[:8]}{m.group(3)}'
+    return re.sub(r'(<link [^>]*?href=")([^"?]+\.css)(?:\?v=[0-9a-f]+)?(")', v, s)
+
+
 def paginas_publicas():
     return [p for p in RAIZ.glob("**/*.html")
-            if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", "node_modules", "pagefind"))
+            if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", "node_modules", "pagefind", "scripts"))
             and not p.name.startswith("google")]
 
 
+def garantir_menu(p, s):
+    """Páginas listadas em site.json 'menu_em': menu logo após <body> (se faltar), style.css e script.js."""
+    if str(p.relative_to(RAIZ)) not in CFG.get("menu_em", []):
+        return s
+    if '<nav class="navbar"' not in s:
+        s = re.sub(r'<header class="topo">.*?</header>\s*', "", s, flags=re.S)  # cabeçalho próprio antigo
+        s = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + "\n  " + NAV, s, count=1)
+    if "style.css" not in s:
+        s = s.replace("<style>", '<link rel="stylesheet" href="/style.css">\n<style>', 1)
+    if "script.js" not in s:  # hambúrguer e sombra do menu
+        s = s.replace("</body>", '  <script src="/script.js"></script>\n</body>', 1)
+    return s
+
+
 def pagina(p):
-    s = ler(p)
+    s = garantir_menu(p, ler(p))
     if '<nav class="navbar"' in s:
         s = re.sub(r'<nav class="navbar".*?</nav>', lambda _: NAV, s, count=1, flags=re.S)
         if "<pagefind-modal>" not in s:
@@ -74,6 +98,7 @@ def pagina(p):
             if prova not in s:
                 s = s.replace("</head>", f"  {linha}\n</head>", 1)
     s = re.sub(r'\n[ \t]*<meta name="keywords"[^>]*>', "", s)  # o Google ignora
+    s = versionar_css(p, s)
     # fontes hospedadas no lugar do Google Fonts (sem CSS bloqueante de terceiros)
     if (RAIZ / "fonts/fonts.css").exists():
         s = re.sub(r'[ \t]*<link rel="preconnect" href="https://fonts\.g[^>]*>\n', "", s)
@@ -97,7 +122,7 @@ def byline(pub, mod):
 
 
 CAIXA = (f'<aside class="article-author" data-pagefind-ignore><img src="{AUT["foto"]}" alt="{h(AUT["nome"])}" '
-         f'width="{AUT["foto_w"]}" height="{AUT["foto_h"]}" loading="lazy" decoding="async"><div>'
+         f'width="84" height="84" loading="lazy" decoding="async"><div>'
          f'<p class="article-author-titulo">{h(AUT["caixa_titulo"])}</p><p><strong>{h(AUT["nome"])}</strong> · {h(AUT["registro"])}</p>'
          f'<p>{h(AUT["resumo"])}</p><a href="{AUT["pagina"]}">{h(AUT["caixa_link"])}</a></div></aside>')
 

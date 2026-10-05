@@ -1557,7 +1557,17 @@ body.agenda-page { background: var(--cor-fundo-alt); }
 }
 
 .navbar-busca { display: flex; align-items: center; }
-.navbar-busca pagefind-modal-trigger { --pf-input-height: 38px; }
+/* O Pagefind usa seletores de alta especificidade: o gatilho só aceita as variáveis dele (+ !important). */
+.navbar-busca pagefind-modal-trigger { display: flex; align-items: center; --pf-input-height: 40px; --pf-border-radius: 50px; }
+.navbar-busca .pf-trigger-btn { font-size: 0.9rem !important; font-family: var(--fonte-corpo) !important; padding: 0 16px !important; }
+
+/* Menu em linha: busca e botão com a mesma altura e o mesmo eixo dos links */
+@media (min-width: 769px) {
+  .navbar-menu a.btn-navbar { display: inline-flex; align-items: center; height: 40px; padding: 0 22px; }
+}
+
+/* Páginas que ganharam o menu fixo (404, agendar, privacidade): compensa a altura dele */
+body.agenda-page .agenda-embed { padding-top: 100px; }
 
 @media (min-width: 769px) and (max-width: 1100px) {
   .navbar-menu { gap: 18px; }
