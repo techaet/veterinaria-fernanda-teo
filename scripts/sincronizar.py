@@ -67,6 +67,11 @@ HEAD_BUSCA = [  # só em páginas com menu
 ]
 
 
+FONTES = """<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/poppins-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/fonts/fonts.css">"""
+
+
 def paginas_publicas():
     return [p for p in RAIZ.glob("**/*.html")
             if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", "node_modules", "pagefind"))
@@ -87,6 +92,9 @@ def pagina(p):
             if prova not in s:
                 s = s.replace("</head>", f"  {linha}\n</head>", 1)
     s = re.sub(r'\n[ \t]*<meta name="keywords"[^>]*>', "", s)  # o Google ignora
+    # fontes hospedadas no lugar do Google Fonts (sem CSS bloqueante de terceiros)
+    s = re.sub(r'[ \t]*<link rel="preconnect" href="https://fonts\.g[^>]*>\n', "", s)
+    s = re.sub(r'<link href="https://fonts\.googleapis\.com/css2[^>]*>', lambda _: FONTES, s)
     gravar(p, s)
 
 
