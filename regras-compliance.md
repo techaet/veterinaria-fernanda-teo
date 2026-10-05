@@ -33,7 +33,7 @@ Nenhum texto publicado (institucional, blog ou guia) pode conter:
 
 - Todo artigo novo sobre saúde animal deve ser revisado e aprovado expressamente pela Dra. Fernanda Teo antes de publicação (herdado do `LEIA-ME-BLOG-VETERINARIA.txt` original do projeto).
 - **Nenhum texto sobre esse processo de aprovação pode vazar para o HTML público** — nem em título, meta tag, categoria, `article-meta`, aviso de "conteúdo educativo" ou qualquer outro texto visível. Frases como "revisão obrigatória", "pendente de aprovação", "rascunho", "antes de publicação", "aguardando aprovação" (ou variações) já vazaram para o site publicado antes; ficam registradas aqui como erro conhecido a checar sempre.
-- **Exceção permitida:** a linha fixa "Revisão clínica: Dra. Fernanda Teo, médica-veterinária (CRMV/SC 5669)" na byline dos artigos (gerada por `scripts/sincronizar.py`). Ela afirma uma revisão já feita; não é status de processo. Só entra no `main` o que já foi aprovado.
+- **Exceção permitida:** a linha fixa "Por Dra. Fernanda Teo, médica-veterinária (CRMV/SC 5669)" na byline dos artigos (gerada por `scripts/sincronizar.py`; decisão do cliente em out/2026, com a conformidade com o CFMV conferida por ele). É assinatura, não status de processo. Só entra no `main` o que já foi aprovado.
 - Comunicação de status de revisão, quando necessária, deve acontecer fora do arquivo (conversa com o Leonardo/Claude), nunca dentro do código.
 
 ## 4. Estrutura de conteúdo (hub de artigos)

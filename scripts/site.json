@@ -43,11 +43,11 @@
     "checkup-veterinario-frequencia-ideal",
     "vermifugacao-pulgas-carrapatos-prevencao"
   ],
-  "byline_html": "Revisão clínica: <a href=\"{pagina}\">{nome}</a>, médica-veterinária ({registro})",
+  "byline_html": "Por <a href=\"{pagina}\">{nome}</a>, médica-veterinária ({registro})",
   "home": {
     "rotulo": "Informação para tutores",
     "titulo": "Aprenda com quem atende o seu pet em casa.",
-    "texto": "Artigos sobre prevenção, rotina e bem-estar, com referências e revisão clínica da Dra. Fernanda Teo."
+    "texto": "Artigos sobre prevenção, rotina e bem-estar, com referências e a assinatura da Dra. Fernanda Teo."
   },
   "menu_em": [
     "404.html",
