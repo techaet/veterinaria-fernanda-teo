@@ -25,7 +25,7 @@ def texto_visivel(s):
     return html.unescape(re.sub(r"<[^>]+>", " ", s))
 
 paginas = [p for p in RAIZ.glob("**/*.html")
-           if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", "node_modules"))
+           if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", "node_modules", "pagefind", "scripts"))
            and not p.name.startswith("google")]
 artigos = sorted(RAIZ.glob("blog/*/index.html"))
 sitemap = (RAIZ / "sitemap.xml").read_text(encoding="utf-8")
@@ -37,8 +37,8 @@ for p in paginas:
     visivel = texto_visivel(s)
     if m := VAZAMENTOS.search(visivel):
         erro(p, f'texto de status editorial visível: "{m.group(0)}"')
-    if '<nav class="navbar"' in s and sync.NAV not in s:
-        erro(p, "menu desatualizado — rode python3 scripts/sincronizar.py")
+    if sync.NAV not in s and str(p.relative_to(RAIZ)) not in sync.CFG.get("sem_menu", []):
+        erro(p, "sem o menu padrão (ou desatualizado) — rode python3 scripts/sincronizar.py")
     if sync.versionar_css(p, s) != s:
         erro(p, "?v= dos CSS desatualizado — rode python3 scripts/sincronizar.py")
     if "CRMV" in s and CRMV not in s:

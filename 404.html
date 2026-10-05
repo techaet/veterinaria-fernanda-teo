@@ -18,7 +18,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
-  <link rel="stylesheet" href="/style.css?v=86ffefc0">
+  <link rel="stylesheet" href="/style.css?v=933d83ce">
   <style>
     .pagina-404 {
       min-height: 70vh;
@@ -26,7 +26,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 48px 24px;
+      padding: 124px 24px 48px;
       background-color: var(--cor-fundo-alt);
     }
     .pagina-404-conteudo {
@@ -89,8 +89,30 @@
       background-color: var(--cor-primaria-clara);
     }
   </style>
+  <link href="/pagefind/pagefind-component-ui.css" rel="stylesheet">
+  <script src="/pagefind/pagefind-component-ui.js" type="module"></script>
 </head>
 <body>
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Menu principal">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="/#hero" class="navbar-logo" aria-label="Dra. Fernanda Teo – Início">
+          <span class="navbar-logo-icon" aria-hidden="true"><img src="/images/brand/cuidado-em-casa.webp" alt="" width="52" height="52"></span>
+          <span class="navbar-logo-text"><strong>Dra. Fernanda Teo</strong><span>Veterinária Domiciliar</span></span>
+        </a>
+        <ul class="navbar-menu" id="navbar-menu" role="list">
+          <li><a href="/blog/">Artigos</a></li>
+          <li><a href="/dra-fernanda-teo/">Sobre a Dra.</a></li>
+          <li><a href="/#servicos">Atendimento em casa</a></li>
+          <li><a href="/#contato">Contato</a></li>
+          <li class="navbar-busca"><pagefind-modal-trigger placeholder="Buscar artigos" hide-shortcut></pagefind-modal-trigger></li>
+          <li><a href="/agendar/" class="btn-navbar">Agendar Consulta</a></li>
+        </ul>
+        <button class="navbar-toggle" id="navbar-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="navbar-menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+    <pagefind-modal></pagefind-modal>
   <main class="pagina-404">
     <div class="pagina-404-conteudo">
       <svg class="pagina-404-icone" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -107,5 +129,6 @@
       </div>
     </div>
   </main>
+  <script src="/script.js"></script>
 </body>
 </html>

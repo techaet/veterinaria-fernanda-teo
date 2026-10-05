@@ -66,12 +66,26 @@ def versionar_css(p, s):
 
 def paginas_publicas():
     return [p for p in RAIZ.glob("**/*.html")
-            if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", "node_modules", "pagefind"))
+            if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", "node_modules", "pagefind", "scripts"))
             and not p.name.startswith("google")]
 
 
+def garantir_menu(p, s):
+    """Páginas listadas em site.json 'menu_em': menu logo após <body> (se faltar), style.css e script.js."""
+    if str(p.relative_to(RAIZ)) not in CFG.get("menu_em", []):
+        return s
+    if '<nav class="navbar"' not in s:
+        s = re.sub(r'<header class="topo">.*?</header>\s*', "", s, flags=re.S)  # cabeçalho próprio antigo
+        s = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + "\n  " + NAV, s, count=1)
+    if "style.css" not in s:
+        s = s.replace("<style>", '<link rel="stylesheet" href="/style.css">\n<style>', 1)
+    if "script.js" not in s:  # hambúrguer e sombra do menu
+        s = s.replace("</body>", '  <script src="/script.js"></script>\n</body>', 1)
+    return s
+
+
 def pagina(p):
-    s = ler(p)
+    s = garantir_menu(p, ler(p))
     if '<nav class="navbar"' in s:
         s = re.sub(r'<nav class="navbar".*?</nav>', lambda _: NAV, s, count=1, flags=re.S)
         if "<pagefind-modal>" not in s:
