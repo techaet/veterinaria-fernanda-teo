@@ -96,7 +96,7 @@ body.blog-page {
 
 .article-card-visual {
   position: relative;
-  min-height: 232px;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   background: linear-gradient(140deg, #1B5E20, #2E7D32 62%, #559958);
 }
@@ -113,7 +113,6 @@ body.blog-page {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 232px;
   object-fit: cover;
   object-position: center;
   transition: transform .45s ease;
@@ -268,7 +267,6 @@ body.blog-page {
   .blog-intro, .article-grid { grid-template-columns: 1fr; gap: 22px; }
   .article-page { padding-top: 124px; }
   .article-shell { width: min(100% - 40px, 820px); }
-  .article-card-visual, .article-card-visual img { min-height: 214px; }
 }
 
 /* Sumário (índice do artigo) */
