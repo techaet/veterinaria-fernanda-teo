@@ -25,7 +25,12 @@ Arquivos internos (este, `regras-compliance.md`, `scripts/`, `.claude/`, `incorp
 | `blog/index.html` | Lista de artigos (cards, do mais novo para o mais antigo) |
 | `blog/<slug>/index.html` | Um artigo por pasta |
 | `blog/assets/<slug>.webp` | Imagem de capa do artigo (também é o og:image) |
-| `blog/blog.css`, `blog/feed.xml` | Estilos do blog e RSS |
+| `blog/blog.css`, `blog/blog.js`, `blog/feed.xml` | Estilos do blog, filtro por tema e RSS |
+| `dra-fernanda-teo/` | Página da autora (E-E-A-T): credenciais, linkada na byline de todo artigo |
+| `scripts/site.json` | Fonte única: marca, autora, **temas** do blog e artigos de "Comece por aqui" |
+| `scripts/nav.html` | Menu de todas as páginas (o `sincronizar.py` o espalha) |
+| `scripts/sincronizar.py` | Gera o que se repete: menu, `<head>` padrão, tema/byline/caixa da autora nos artigos, chips e cards do blog, "Últimos artigos" da home. **Não edite à mão** esses trechos |
+| `pagefind/` | Índice de busca gerado no deploy (não versionado). Busca em `<pagefind-modal-trigger>` no menu |
 | `guia-cuidados-pele-pet.html` | Guia/isca digital (HTML autocontido) |
 | `privacidade.html`, `404.html` | Política de privacidade e página de erro |
 | `sitemap.xml`, `robots.txt` | SEO |
@@ -36,11 +41,12 @@ Analytics: GA4 `G-V1JL02NC6J` — todo HTML novo leva o snippet `gtag` no `<head
 
 1. **Texto:** use a skill `criar-artigo-blog` (ela lê a identidade da marca na pasta da Dra. Fernanda Teo em "Negócios AET" no Google Drive). Respeite `regras-compliance.md` §2.
 2. **HTML:** copie um artigo existente como molde (ex. `blog/checkup-veterinario-frequencia-ideal/index.html`) para `blog/<slug>/index.html`. Mantenha a ordem: breadcrumb → `article-meta` → h1 → imagem → `article-lead` → `aside.article-safety` → sumário → corpo → FAQ → "Leia também" → CTA WhatsApp → Referências.
+3. **Tema:** o 1º `<span>` de `article-meta` é um tema de `scripts/site.json` (o 2º é o subtópico livre). Sem tema válido, o `sincronizar.py` recusa.
 3. **No `<head>`:** title, description, canonical, og:*, e os 3 JSON-LD (`Article` com `dateModified`, `BreadcrumbList`, `FAQPage`). FAQ do schema = texto visível, palavra por palavra.
 4. **Imagem:** `blog/assets/<slug>.webp`, 1600px de largura, ≤ 400 KB. Conversão: `python3 -c "from PIL import Image; im=Image.open('in.png').convert('RGB'); im.thumbnail((1600,1600)); im.save('blog/assets/<slug>.webp','WEBP',quality=80,method=6)"` (o `cwebp` desta máquina está quebrado). `width`/`height` no `<img>` = dimensões reais.
 5. **Registrar em 3 lugares:** card no topo de `blog/index.html` (com `loading="lazy"`), `<item>` no topo de `blog/feed.xml` (+ atualizar `lastBuildDate`), `<url>` em `sitemap.xml`.
 6. **Links internos:** adicione o novo artigo no "Leia também" de 1–3 artigos relacionados.
-7. `python3 scripts/verificar.py` → commit → PR.
+7. `python3 scripts/sincronizar.py && python3 scripts/verificar.py` → commit → PR. (`publicar_artigo.py` já chama o sincronizar.)
 
 **Aprovação clínica:** todo artigo de saúde precisa do OK da Dra. Fernanda antes de ir para a `main`. Status de revisão fica na conversa/issue, **nunca** no HTML (já vazou antes).
 

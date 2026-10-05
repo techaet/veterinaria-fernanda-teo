@@ -33,12 +33,21 @@ Nenhum texto publicado (institucional, blog ou guia) pode conter:
 
 - Todo artigo novo sobre saúde animal deve ser revisado e aprovado expressamente pela Dra. Fernanda Teo antes de publicação (herdado do `LEIA-ME-BLOG-VETERINARIA.txt` original do projeto).
 - **Nenhum texto sobre esse processo de aprovação pode vazar para o HTML público** — nem em título, meta tag, categoria, `article-meta`, aviso de "conteúdo educativo" ou qualquer outro texto visível. Frases como "revisão obrigatória", "pendente de aprovação", "rascunho", "antes de publicação", "aguardando aprovação" (ou variações) já vazaram para o site publicado antes; ficam registradas aqui como erro conhecido a checar sempre.
+- **Exceção permitida:** a linha fixa "Revisão clínica: Dra. Fernanda Teo, médica-veterinária (CRMV/SC 5669)" na byline dos artigos (gerada por `scripts/sincronizar.py`). Ela afirma uma revisão já feita; não é status de processo. Só entra no `main` o que já foi aprovado.
 - Comunicação de status de revisão, quando necessária, deve acontecer fora do arquivo (conversa com o Leonardo/Claude), nunca dentro do código.
 
-## 4. Checklist rápido por artigo/página
+## 4. Estrutura de conteúdo (hub de artigos)
+
+- **Temas fixos** em `scripts/site.json`: o 1º item de `article-meta` de todo artigo é um desses temas (o `sincronizar.py` recusa outro). Para criar um tema novo, edite o `site.json` primeiro. Tema só ganha página própria quando tiver 3+ artigos.
+- **Cada artigo mostra** byline com credencial, "Publicado em"/"Atualizado em" (do schema `datePublished`/`dateModified`) e caixa "Sobre a autora". Tudo gerado por `sincronizar.py`; não editar à mão.
+- **Sem comentários públicos:** conteúdo de saúde atrai pedidos de diagnóstico e posologia, que o §2 proíbe. A conversa vai para o WhatsApp (CTA do artigo).
+- **FAQ:** continua visível no artigo (ajuda o tutor). O Google aposentou o rich result de FAQ em 7/mai/2026; o schema `FAQPage` é inofensivo, mas não gera retorno. Se existir, segue batendo palavra por palavra.
+
+## 5. Checklist rápido por artigo/página
 
 - [ ] CRMV, WhatsApp, áreas de atendimento e (se citado) preço batem com a tabela da seção 1, exatamente.
 - [ ] Nenhum diagnóstico específico, nome de medicamento, dose ou promessa de cura.
 - [ ] Aviso de "conteúdo educativo / não substitui consulta" presente e visível.
 - [ ] Nenhum texto de status editorial visível no HTML.
+- [ ] 1º item de `article-meta` = tema de `scripts/site.json`; `python3 scripts/sincronizar.py` rodado.
 - [ ] Se houver FAQ com schema `FAQPage`, pergunta e resposta batem palavra por palavra com o texto visível.

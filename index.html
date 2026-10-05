@@ -20,7 +20,6 @@
        ============================================================ -->
   <title>Dra. Fernanda Teo | Veterinária Domiciliar no Campeche – Florianópolis/SC</title>
   <meta name="description" content="Atendimento veterinário domiciliar no Campeche, Morro das Pedras, Rio Tavares e Lagoa da Conceição. Dra. Fernanda Teo (CRMV/SC 5669) — Consultas, Vacinas e Documentos para Viagens Internacionais. Agende pelo WhatsApp." />
-  <meta name="keywords" content="veterinária domiciliar Campeche, veterinária Florianópolis, veterinária Morro das Pedras, veterinária Rio Tavares, veterinária Lagoa da Conceição, Dra. Fernanda Teo, CRMV SC 5669, vacinas pets, documentos viagem internacional pet" />
   <meta name="author" content="Dra. Fernanda Teo" />
   <link rel="canonical" href="https://veterinaria.aetsolidez.com.br/" />
 
@@ -67,12 +66,13 @@
   </script>
 
   <!-- Fontes Google -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/poppins-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/fonts/fonts.css">
 
   <!-- CSS principal -->
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="blog/blog.css" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -82,6 +82,11 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#2E7D32" />
+  <link href="/pagefind/pagefind-component-ui.css" rel="stylesheet">
+  <script src="/pagefind/pagefind-component-ui.js" type="module"></script>
+  <meta property="og:site_name" content="Dra. Fernanda Teo – Veterinária Domiciliar">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" type="application/rss+xml" title="Conteúdos da Dra. Fernanda Teo" href="/blog/feed.xml">
 </head>
 
 <body>
@@ -103,11 +108,11 @@
           <span class="navbar-logo-text"><strong>Dra. Fernanda Teo</strong><span>Veterinária Domiciliar</span></span>
         </a>
         <ul class="navbar-menu" id="navbar-menu" role="list">
-          <li><a href="/#sobre">Sobre</a></li>
-          <li><a href="/#servicos">Serviços</a></li>
-          <li><a href="/#depoimentos">Depoimentos</a></li>
-          <li><a href="/blog/">Conteúdos</a></li>
+          <li><a href="/blog/">Artigos</a></li>
+          <li><a href="/dra-fernanda-teo/">Sobre a Dra.</a></li>
+          <li><a href="/#servicos">Atendimento em casa</a></li>
           <li><a href="/#contato">Contato</a></li>
+          <li class="navbar-busca"><pagefind-modal-trigger placeholder="Buscar artigos" hide-shortcut></pagefind-modal-trigger></li>
           <li><a href="/agendar/" class="btn-navbar">Agendar Consulta</a></li>
         </ul>
         <button class="navbar-toggle" id="navbar-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="navbar-menu"><span></span><span></span><span></span></button>
@@ -115,6 +120,7 @@
     </div>
   </nav>
 
+    <pagefind-modal></pagefind-modal>
   <main>
 
     <!-- ============================================================
@@ -130,9 +136,9 @@
 
             <!-- EDITAR: Título principal da página -->
             <h1 class="hero-titulo">
-              Saúde e bem-estar<br>
-              do seu pet com<br>
-              <span class="destaque">excelência</span>
+              Saúde do seu pet com<br>
+              <span class="destaque">informação confiável</span><br>
+              e cuidado em casa
             </h1>
 
             <!-- EDITAR: Subtítulo / descrição principal -->
@@ -147,7 +153,7 @@
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
                 Agendar consulta
               </a>
-              <a href="#sobre" class="btn-secundario">Conheça a Dra. Fernanda</a>
+              <a href="/blog/" class="btn-secundario">Ler artigos para tutores</a>
             </div>
           </div>
 
@@ -186,6 +192,8 @@
 
 
     </section>
+
+    <!--artigos-home--><section id="artigos" class="home-artigos" aria-label="Artigos recentes"><div class="container"><div class="blog-intro"><div><p class="blog-section-label">Informação para tutores</p><h2>Aprenda com quem atende o seu pet em casa.</h2></div><p>Artigos sobre prevenção, rotina e bem-estar, com referências e revisão clínica da Dra. Fernanda Teo.</p></div><nav class="tema-chips" aria-label="Filtrar por tema"><a class="tema-chip" href="/blog/" data-tema="" >Todos <span>13</span></a><a class="tema-chip" href="/blog/?tema=prevencao-e-vacinas" data-tema="prevencao-e-vacinas">Prevenção e vacinas <span>5</span></a><a class="tema-chip" href="/blog/?tema=clima-e-estacoes" data-tema="clima-e-estacoes">Clima e estações <span>3</span></a><a class="tema-chip" href="/blog/?tema=saude-no-dia-a-dia" data-tema="saude-no-dia-a-dia">Saúde no dia a dia <span>3</span></a><a class="tema-chip" href="/blog/?tema=comportamento" data-tema="comportamento">Comportamento e bem-estar <span>1</span></a><a class="tema-chip" href="/blog/?tema=viagem" data-tema="viagem">Viagem com pets <span>1</span></a></nav><div class="article-grid article-grid--3"><article class="article-card" data-tema="prevencao-e-vacinas"><div class="article-card-visual"><img src="blog/assets/vacinacao-caes-gatos-protocolo.webp" alt="Médico-veterinário de luvas aplicando vacina em um gato" width="1600" height="1067" loading="lazy" decoding="async"></div><div class="article-card-content"><p class="article-kicker">Prevenção e vacinas</p><h3>Vacinação de cães e gatos: o que confirmar com a médica-veterinária</h3><p>Como funciona o protocolo do filhote, os reforços em adultos e por que vacinar em casa faz diferença.</p><a class="article-card-link" href="blog/vacinacao-caes-gatos-protocolo/">Ler conteúdo <span aria-hidden="true">→</span></a></div></article><article class="article-card" data-tema="prevencao-e-vacinas"><div class="article-card-visual"><img src="blog/assets/checkup-veterinario-frequencia-ideal.webp" alt="Médico-veterinário examinando um cão sobre a mesa de atendimento" width="1600" height="1067" loading="lazy" decoding="async"></div><div class="article-card-content"><p class="article-kicker">Prevenção e vacinas</p><h3>Check-up veterinário: com que frequência levar (ou chamar) o veterinário</h3><p>Por que pets sênior precisam de duas avaliações por ano, e o que muda no exame de um pet geriátrico.</p><a class="article-card-link" href="blog/checkup-veterinario-frequencia-ideal/">Ler conteúdo <span aria-hidden="true">→</span></a></div></article><article class="article-card" data-tema="prevencao-e-vacinas"><div class="article-card-visual"><img src="blog/assets/vermifugacao-pulgas-carrapatos-prevencao.webp" alt="Tutor escovando o pelo de um cão em casa durante a rotina de cuidados" width="1600" height="1067" loading="lazy" decoding="async"></div><div class="article-card-content"><p class="article-kicker">Prevenção e vacinas</p><h3>Vermifugação, pulgas e carrapatos: por que a rotina de prevenção importa</h3><p>Por que a frequência ideal de prevenção varia de pet para pet — e por que "uma vez por ano" costuma não bastar.</p><a class="article-card-link" href="blog/vermifugacao-pulgas-carrapatos-prevencao/">Ler conteúdo <span aria-hidden="true">→</span></a></div></article></div><p class="home-artigos-link"><a class="btn-secundario" href="/blog/">Ver todos os artigos</a></p></div></section><!--/artigos-home-->
 
     <!-- ============================================================
          SEÇÃO SOBRE
