@@ -187,7 +187,7 @@ def blog_e_home(temas_por_slug):
     para_home = "".join(re.sub(r'(src|href)="(assets/|[a-z0-9-]+/")', r'\1="blog/\2', c) for c in recentes)
     home = RAIZ / "index.html"
     s = ler(home)
-    bloco = ('<section id="artigos" class="home-artigos" aria-label="Artigos para tutores"><div class="container">'
+    bloco = ('<section id="artigos" class="home-artigos" aria-label="Artigos recentes"><div class="container">'
              '<div class="blog-intro"><div><p class="blog-section-label">' + h(CFG["home"]["rotulo"]) + '</p>'
              '<h2>' + h(CFG["home"]["titulo"]) + '</h2></div><p>' + h(CFG["home"]["texto"]) + '</p></div>'
              + chips(total, contagem).replace('aria-current="true"', "")
