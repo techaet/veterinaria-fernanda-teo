@@ -7,7 +7,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sincronizar as sync
-DOMINIO = "https://veterinaria.aetsolidez.com.br"
+DOMINIO = "https://www.fernandateo.vet.br"
 CRMV = "CRMV/SC 5669"
 WHATS = "5548999690448"
 BAIRROS = ["Campeche", "Morro das Pedras", "Rio Tavares", "Lagoa da Conceição"]
