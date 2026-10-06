@@ -71,7 +71,7 @@ jobs:
           git push origin main
           git push origin --delete "$BRANCH"
           gh workflow run deploy.yml --ref main
-          gh issue close "$ISSUE" --comment "✅ Publicado. No ar em cerca de 1 minuto: https://veterinaria.aetsolidez.com.br/blog/$SLUG/"
+          gh issue close "$ISSUE" --comment "✅ Publicado. No ar em cerca de 1 minuto: https://www.fernandateo.vet.br/blog/$SLUG/"
 
       - name: Excluir
         if: steps.d.outputs.acao == 'excluir'

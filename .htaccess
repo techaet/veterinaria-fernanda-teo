@@ -1,1 +1,7 @@
 ErrorDocument 404 /404.html
+
+# Domínio antigo e sem-www -> https://www.fernandateo.vet.br (301)
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^veterinaria\.aetsolidez\.com\.br$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^fernandateo\.vet\.br$ [NC]
+RewriteRule ^(.*)$ https://www.fernandateo.vet.br/$1 [R=301,L]

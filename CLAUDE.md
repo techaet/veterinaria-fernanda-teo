@@ -1,6 +1,6 @@
 # Site Dra. Fernanda Teo — Veterinária Domiciliar
 
-Site estático (HTML/CSS/JS puro, sem build) em `https://veterinaria.aetsolidez.com.br`. Marca administrada pela Tech AET Solidez. Escreva tudo em português do Brasil.
+Site estático (HTML/CSS/JS puro, sem build) em `https://www.fernandateo.vet.br`. Marca administrada pela Tech AET Solidez. Escreva tudo em português do Brasil.
 
 ## Perguntas ao usuário
 

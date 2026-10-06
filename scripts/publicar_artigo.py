@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sincronizar
 
 RAIZ = Path(__file__).resolve().parent.parent
-BASE = "https://veterinaria.aetsolidez.com.br"
+BASE = "https://www.fernandateo.vet.br"
 
 
 def campo(s, padrao):

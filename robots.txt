@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://veterinaria.aetsolidez.com.br/sitemap.xml
+Sitemap: https://www.fernandateo.vet.br/sitemap.xml
