@@ -47,7 +47,7 @@ def main(slug):
         card = (f'<article class="article-card"><div class="article-card-visual"><img src="assets/{slug}.webp" alt="{alt}" width="{w}" height="{h_}" loading="lazy" decoding="async"></div>'
                 f'<div class="article-card-content"><p class="article-kicker">{h(kicker)}</p><h3>{h(titulo)}</h3><p>{h(descricao)}</p>'
                 f'<a class="article-card-link" href="{slug}/">Ler conteúdo <span aria-hidden="true">→</span></a></div></article>\n        ')
-        t = t.replace('<article class="article-card">', card + '<article class="article-card">', 1)
+        t = re.sub(r'(id="lista-artigos">\s*)', lambda m: m.group(1) + card, t, count=1)  # no topo da lista, não nos destaques
         indice.write_text(t, encoding="utf-8")
 
     feed = RAIZ / "blog/feed.xml"
@@ -68,7 +68,7 @@ def main(slug):
         sitemap.write_text(t, encoding="utf-8")
 
     # "Leia também" recíproco: o novo artigo entra na lista dos artigos que ele indica
-    relacionados = re.search(r'class="article-related">(.*?)</section>', s, re.S).group(1)
+    relacionados = re.search(r'class="article-related"[^>]*>(.*?)</section>', s, re.S).group(1)
     for rel in re.findall(r'href="\.\./([a-z0-9-]+)/"', relacionados):
         p = RAIZ / "blog" / rel / "index.html"
         if not p.exists():
