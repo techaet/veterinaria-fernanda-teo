@@ -1,6 +1,6 @@
 name: Artigo para revisão
 
-# Rascunho enviado para um branch artigo/<slug> → abre uma issue que chega por e-mail.
+# Rascunho enviado para um branch artigo/<slug> → abre uma issue e avisa no Telegram.
 on:
   push:
     branches: ['artigo/**']
@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Pedir revisão por e-mail
+      - name: Pedir revisão
         env:
           GH_TOKEN: ${{ github.token }}
           BRANCH: ${{ github.ref_name }}
@@ -41,7 +41,7 @@ jobs:
           fi
 
           cat > corpo.md <<EOF
-          @LSFcamp novo artigo para revisão ($idioma).
+          Novo artigo para revisão ($idioma).
 
           ### $titulo
           $descricao
@@ -51,7 +51,7 @@ jobs:
           **Pontos para conferir com a Dra. Fernanda:**
           $notas
 
-          **Responda este e-mail com uma palavra na primeira linha:**
+          **Decisão pelo Telegram (botões na mensagem do bot) ou comentando aqui:**
           - **PUBLICAR**: vai ao ar em cerca de 1 minuto
           - **EXCLUIR**: descarta o rascunho
 
