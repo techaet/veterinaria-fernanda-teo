@@ -20,6 +20,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           BRANCH: ${{ github.ref_name }}
           PREVIA: https://raw.githack.com/${{ github.repository }}/${{ github.sha }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
         run: |
           slug="${BRANCH#artigo/}"
           f="blog/$slug/index.html"
@@ -55,4 +57,15 @@ jobs:
 
           Rascunho: \`$BRANCH\`
           EOF
-          gh issue create --title "Revisar artigo: $titulo" --label artigo --body-file corpo.md
+          url=$(gh issue create --title "Revisar artigo: $titulo" --label artigo --body-file corpo.md)
+          num="${url##*/}"
+
+          # Aviso no Telegram com botões (opcional: só se os secrets existirem)
+          if [ -n "$TELEGRAM_TOKEN" ] && [ -n "$TELEGRAM_CHAT_IDS" ]; then
+            texto=$(printf 'Novo artigo para revisão\n\n%s\n\nPrévia: %s\n\nPontos para conferir:\n%s' "$titulo" "$link" "$notas")
+            for chat in ${TELEGRAM_CHAT_IDS//,/ }; do
+              curl -s "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
+                --data-urlencode "chat_id=$chat" --data-urlencode "text=$texto" \
+                --data-urlencode "reply_markup={\"inline_keyboard\":[[{\"text\":\"✅ Publicar\",\"callback_data\":\"publicar:$num\"},{\"text\":\"🗑️ Excluir\",\"callback_data\":\"excluir:$num\"}]]}" || true
+            done
+          fi
