@@ -1,6 +1,6 @@
 name: Artigo para revisão
 
-# Rascunho enviado para um branch artigo/<slug> → abre uma issue que chega por e-mail.
+# Rascunho enviado para um branch artigo/<slug> → abre uma issue e avisa no Telegram.
 on:
   push:
     branches: ['artigo/**']
@@ -15,11 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Pedir revisão por e-mail
+      - name: Pedir revisão
         env:
           GH_TOKEN: ${{ github.token }}
           BRANCH: ${{ github.ref_name }}
           PREVIA: https://raw.githack.com/${{ github.repository }}/${{ github.sha }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
         run: |
           slug="${BRANCH#artigo/}"
           f="blog/$slug/index.html"
@@ -39,7 +41,7 @@ jobs:
           fi
 
           cat > corpo.md <<EOF
-          @LSFcamp novo artigo para revisão ($idioma).
+          Novo artigo para revisão ($idioma).
 
           ### $titulo
           $descricao
@@ -49,10 +51,21 @@ jobs:
           **Pontos para conferir com a Dra. Fernanda:**
           $notas
 
-          **Responda este e-mail com uma palavra na primeira linha:**
+          **Decisão pelo Telegram (botões na mensagem do bot) ou comentando aqui:**
           - **PUBLICAR**: vai ao ar em cerca de 1 minuto
           - **EXCLUIR**: descarta o rascunho
 
           Rascunho: \`$BRANCH\`
           EOF
-          gh issue create --title "Revisar artigo: $titulo" --label artigo --body-file corpo.md
+          url=$(gh issue create --title "Revisar artigo: $titulo" --label artigo --body-file corpo.md)
+          num="${url##*/}"
+
+          # Aviso no Telegram com botões (opcional: só se os secrets existirem)
+          if [ -n "$TELEGRAM_TOKEN" ] && [ -n "$TELEGRAM_CHAT_IDS" ]; then
+            texto=$(printf 'Novo artigo para revisão\n\n%s\n\nPrévia: %s\n\nPontos para conferir:\n%s' "$titulo" "$link" "$notas")
+            for chat in ${TELEGRAM_CHAT_IDS//,/ }; do
+              curl -s "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
+                --data-urlencode "chat_id=$chat" --data-urlencode "text=$texto" \
+                --data-urlencode "reply_markup={\"inline_keyboard\":[[{\"text\":\"✅ Publicar\",\"callback_data\":\"publicar:$num\"},{\"text\":\"🗑️ Excluir\",\"callback_data\":\"excluir:$num\"}]]}" || true
+            done
+          fi
