@@ -11,3 +11,9 @@ Fluxo: push em `artigo/**` → `artigo-revisao.yml` abre a issue **e** manda men
 5. Secrets do GitHub (Settings → Secrets → Actions): `TELEGRAM_TOKEN` e `TELEGRAM_CHAT_IDS` (os mesmos IDs, separados por vírgula).
 
 Sem os secrets do GitHub, o passo do Telegram é pulado e tudo segue só por e-mail.
+
+## Estado atual (configurado em 12/10/2026)
+- Bot: `@art_dra_fernanda_bot`. Worker: `https://aprovacao-artigos.tech-aetsolidez.workers.dev/`.
+- `GITHUB_TOKEN` da Worker: PAT fine-grained da conta techaet, só este repositório, Issues read/write, sem expiração.
+- Aprovadores (`ALLOWED_IDS`): Leonardo e Dra. Fernanda. O aviso por e-mail foi removido.
+- Se os botões pararem: confira o token (permissão/revogação), os secrets `TELEGRAM_TOKEN`/`TELEGRAM_CHAT_IDS` no GitHub e as variáveis da Worker.

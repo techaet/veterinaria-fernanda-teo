@@ -31,6 +31,7 @@ Arquivos internos (este, `regras-compliance.md`, `scripts/`, `.claude/`, `incorp
 | `scripts/nav.html` | Menu de todas as páginas (o `sincronizar.py` o espalha) |
 | `scripts/sincronizar.py` | Gera o que se repete: menu, `<head>` padrão, tema/byline/caixa da autora nos artigos, chips e cards do blog, "Últimos artigos" da home. **Não edite à mão** esses trechos |
 | `scripts/instagram.py` + `.github/workflows/instagram-sync.yml` | Todo dia 08h (Brasília) busca os 2 posts mais recentes na API oficial do Instagram e reescreve o bloco entre `<!--instagram-posts-->` da home; só publica se mudou. Secrets do GitHub: `INSTAGRAM_TOKEN` (e `INSTAGRAM_USER_ID` só se o token for do login do Facebook). O token vence em 60 dias, a rotina o renova e falha avisando quando faltam <10 dias. Manual: `python3 scripts/instagram.py <link1> <link2>` |
+| `scripts/telegram-worker/` | Worker da Cloudflare + passo a passo da aprovação pelo Telegram (interno, no `exclude` do deploy) |
 | `pagefind/` | Índice de busca gerado no deploy (não versionado). Busca em `<pagefind-modal-trigger>` no menu |
 | `guia-cuidados-pele-pet.html` | Guia/isca digital (HTML autocontido) |
 | `privacidade.html`, `404.html` | Política de privacidade e página de erro |
@@ -51,12 +52,16 @@ Analytics: GA4 `G-V1JL02NC6J` — todo HTML novo leva o snippet `gtag` no `<head
 
 **Aprovação clínica:** todo artigo de saúde precisa do OK da Dra. Fernanda antes de ir para a `main`. Status de revisão fica na conversa/issue, **nunca** no HTML (já vazou antes).
 
-### Aprovação por e-mail (mesmo fluxo da pousada)
+### Aprovação pelo Telegram
 
 - Rascunho = branch `artigo/<slug>` com **só** `blog/<slug>/` + `blog/assets/<slug>.webp` (sem mexer em `blog/index.html`, `feed.xml`, `sitemap.xml`). Pontos de atenção clínica vão no corpo da mensagem do commit.
 - Validar antes do push: `python3 scripts/publicar_artigo.py <slug> && python3 scripts/verificar.py`, depois `git checkout -- blog sitemap.xml` (o script também edita o "Leia também" de outros artigos).
-- Push em `artigo/**` → `artigo-revisao.yml` abre issue (label `artigo`) mencionando @LSFcamp → e-mail com prévia (raw.githack) e os pontos clínicos.
-- Leonardo confere com a Dra. e responde `PUBLICAR` ou `EXCLUIR` → `artigo-decisao.yml`: merge + `publicar_artigo.py` (card, feed, sitemap, "Leia também" recíproco, datas = hoje) + `verificar.py` + push na main + dispara `deploy.yml`.
+- Corte a branch da `main` **atual**: o workflow que roda é o da própria branch.
+- Push em `artigo/**` → `artigo-revisao.yml` abre issue (label `artigo`, sem e-mail) e manda mensagem no Telegram (bot `@art_dra_fernanda_bot`) para Leonardo e Dra. Fernanda, com prévia (raw.githack), pontos clínicos e botões **Publicar**/**Excluir**.
+- O toque chega à Worker da Cloudflare (`scripts/telegram-worker/`), que comenta `PUBLICAR`/`EXCLUIR` na issue com o token da conta techaet → `artigo-decisao.yml`: merge + `publicar_artigo.py` (card, feed, sitemap, "Leia também" recíproco, datas = hoje) + `verificar.py` + push na main + `deploy.yml`. Comentar direto na issue também funciona.
+- Toque uma vez só (o toque duplo gera dois comandos; o segundo falha sem dano). Só os IDs em `ALLOWED_IDS` da Worker aprovam.
+- Reenviar o aviso de uma branch já existente: fechar a issue aberta, dar merge da `main` na branch (com os pontos clínicos no corpo do commit) e push.
+- Setup, secrets e cuidados: `scripts/telegram-worker/LEIA-ME.md`. Não use o bot da agenda (já tem webhook no Manus). O token `GITHUB_TOKEN` da Worker não expira; se for revogado, os botões param sem aviso.
 
 ## Novo guia (isca digital)
 
