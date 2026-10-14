@@ -16,7 +16,7 @@ A atualização aplica o símbolo **Cuidado em casa** e a hero editorial escolhi
 
 ## Procedimento recomendado
 
-Envie os arquivos preservando exatamente a estrutura de pastas do pacote. Antes de substituir, faça backup dos cinco arquivos HTML/CSS existentes. Depois do envio, atualize a página `https://veterinaria.aetsolidez.com.br/blog/` com recarga forçada para evitar que o navegador exiba uma versão em cache.
+Envie os arquivos preservando exatamente a estrutura de pastas do pacote. Antes de substituir, faça backup dos cinco arquivos HTML/CSS existentes. Depois do envio, atualize a página `https://www.fernandateo.vet.br/blog/` com recarga forçada para evitar que o navegador exiba uma versão em cache.
 
 ## Validação local
 
