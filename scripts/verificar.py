@@ -2,6 +2,7 @@
 """Verifica o site antes do deploy. Uso: python3 scripts/verificar.py
 Sai com código 1 se houver erro (o deploy no GitHub Actions para)."""
 import html, json, re, sys
+from urllib.parse import unquote, urldefrag
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -32,6 +33,23 @@ sitemap = (RAIZ / "sitemap.xml").read_text(encoding="utf-8")
 feed = (RAIZ / "blog/feed.xml").read_text(encoding="utf-8")
 indice_blog = (RAIZ / "blog/index.html").read_text(encoding="utf-8")
 
+def destino(p, href):
+    """Arquivo local a que um href interno aponta (None se externo/ignorado)."""
+    href = urldefrag(unquote(href.strip()))[0]
+    if not href or re.match(r"(?:[a-z][a-z0-9+.-]*:|//)", href, re.I):
+        return None
+    alvo = (RAIZ / href.split("?")[0].lstrip("/")) if href.startswith("/") else (p.parent / href.split("?")[0])
+    return alvo / "index.html" if alvo.is_dir() else alvo
+
+def ancoras(arquivo):
+    return set(re.findall(r'\sid=["\']([^"\']+)', arquivo.read_text(encoding="utf-8")))
+
+linkadas = set()
+for p in paginas:
+    s = p.read_text(encoding="utf-8")
+    for href in re.findall(r'<a\s[^>]*?href=["\']([^"\']+)', s):
+        if (d := destino(p, href)) and d.suffix == ".html" and d.exists():
+            linkadas.add(d.resolve())
 for p in paginas:
     s = p.read_text(encoding="utf-8")
     visivel = texto_visivel(s)
@@ -41,6 +59,31 @@ for p in paginas:
         erro(p, "sem o menu padrão (ou desatualizado) — rode python3 scripts/sincronizar.py")
     if sync.versionar_css(p, s) != s:
         erro(p, "?v= dos CSS desatualizado — rode python3 scripts/sincronizar.py")
+    rel = p.relative_to(RAIZ).as_posix()
+    url_pag = DOMINIO + "/" + re.sub(r"index\.html$", "", rel)
+    if re.search(r'<meta[^>]+name=["\']robots["\'][^>]*noindex', s, re.I) and f"<loc>{url_pag}</loc>" in sitemap:
+        erro(p, "tem noindex mas está no sitemap.xml")
+    if rel not in ("404.html",) and f"<loc>{url_pag}</loc>" not in sitemap and not re.search(r"noindex", s, re.I):
+        erro(p, "página pública fora do sitemap.xml (ou adicione noindex se for privada)")
+    sem_scripts = re.sub(r"<script.*?</script>|<style.*?</style>", "", s, flags=re.S)
+    if len(re.findall(r"<h1[\s>]", sem_scripts)) != 1:
+        erro(p, f"deve ter exatamente 1 <h1> (tem {len(re.findall(r'<h1[\s>]', sem_scripts))})")
+    nivel = 1  # o 1º heading tem de ser h1; depois nenhum pode pular nível
+    for n in map(int, re.findall(r"<h([1-6])[\s>]", sem_scripts)):
+        if n > nivel + 1:
+            erro(p, f"heading pula nível: h{nivel} → h{n}")
+            break
+        nivel = n
+    for tag in re.findall(r"<img\b[^>]*>", sem_scripts):
+        if not re.search(r"\salt=", tag):
+            erro(p, f"<img> sem alt: {tag[:80]}")
+    for href in re.findall(r'<(?:a|link)\s[^>]*?href=["\']([^"\']+)', sem_scripts):
+        if (d := destino(p, href)) is None:
+            continue
+        if not d.exists():
+            erro(p, f"link interno quebrado: {href}")
+        elif "#" in href and d.suffix == ".html" and urldefrag(href)[1] not in ancoras(d):
+            erro(p, f"âncora inexistente: {href}")
     if "CRMV" in s and CRMV not in s:
         erro(p, f"CRMV fora do padrão (esperado {CRMV})")
     for num in re.findall(r"wa\.me/(\d+)", s):
@@ -65,6 +108,10 @@ for p in paginas:
 for a in artigos:
     s = a.read_text(encoding="utf-8")
     slug = a.parent.name
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+        erro(a, f"slug fora do padrão (minúsculas, sem acento, hífens): {slug}")
+    if a.resolve() not in linkadas:
+        erro(a, "artigo órfão: nenhuma página linka para ele")
     url = f"{DOMINIO}/blog/{slug}/"
     if 'class="article-safety"' not in s:
         erro(a, "falta o aviso aside.article-safety")
