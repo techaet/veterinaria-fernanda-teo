@@ -41,13 +41,3 @@ jobs:
             **/scripts/**
             **/incorporacao-agenda-vet/**
             **/.DS_Store
-
-      - name: Reenviar o sitemap ao Google Search Console
-        # Não derruba o deploy se falhar; sem o secret, o script apenas pula
-        continue-on-error: true
-        env:
-          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
-          GSC_SITE: ${{ vars.GSC_SITE }}
-        run: |
-          pip install --quiet google-auth requests
-          python3 scripts/enviar_sitemap.py
