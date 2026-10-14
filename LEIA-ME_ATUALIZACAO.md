@@ -2,7 +2,7 @@
 
 Este pacote atualiza localmente a identidade visual aprovada da **Dra. Fernanda Teo** e unifica o cabeçalho da home, da página de Conteúdos e do artigo já existente. Ele foi validado por servidor HTTP local em desktop e em celular antes de ser empacotado.
 
-> **Importante:** extraia o conteúdo deste ZIP na **raiz do site** `veterinaria.aetsolidez.com.br`. Não envie a pasta inteira para dentro de `/blog/`.
+> **Importante:** extraia o conteúdo deste ZIP na **raiz do site** `www.fernandateo.vet.br`. Não envie a pasta inteira para dentro de `/blog/`.
 
 | Arquivo ou pasta | Finalidade |
 |---|---|
