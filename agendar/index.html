@@ -30,7 +30,7 @@
   <link rel="preload" href="/fonts/poppins-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/fonts/fonts.css?v=5b1241b0">
   <link rel="preconnect" href="https://vetplatform-alf9ll8o.manus.space">
-  <link rel="stylesheet" href="/style.css?v=933d83ce">
+  <link rel="stylesheet" href="/style.css?v=08c278fa">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -94,13 +94,34 @@
         </div>
       </div>
     </section>
+    <section class="agenda-info" aria-label="Sobre o atendimento">
+      <div class="container">
+        <h2>Consulta veterinária em casa, em Florianópolis</h2>
+        <p>A Dra. Fernanda Teo (CRMV/SC 5669) atende cães e gatos no conforto da casa do tutor, no Campeche, Morro das Pedras, Rio Tavares e Lagoa da Conceição. Sem deslocamento e sem sala de espera, o pet fica no ambiente que conhece e a consulta acontece com calma.</p>
+        <h3>Como agendar</h3>
+        <ol>
+          <li>Na agenda acima, escolha a modalidade, a data e o horário.</li>
+          <li>Preencha os dados do tutor, do pet e o endereço do atendimento.</li>
+          <li>Envie a solicitação. Se preferir, fale direto pelo <a href="https://wa.me/5548999690448?text=Ol%C3%A1%20Dra.%20Fernanda%2C%20gostaria%20de%20agendar%20uma%20consulta!" target="_blank" rel="noopener noreferrer">WhatsApp (48) 99969-0448</a>.</li>
+        </ol>
+        <h3>O que a Dra. Fernanda atende</h3>
+        <ul>
+          <li>Consultas veterinárias domiciliares para cães e gatos.</li>
+          <li>Vacinas, com orientação sobre calendário vacinal e controle de parasitas.</li>
+          <li>Documentos para viagens internacionais com pets.</li>
+        </ul>
+        <h3>Valor</h3>
+        <p>A consulta custa R$ 250,00, podendo haver taxa extra dependendo do local e do horário do atendimento.</p>
+        <p>Quer saber mais antes de agendar? Leia os <a href="/blog/">artigos do blog</a> ou conheça a <a href="/dra-fernanda-teo/">Dra. Fernanda Teo</a>.</p>
+      </div>
+    </section>
   </main>
   <script>
     /* Celular: vai direto para a agenda em tela cheia, sem passar por esta página.
        Sem JavaScript (ou no computador) a página continua funcionando normalmente. */
     (function () {
       try {
-        if (window.matchMedia('(max-width: 768px)').matches) {
+        if (window.matchMedia('(max-width: 768px)').matches && !/bot|crawl|spider|lighthouse/i.test(navigator.userAgent)) {
           window.location.replace('https://vetplatform-alf9ll8o.manus.space/agendar/dra-fernanda-teo');
         }
       } catch (e) {}

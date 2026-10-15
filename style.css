@@ -1583,3 +1583,12 @@ body.agenda-page .agenda-embed { padding-top: 100px; }
 .autor-links h2 { font-family: var(--fonte-titulo); font-size: 1.6rem; }
 .autor-links p { margin: 10px 0 22px; color: var(--cor-texto-suave); }
 .autor-links .btn-secundario, .autor-links .btn-whatsapp { margin: 0 6px 10px; }
+
+/* Texto da página /agendar/ (conteúdo indexável ao lado do iframe) */
+.agenda-info { padding: 8px 0 72px; }
+.agenda-info .container { max-width: 760px; }
+.agenda-info h2 { font-family: var(--fonte-titulo); font-size: 1.6rem; margin-bottom: 12px; color: var(--cor-texto); }
+.agenda-info h3 { font-size: 1.1rem; margin: 24px 0 8px; color: var(--cor-texto); }
+.agenda-info p, .agenda-info li { color: var(--cor-texto-suave); line-height: 1.7; }
+.agenda-info ol, .agenda-info ul { padding-left: 1.3em; }
+.agenda-info a { color: inherit; text-decoration: underline; }
