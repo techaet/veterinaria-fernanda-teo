@@ -55,6 +55,9 @@
     "privacidade.html"
   ],
   "sem_menu": [
-    "guia-cuidados-pele-pet.html"
+    "guia-cuidados-pele-pet.html",
+    "isca/checklist-dor-caes/index.html",
+    "isca/checklist-coceira-caes/index.html",
+    "isca/calendario-vacinas-caes/index.html"
   ]
 }
