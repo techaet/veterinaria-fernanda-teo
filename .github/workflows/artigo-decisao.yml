@@ -85,3 +85,35 @@ jobs:
         if: failure()
         run: |
           gh issue comment "$ISSUE" --body "❌ Não consegui concluir. Nada foi ao ar. Detalhes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      # Resposta no Telegram para quem apertou o botão (sucesso ou falha)
+      - name: Avisar no Telegram
+        if: always() && steps.d.outputs.acao != 'nada'
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+          ACAO: ${{ steps.d.outputs.acao }}
+          SLUG: ${{ steps.d.outputs.slug }}
+          OK: ${{ job.status == 'success' }}
+          TITULO: ${{ github.event.issue.title }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          [ -n "$TELEGRAM_TOKEN" ] && [ -n "$TELEGRAM_CHAT_IDS" ] || exit 0
+          if [ "$OK" = "true" ] && [ "$ACAO" = "publicar" ]; then
+            texto=$(printf '✅ Publicado: %s
+
+No ar em cerca de 1 minuto:
+https://www.fernandateo.vet.br/blog/%s/' "${TITULO#Revisar artigo: }" "$SLUG")
+          elif [ "$OK" = "true" ]; then
+            texto=$(printf '🗑️ Rascunho excluído: %s
+
+Nada foi publicado.' "${TITULO#Revisar artigo: }")
+          else
+            texto=$(printf '❌ Não consegui concluir (%s): %s
+
+Nada foi ao ar. Detalhes: %s' "$ACAO" "${TITULO#Revisar artigo: }" "$RUN_URL")
+          fi
+          for chat in ${TELEGRAM_CHAT_IDS//,/ }; do
+            curl -s "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
+              --data-urlencode "chat_id=$chat" --data-urlencode "text=$texto" >/dev/null || true
+          done

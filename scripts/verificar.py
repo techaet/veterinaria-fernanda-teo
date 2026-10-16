@@ -38,6 +38,8 @@ def destino(p, href):
     href = urldefrag(unquote(href.strip()))[0]
     if not href or re.match(r"(?:[a-z][a-z0-9+.-]*:|//)", href, re.I):
         return None
+    if href.startswith("/pagefind/"):  # índice de busca: gerado no deploy, não está no repositório
+        return None
     alvo = (RAIZ / href.split("?")[0].lstrip("/")) if href.startswith("/") else (p.parent / href.split("?")[0])
     return alvo / "index.html" if alvo.is_dir() else alvo
 
