@@ -99,19 +99,13 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           [ -n "$TELEGRAM_TOKEN" ] && [ -n "$TELEGRAM_CHAT_IDS" ] || exit 0
+          titulo="${TITULO#Revisar artigo: }"
           if [ "$OK" = "true" ] && [ "$ACAO" = "publicar" ]; then
-            texto=$(printf '✅ Publicado: %s
-
-No ar em cerca de 1 minuto:
-https://www.fernandateo.vet.br/blog/%s/' "${TITULO#Revisar artigo: }" "$SLUG")
+            texto=$(printf '✅ Publicado: %s\n\nNo ar em cerca de 1 minuto:\nhttps://www.fernandateo.vet.br/blog/%s/' "$titulo" "$SLUG")
           elif [ "$OK" = "true" ]; then
-            texto=$(printf '🗑️ Rascunho excluído: %s
-
-Nada foi publicado.' "${TITULO#Revisar artigo: }")
+            texto=$(printf '🗑️ Rascunho excluído: %s\n\nNada foi publicado.' "$titulo")
           else
-            texto=$(printf '❌ Não consegui concluir (%s): %s
-
-Nada foi ao ar. Detalhes: %s' "$ACAO" "${TITULO#Revisar artigo: }" "$RUN_URL")
+            texto=$(printf '❌ Não consegui concluir (%s): %s\n\nNada foi ao ar. Detalhes: %s' "$ACAO" "$titulo" "$RUN_URL")
           fi
           for chat in ${TELEGRAM_CHAT_IDS//,/ }; do
             curl -s "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
