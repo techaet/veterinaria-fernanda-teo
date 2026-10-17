@@ -13,9 +13,12 @@ Estes valores devem aparecer **de forma idêntica** em toda página pública (ho
 | CRMV | `CRMV/SC 5669` |
 | WhatsApp | `(48) 99969-0448` → link `https://wa.me/5548999690448` |
 | Áreas de atendimento | Campeche, Morro das Pedras, Rio Tavares e Lagoa da Conceição |
+| Experiência | mais de 14 anos de experiência clínica (atendimento a cães e gatos) |
 | Valor da consulta | R$ 250,00 — podendo haver taxa extra dependendo do local e do horário do atendimento |
 
 **Nota sobre as áreas de atendimento:** em 2026-10-04 todas as páginas foram alinhadas aos quatro bairros. O `scripts/verificar.py` acusa erro se alguma página citar só parte da lista.
+
+**Nota sobre a experiência:** a formulação canônica é "mais de 14 anos de experiência" (já usada nas iscas em `isca/`). Escrever "mais de", nunca só "14 anos", para não envelhecer. Revisar o número quando a Dra. Fernanda completar o próximo ano.
 
 **Nota sobre o preço:** até 2026-09-07, nenhuma página do site menciona o valor da consulta. Se/quando um texto passar a citar preço, ele deve usar exatamente o valor acima — não um número aproximado, arredondado ou extraído de memória.
 
@@ -28,6 +31,15 @@ Nenhum texto publicado (institucional, blog ou guia) pode conter:
 - **Promessa de cura de alergia** (ou de qualquer condição crônica sem cura definitiva) — o texto pode falar em controle e qualidade de vida, nunca em cura.
 - **Triagem de urgência** — o blog não deve orientar o tutor a decidir sozinho se um caso é grave; sempre direcionar para avaliação profissional (presencial ou WhatsApp) quando houver sinal de alerta.
 - **Substituição da consulta** — todo artigo de conteúdo clínico deve deixar claro, de forma visível (ex. `aside.article-safety`), que o texto é educativo e não substitui avaliação individual.
+
+### Ênfase na experiência (diretriz de tom)
+
+Os 14 anos de atendimento são um diferencial raro: não se conquistam do dia para a noite. Sempre que o texto abrir espaço, mencione a experiência de forma natural, ligada ao que ela traz ao tutor (calma na consulta, olhar clínico, histórico de casos) e não como propaganda:
+
+- **Onde destacar:** home (hero e "Sobre"), página da autora, caixa "Sobre a autora" dos artigos, `agendar/`, CTAs de WhatsApp, iscas/guias, descrição do WhatsApp Business, Instagram e Reels.
+- **Como escrever:** fatos concretos ("mais de 14 anos atendendo cães e gatos") em vez de adjetivos ("a melhor", "a mais experiente").
+- **Limites (CFMV e §2):** não usar superlativo nem comparação com outros profissionais, não prometer resultado e não usar a experiência como argumento para dispensar a avaliação individual.
+- **Sem forçar:** em texto técnico curto (ex. resposta de FAQ) a menção pode ficar de fora. Uma vez por página basta; repetir demais enfraquece.
 
 ## 3. Processo editorial
 
@@ -46,6 +58,7 @@ Nenhum texto publicado (institucional, blog ou guia) pode conter:
 ## 5. Checklist rápido por artigo/página
 
 - [ ] CRMV, WhatsApp, áreas de atendimento e (se citado) preço batem com a tabela da seção 1, exatamente.
+- [ ] A experiência ("mais de 14 anos") aparece quando couber, sem superlativo, e bate com a tabela da seção 1.
 - [ ] Nenhum diagnóstico específico, nome de medicamento, dose ou promessa de cura.
 - [ ] Aviso de "conteúdo educativo / não substitui consulta" presente e visível.
 - [ ] Nenhum texto de status editorial visível no HTML.
