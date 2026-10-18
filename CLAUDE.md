@@ -42,7 +42,7 @@ Analytics: GA4 `G-V1JL02NC6J` — todo HTML novo leva o snippet `gtag` no `<head
 ## Novo artigo do blog
 
 1. **Texto:** use a skill `criar-artigo-blog` (ela lê a identidade da marca na pasta da Dra. Fernanda Teo em "Negócios AET" no Google Drive). Respeite `regras-compliance.md` §2.
-2. **HTML:** copie um artigo existente como molde (ex. `blog/checkup-veterinario-frequencia-ideal/index.html`) para `blog/<slug>/index.html`. Mantenha a ordem: breadcrumb → `article-meta` → h1 → imagem → `article-lead` → `aside.article-safety` → sumário → corpo → FAQ → "Leia também" → CTA WhatsApp → Referências.
+2. **HTML:** copie um artigo existente como molde (ex. `blog/checkup-veterinario-frequencia-ideal/index.html`) para `blog/<slug>/index.html`. Mantenha a ordem: breadcrumb → `article-meta` → h1 → imagem → `article-lead` → `aside.article-safety` → sumário → corpo → FAQ → "Leia também" → CTA de agendamento (`/agendar/`) → Referências.
 3. **Tema:** o 1º `<span>` de `article-meta` é um tema de `scripts/site.json` (o 2º é o subtópico livre). Sem tema válido, o `sincronizar.py` recusa.
 3. **No `<head>`:** title, description, canonical, og:*, e os 3 JSON-LD (`Article` com `dateModified`, `BreadcrumbList`, `FAQPage`). FAQ do schema = texto visível, palavra por palavra.
 4. **Imagem:** `blog/assets/<slug>.webp`, 1600px de largura, ≤ 400 KB. Conversão: `python3 -c "from PIL import Image; im=Image.open('in.png').convert('RGB'); im.thumbnail((1600,1600)); im.save('blog/assets/<slug>.webp','WEBP',quality=80,method=6)"` (o `cwebp` desta máquina está quebrado). `width`/`height` no `<img>` = dimensões reais.
@@ -72,7 +72,7 @@ Use a skill `criar-guia-html`. Salve como `guia-<tema>.html` na raiz, com o snip
 - Slugs em minúsculas, sem acento, com hífens. URL do artigo termina em `/`.
 - Imagens sempre WebP em `blog/assets/` ou `images/`. Só a imagem acima da dobra leva `fetchpriority="high"`; o resto `loading="lazy"`.
 - Links externos: `target="_blank" rel="noopener noreferrer"`.
-- CTA de artigo → WhatsApp com mensagem pré-preenchida (`https://wa.me/5548999690448?text=...`). CTA do site → `/agendar/`.
+- Todo convite a agendar (CTA de artigo, do site, de isca/guia) → `/agendar/`, nunca WhatsApp (regra de 17/10/2026, `regras-compliance.md` §1). CTA de artigo: `<a class="btn-whatsapp btn-online" href="/agendar/">Agendar consulta</a><p class="agendar-alt">Dúvidas? <a href="https://wa.me/5548999690448" ...>Fale no WhatsApp</a></p>`. WhatsApp só para dúvidas e pós-consulta.
 - Pasta `incorporacao-agenda-vet/` é material de referência local, não versionar.
 
 ## SEO / lançamento / deploy técnico
