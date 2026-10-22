@@ -79,6 +79,9 @@ for p in paginas:
     for tag in re.findall(r"<img\b[^>]*>", sem_scripts):
         if not re.search(r"\salt=", tag):
             erro(p, f"<img> sem alt: {tag[:80]}")
+    for src in re.findall(r'<img\s[^>]*?src=["\']([^"\']+)', sem_scripts):
+        if (d := destino(p, src)) is not None and not d.exists():
+            erro(p, f"imagem quebrada: {src}")
     for href in re.findall(r'<(?:a|link)\s[^>]*?href=["\']([^"\']+)', sem_scripts):
         if (d := destino(p, href)) is None:
             continue

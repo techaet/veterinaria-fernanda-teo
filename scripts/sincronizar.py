@@ -127,13 +127,19 @@ def player(ep):
             f'<p class="pp-aviso">{h(CFG["podcast_aviso"])}</p></div>')
 
 
+def capa(slug):
+    """Imagem de capa do artigo (o nome do arquivo nem sempre é o slug)."""
+    m = re.search(r'class="article-feature-image"><img src="(?:\.\./)*(?:/blog/)?assets/([^"]+)"', ler(RAIZ / f"blog/{slug}/index.html"))
+    return f"/blog/assets/{m.group(1) if m else slug + '.webp'}"
+
+
 def podcasts():
     home = RAIZ / "index.html"
     bloco = ""
     if PODCASTS:
         ep = PODCASTS[0]
         bloco = ('<section id="podcast" class="home-podcast" aria-labelledby="podcast-titulo"><div class="container"><div class="home-podcast-grid">'
-                 f'<a class="home-podcast-foto" href="/blog/{ep["artigo"]}/"><img src="/blog/assets/{ep["artigo"]}.webp" alt="" width="1600" height="1060" loading="lazy" decoding="async"></a>'
+                 f'<a class="home-podcast-foto" href="/blog/{ep["artigo"]}/"><img src="{capa(ep["artigo"])}" alt="" width="1600" height="1060" loading="lazy" decoding="async"></a>'
                  '<div class="home-podcast-texto"><h2 id="podcast-titulo">Ouça os artigos da Dra. Fernanda.</h2>'
                  '<p class="home-podcast-sub">Conversas sobre a saúde do seu pet para ouvir no passeio, no carro ou em casa.</p>'
                  + player(ep) +
@@ -142,7 +148,7 @@ def podcasts():
     gravar(home, trocar_bloco(ler(home), "podcast-home", bloco))
 
     pagina_pod = RAIZ / "podcast/index.html"
-    eps = "".join(f'<article class="podcast-ep"><a class="podcast-ep-foto" href="/blog/{e["artigo"]}/"><img src="/blog/assets/{e["artigo"]}.webp" alt="" width="1600" height="1060" loading="lazy" decoding="async"></a>'
+    eps = "".join(f'<article class="podcast-ep"><a class="podcast-ep-foto" href="/blog/{e["artigo"]}/"><img src="{capa(e["artigo"])}" alt="" width="1600" height="1060" loading="lazy" decoding="async"></a>'
                   f'<div><p class="podcast-ep-data"><time datetime="{e["data"]}">{data_br(e["data"])}</time></p><h2>{h(e["titulo"])}</h2>'
                   f'{player(e)}<a class="article-card-link" href="/blog/{e["artigo"]}/">Ler o artigo <span aria-hidden="true">→</span></a></div></article>'
                   for e in PODCASTS)
