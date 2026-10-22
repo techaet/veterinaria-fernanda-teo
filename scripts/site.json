@@ -63,6 +63,12 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "ferias-com-pet-mala-documentos-destino",
+      "titulo": "Cuidados essenciais ao viajar com pets",
+      "data": "2026-10-22",
+      "duracao": "17 min"
+    },
+    {
       "artigo": "dor-cronica-caes-sinais-avaliacao",
       "titulo": "Sinais de dor silenciosa nos cães",
       "data": "2026-10-22",
