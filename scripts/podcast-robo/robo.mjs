@@ -51,10 +51,12 @@ function pendentes(estado) {
 }
 
 function publicar(slug, arquivo, titulo) {
+  if (!TESTE) git('pull', '-q', '--ff-only'); // a main pode ter mudado durante a rodada
   execFileSync('python3', [path.join(REPO, 'scripts/adicionar_podcast.py'), slug, arquivo, titulo], { stdio: 'inherit' });
   execFileSync('python3', [path.join(REPO, 'scripts/verificar.py')], { stdio: 'inherit' });
   git('add', '-A');
   git('-c', 'user.name=robo-podcast', '-c', 'user.email=tech.aetsolidez@gmail.com', 'commit', '-q', '-m', `Podcast: ${titulo} (${slug})`);
+  if (!TESTE) git('push', '-q', 'origin', 'main'); // na hora: deixa a main livre para outras mudanças
 }
 
 // ---------- Chrome / NotebookLM ----------
@@ -97,7 +99,11 @@ async function gerar(p, slug) {
   const idioma = await d.getByRole('combobox').first().innerText();
   if (!/portugu[eê]s \(Brasil\)/i.test(idioma)) throw new Error(`idioma do áudio é "${idioma}", esperado português (Brasil)`);
   const gerarJa = d.getByRole('button', { name: 'Gere agora mesmo' });
-  if (!(await gerarJa.isEnabled())) return 'limite';
+  // no limite de uso o botão some (fica só "Gerar mais tarde") ou vem desativado
+  if (!(await gerarJa.isVisible({ timeout: 10000 }).catch(() => false)) || !(await gerarJa.isEnabled())) {
+    await d.getByLabel('Fechar caixa de diálogo').click().catch(() => {});
+    return 'limite';
+  }
   await gerarJa.click();
   await p.getByText('Gerando Resumo em Áudio', { exact: false }).first().waitFor({ timeout: 30000 });
   return p.url().split('?')[0];
@@ -136,7 +142,7 @@ async function main() {
   const b = await conectar();
   const ctx = b.contexts()[0];
   const p = await ctx.newPage();
-  let novos = 0, publicados = 0;
+  let novos = 0;
   try {
     // 1. começa os novos
     if (!soConferir) {
@@ -169,12 +175,11 @@ async function main() {
             catch (e) { git('reset', '-q', '--hard'); git('clean', '-qfd', 'podcast', 'scripts'); throw e; } // desfaz o meio-publicado
             fs.rmSync(path.dirname(r.arquivo), { recursive: true, force: true }); // original já conferido no HD
             Object.assign(v, { status: 'publicado', titulo: r.titulo, em: new Date().toISOString() });
-            publicados++; log(`pronto ${slug}: "${r.titulo}"`);
+            log(`publicado ${slug}: "${r.titulo}"`);
           }
         } catch (e) { log(`falha ao conferir ${slug}: ${e.message.split('\n')[0]}`); }
         gravarEstado(estado);
       }
-      if (publicados && !TESTE) { git('push', '-q', 'origin', 'main'); log(`push: ${publicados} episódio(s) a caminho do site`); publicados = 0; }
       if (Date.now() - inicio > MAX_RODADA || !Object.values(estado).some(v => v.status === 'gerando')) break;
       await dorme(ESPERA_N);
     }
