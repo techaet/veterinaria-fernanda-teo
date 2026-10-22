@@ -3,7 +3,7 @@
 Uso: python3 scripts/sincronizar.py   (publicar_artigo.py já chama)
 Faz: menu em todas as páginas; <head> padrão; em cada artigo, tema, byline, caixa da autora,
 schema de autoria e marcação do Pagefind; no blog, chips de tema, "Comece por aqui" e data-tema
-nos cards; na home, o bloco "Últimos artigos"."""
+nos cards; na home, o bloco "Últimos artigos"; podcasts (player no artigo, bloco na home, /podcast/)."""
 import hashlib, html, json, re, sys
 from datetime import date
 from pathlib import Path
@@ -13,6 +13,8 @@ CFG = json.loads((RAIZ / "scripts/site.json").read_text(encoding="utf-8"))
 AUT = CFG["autora"]
 TEMAS = {t["nome"]: t["slug"] for t in CFG["temas"]}
 NOME_TEMA = {v: k for k, v in TEMAS.items()}
+PODCASTS = CFG.get("podcasts", [])  # do mais novo para o mais antigo; áudio em podcast/audio/<artigo>.mp3
+POD = {e["artigo"]: e for e in PODCASTS}
 MESES = "janeiro fevereiro março abril maio junho julho agosto setembro outubro novembro dezembro".split()
 
 h = lambda t: html.escape(t, quote=True)
@@ -66,7 +68,7 @@ def versionar_css(p, s):
 
 def paginas_publicas():
     return [p for p in RAIZ.glob("**/*.html")
-            if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", "node_modules", "pagefind", "scripts"))
+            if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", ".claude", "node_modules", "pagefind", "scripts"))
             and not p.name.startswith("google")]
 
 
@@ -105,6 +107,35 @@ def pagina(p):
     if (RAIZ / "fonts/fonts.css").exists():
         s = re.sub(r'<link href="https://fonts\.googleapis\.com/css2[^>]*>', lambda _: FONTES, s)
     gravar(p, s)
+
+
+# ---------- podcasts ----------
+def player(ep):
+    return (f'<div class="podcast-player" data-pagefind-ignore><p class="podcast-rotulo"><span aria-hidden="true">🎧</span> Ouça em podcast · {h(ep["duracao"])}</p>'
+            f'<p class="podcast-titulo">{h(ep["titulo"])}</p>'
+            f'<audio controls preload="none" src="/podcast/audio/{ep["artigo"]}.mp3"><a href="/podcast/audio/{ep["artigo"]}.mp3">Baixar o áudio</a></audio>'
+            f'<p class="podcast-aviso">{h(CFG["podcast_aviso"])}</p></div>')
+
+
+def podcasts():
+    home = RAIZ / "index.html"
+    bloco = ""
+    if PODCASTS:
+        ep = PODCASTS[0]
+        bloco = ('<section id="podcast" class="home-podcast" aria-label="Podcast"><div class="container"><div class="home-podcast-grid">'
+                 f'<img src="/blog/assets/{ep["artigo"]}.webp" alt="" width="1600" height="1060" loading="lazy" decoding="async">'
+                 '<div><p class="blog-section-label">Podcast da Dra. Fernanda</p><h2>Prefere ouvir? Os artigos agora viram conversa em áudio.</h2>'
+                 + player(ep) +
+                 f'<p class="home-podcast-links"><a href="/blog/{ep["artigo"]}/">Ler o artigo</a><a href="/podcast/">Todos os episódios →</a></p>'
+                 '</div></div></div></section>')
+    gravar(home, trocar_bloco(ler(home), "podcast-home", bloco))
+
+    pagina_pod = RAIZ / "podcast/index.html"
+    eps = "".join(f'<article class="podcast-ep"><a href="/blog/{e["artigo"]}/"><img src="/blog/assets/{e["artigo"]}.webp" alt="" width="1600" height="1060" loading="lazy" decoding="async"></a>'
+                  f'<div><p class="article-kicker"><time datetime="{e["data"]}">{data_br(e["data"])}</time></p><h2>{h(e["titulo"])}</h2>'
+                  f'{player(e)}<a class="article-card-link" href="/blog/{e["artigo"]}/">Ler o artigo <span aria-hidden="true">→</span></a></div></article>'
+                  for e in PODCASTS)
+    gravar(pagina_pod, trocar_bloco(ler(pagina_pod), "episodios", f'<div class="podcast-lista">{eps}</div>'))
 
 
 # ---------- artigos ----------
@@ -155,6 +186,10 @@ def artigo(p):
         return x.group(1) + json.dumps(novo, ensure_ascii=False) + x.group(3)
     s = re.sub(r'(<script type="application/ld\+json">)(.*?)(</script>)', ld, s, flags=re.S)
     pub, mod = (re.search(f'"{k}": "([0-9-]+)"', s).group(1) for k in ("datePublished", "dateModified"))
+
+    s = re.sub(r"<!--podcast-->.*?<!--/podcast-->", "", s, flags=re.S)
+    if slug in POD:  # logo abaixo da imagem de capa
+        s = s.replace("</figure>", f"</figure><!--podcast-->{player(POD[slug])}<!--/podcast-->", 1)
 
     by = byline(pub, mod)
     s = re.sub(r'<p class="article-byline".*?</p>', lambda _: by, s, count=1, flags=re.S) if 'class="article-byline"' in s \
@@ -226,6 +261,7 @@ def main():
         pagina(p)
     temas = dict(artigo(p) for p in sorted((RAIZ / "blog").glob("*/index.html")))
     blog_e_home(temas)
+    podcasts()
     print(f"Sincronizado: {len(temas)} artigos.")
 
 
