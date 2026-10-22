@@ -63,6 +63,13 @@ Analytics: GA4 `G-V1JL02NC6J` — todo HTML novo leva o snippet `gtag` no `<head
 - Reenviar o aviso de uma branch já existente: fechar a issue aberta, dar merge da `main` na branch (com os pontos clínicos no corpo do commit) e push.
 - Setup, secrets e cuidados: `scripts/telegram-worker/LEIA-ME.md`. Não use o bot da agenda (já tem webhook no Manus). O token `GITHUB_TOKEN` da Worker não expira; se for revogado, os botões param sem aviso.
 
+## Novo podcast (áudio do NotebookLM)
+
+1. Original no HD: `AET/fernanda-teo/audios/podcasts/AAAA-MM-DD_<slug-do-artigo>.m4a` (copiar, conferir SHA-256, linha no `_LOG.md` e no `imagens/site/manifesto.csv`).
+2. Versão do site: `ffmpeg -i original.m4a -ac 1 -b:a 64k podcast/audio/<slug-do-artigo>.mp3` (~10 MB para 20 min).
+3. Entrada no **topo** de `"podcasts"` em `scripts/site.json` (`artigo`, `titulo`, `data`, `duracao`). O `sincronizar.py` põe o player abaixo da capa do artigo, troca o destaque da home pelo mais novo e lista em `/podcast/`.
+4. **A Dra. Fernanda ouve antes do merge**: o aviso sob o player diz que ela revisou.
+
 ## Novo guia (isca digital)
 
 Use a skill `criar-guia-html`. Salve como `guia-<tema>.html` na raiz, com o snippet GA4, canonical, CRMV e aviso educativo. Adicione ao `sitemap.xml` se o guia for público (se for só para quem deixou contato, use `<meta name="robots" content="noindex">` e não coloque no sitemap).

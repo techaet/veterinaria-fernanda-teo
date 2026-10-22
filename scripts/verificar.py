@@ -26,7 +26,7 @@ def texto_visivel(s):
     return html.unescape(re.sub(r"<[^>]+>", " ", s))
 
 paginas = [p for p in RAIZ.glob("**/*.html")
-           if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", "node_modules", "pagefind", "scripts"))
+           if not any(x in p.parts for x in ("incorporacao-agenda-vet", ".git", ".claude", "node_modules", "pagefind", "scripts"))
            and not p.name.startswith("google")]
 artigos = sorted(RAIZ.glob("blog/*/index.html"))
 sitemap = (RAIZ / "sitemap.xml").read_text(encoding="utf-8")
@@ -136,6 +136,12 @@ for a in artigos:
 home = (RAIZ / "index.html").read_text(encoding="utf-8")
 if home.count('class="instagram-media"') != 2:
     erro(RAIZ / "index.html", "a seção do Instagram deve ter exatamente 2 posts (rode scripts/instagram.py)")
+
+for ep in sync.PODCASTS:
+    if not (RAIZ / f"podcast/audio/{ep['artigo']}.mp3").exists():
+        erro(RAIZ / "scripts/site.json", f"podcast sem áudio: podcast/audio/{ep['artigo']}.mp3")
+    if not (RAIZ / f"blog/{ep['artigo']}/index.html").exists():
+        erro(RAIZ / "scripts/site.json", f"podcast de artigo inexistente: {ep['artigo']}")
 
 autora = RAIZ / sync.AUT["pagina"].strip("/") / "index.html"
 if not autora.exists():

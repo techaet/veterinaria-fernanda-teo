@@ -59,5 +59,14 @@
     "isca/checklist-dor-caes/index.html",
     "isca/checklist-coceira-caes/index.html",
     "isca/calendario-vacinas-caes/index.html"
+  ],
+  "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo e revisada pela Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
+  "podcasts": [
+    {
+      "artigo": "mosquitos-caes-gatos-florianopolis",
+      "titulo": "Leishmaniose e verme do coração: o que os mosquitos trazem para os pets",
+      "data": "2026-10-21",
+      "duracao": "20 min"
+    }
   ]
 }

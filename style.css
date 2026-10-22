@@ -1592,3 +1592,67 @@ body.agenda-page .agenda-embed { padding-top: 100px; }
 .agenda-info p, .agenda-info li { color: var(--cor-texto-suave); line-height: 1.7; }
 .agenda-info ol, .agenda-info ul { padding-left: 1.3em; }
 .agenda-info a { color: inherit; text-decoration: underline; }
+
+/* ---------- Podcast (gerado pelo scripts/sincronizar.py a partir de site.json "podcasts") ---------- */
+.podcast-player {
+  margin: 24px 0;
+  padding: 20px 22px;
+  border-radius: var(--raio-borda);
+  background: var(--cor-primaria-clara);
+  border-left: 5px solid var(--cor-primaria);
+}
+.podcast-rotulo {
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cor-primaria-escura);
+}
+.podcast-titulo {
+  margin: 0 0 12px;
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.35;
+  color: var(--cor-texto);
+}
+.podcast-player audio { display: block; width: 100%; }
+.podcast-aviso {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--cor-texto-suave);
+}
+.home-podcast { padding: var(--secao-padding); background: var(--cor-fundo-alt); }
+.home-podcast-grid {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 48px;
+  align-items: center;
+}
+.home-podcast-grid img,
+.podcast-ep img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--raio-borda);
+  box-shadow: var(--sombra-card);
+}
+.home-podcast h2 { margin: 8px 0 0; }
+.home-podcast-links { display: flex; flex-wrap: wrap; gap: 24px; margin: 0; font-weight: 600; }
+.home-podcast-links a { color: var(--cor-primaria); }
+.podcast-lista { display: grid; gap: 40px; margin-bottom: 40px; }
+.podcast-ep {
+  display: grid;
+  grid-template-columns: 4fr 8fr;
+  gap: 32px;
+  align-items: start;
+}
+.podcast-ep h2 { margin: 4px 0 0; font-size: 1.4rem; }
+.podcast-ep .podcast-titulo { display: none; } /* o h2 já mostra o título */
+@media (max-width: 768px) {
+  .home-podcast { padding: var(--secao-padding-mobile); }
+  .home-podcast-grid, .podcast-ep { grid-template-columns: 1fr; gap: 20px; }
+}
