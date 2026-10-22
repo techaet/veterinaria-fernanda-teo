@@ -60,8 +60,14 @@
     "isca/checklist-coceira-caes/index.html",
     "isca/calendario-vacinas-caes/index.html"
   ],
-  "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo e revisada pela Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
+  "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
+    {
+      "artigo": "alimentacao-fase-de-vida-pet",
+      "titulo": "Por que o peso do pet engana",
+      "data": "2026-10-22",
+      "duracao": "20 min"
+    },
     {
       "artigo": "plantas-produtos-de-limpeza-perigosos-caes-gatos",
       "titulo": "Armadilhas mortais para pets em casa: plantas e produtos de limpeza",

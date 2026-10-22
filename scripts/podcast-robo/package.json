@@ -1,0 +1,9 @@
+{
+  "name": "podcast-robo",
+  "private": true,
+  "type": "module",
+  "description": "Gera no NotebookLM o podcast de cada artigo do blog e publica em /podcast/",
+  "dependencies": {
+    "playwright": "^1.56.1"
+  }
+}
