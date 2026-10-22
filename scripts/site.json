@@ -63,6 +63,12 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "cachorro-na-praia-cuidados-verao-florianopolis",
+      "titulo": "Como proteger seu cachorro na praia",
+      "data": "2026-10-22",
+      "duracao": "25 min"
+    },
+    {
       "artigo": "ansiedade-de-separacao-caes-volta-a-rotina",
       "titulo": "Por que cães sofrem ao ficar sozinhos",
       "data": "2026-10-22",
