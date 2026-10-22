@@ -57,13 +57,14 @@ FONTES = """<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="
 
 
 def versionar_css(p, s):
-    """?v=<hash do arquivo> nos CSS locais: o navegador baixa de novo quando o CSS muda (evita HTML novo com CSS velho em cache)."""
+    """?v=<hash do arquivo> nos CSS e JS locais: o navegador baixa de novo quando o CSS muda (evita HTML novo com CSS velho em cache)."""
     def v(m):
         alvo = (RAIZ / href.lstrip("/")) if (href := m.group(2)).startswith("/") else (p.parent / href)
         if not alvo.exists() or href.startswith("/pagefind/"):
             return m.group(0)
         return f'{m.group(1)}{href}?v={hashlib.md5(alvo.read_bytes()).hexdigest()[:8]}{m.group(3)}'
-    return re.sub(r'(<link [^>]*?href=")([^"?]+\.css)(?:\?v=[0-9a-f]+)?(")', v, s)
+    s = re.sub(r'(<link [^>]*?href=")([^"?]+\.css)(?:\?v=[0-9a-f]+)?(")', v, s)
+    return re.sub(r'(<script [^>]*?src=")([^"?:]+\.js)(?:\?v=[0-9a-f]+)?(")', v, s)
 
 
 def paginas_publicas():
@@ -110,11 +111,20 @@ def pagina(p):
 
 
 # ---------- podcasts ----------
+PLAY = ('<svg class="pp-i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>'
+        '<svg class="pp-i-pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>')
+
+
 def player(ep):
-    return (f'<div class="podcast-player" data-pagefind-ignore><p class="podcast-rotulo"><span aria-hidden="true">🎧</span> Ouça em podcast · {h(ep["duracao"])}</p>'
-            f'<p class="podcast-titulo">{h(ep["titulo"])}</p>'
-            f'<audio controls preload="none" src="/podcast/audio/{ep["artigo"]}.mp3"><a href="/podcast/audio/{ep["artigo"]}.mp3">Baixar o áudio</a></audio>'
-            f'<p class="podcast-aviso">{h(CFG["podcast_aviso"])}</p></div>')
+    """Player do site; sem JavaScript fica o <audio controls> nativo (script.js troca)."""
+    mp3 = f'/podcast/audio/{ep["artigo"]}.mp3'
+    return (f'<div class="podcast-player" data-pagefind-ignore>'
+            f'<button class="pp-play" type="button" aria-label="Ouvir o episódio" hidden>{PLAY}</button>'
+            f'<div class="pp-corpo"><p class="pp-titulo">{h(ep["titulo"])}</p><p class="pp-meta">Podcast · {h(ep["duracao"])}</p>'
+            f'<audio controls preload="metadata" src="{mp3}"><a href="{mp3}">Baixar o áudio</a></audio>'
+            f'<div class="pp-barra" hidden><input type="range" min="0" max="1000" value="0" step="1" aria-label="Posição no episódio">'
+            f'<span class="pp-tempo">0:00</span><button class="pp-vel" type="button" aria-label="Velocidade">1x</button></div></div>'
+            f'<p class="pp-aviso">{h(CFG["podcast_aviso"])}</p></div>')
 
 
 def podcasts():
@@ -122,17 +132,18 @@ def podcasts():
     bloco = ""
     if PODCASTS:
         ep = PODCASTS[0]
-        bloco = ('<section id="podcast" class="home-podcast" aria-label="Podcast"><div class="container"><div class="home-podcast-grid">'
-                 f'<img src="/blog/assets/{ep["artigo"]}.webp" alt="" width="1600" height="1060" loading="lazy" decoding="async">'
-                 '<div><p class="blog-section-label">Podcast da Dra. Fernanda</p><h2>Prefere ouvir? Os artigos agora viram conversa em áudio.</h2>'
+        bloco = ('<section id="podcast" class="home-podcast" aria-labelledby="podcast-titulo"><div class="container"><div class="home-podcast-grid">'
+                 f'<a class="home-podcast-foto" href="/blog/{ep["artigo"]}/"><img src="/blog/assets/{ep["artigo"]}.webp" alt="" width="1600" height="1060" loading="lazy" decoding="async"></a>'
+                 '<div class="home-podcast-texto"><h2 id="podcast-titulo">Ouça os artigos da Dra. Fernanda.</h2>'
+                 '<p class="home-podcast-sub">Conversas sobre a saúde do seu pet para ouvir no passeio, no carro ou em casa.</p>'
                  + player(ep) +
-                 f'<p class="home-podcast-links"><a href="/blog/{ep["artigo"]}/">Ler o artigo</a><a href="/podcast/">Todos os episódios →</a></p>'
+                 f'<p class="home-podcast-links"><a href="/podcast/">Todos os episódios <span aria-hidden="true">→</span></a><a href="/blog/{ep["artigo"]}/">Ler o artigo</a></p>'
                  '</div></div></div></section>')
     gravar(home, trocar_bloco(ler(home), "podcast-home", bloco))
 
     pagina_pod = RAIZ / "podcast/index.html"
-    eps = "".join(f'<article class="podcast-ep"><a href="/blog/{e["artigo"]}/"><img src="/blog/assets/{e["artigo"]}.webp" alt="" width="1600" height="1060" loading="lazy" decoding="async"></a>'
-                  f'<div><p class="article-kicker"><time datetime="{e["data"]}">{data_br(e["data"])}</time></p><h2>{h(e["titulo"])}</h2>'
+    eps = "".join(f'<article class="podcast-ep"><a class="podcast-ep-foto" href="/blog/{e["artigo"]}/"><img src="/blog/assets/{e["artigo"]}.webp" alt="" width="1600" height="1060" loading="lazy" decoding="async"></a>'
+                  f'<div><p class="podcast-ep-data"><time datetime="{e["data"]}">{data_br(e["data"])}</time></p><h2>{h(e["titulo"])}</h2>'
                   f'{player(e)}<a class="article-card-link" href="/blog/{e["artigo"]}/">Ler o artigo <span aria-hidden="true">→</span></a></div></article>'
                   for e in PODCASTS)
     gravar(pagina_pod, trocar_bloco(ler(pagina_pod), "episodios", f'<div class="podcast-lista">{eps}</div>'))

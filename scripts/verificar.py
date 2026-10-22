@@ -60,7 +60,7 @@ for p in paginas:
     if sync.NAV not in s and str(p.relative_to(RAIZ)) not in sync.CFG.get("sem_menu", []):
         erro(p, "sem o menu padrão (ou desatualizado) — rode python3 scripts/sincronizar.py")
     if sync.versionar_css(p, s) != s:
-        erro(p, "?v= dos CSS desatualizado — rode python3 scripts/sincronizar.py")
+        erro(p, "?v= dos CSS/JS desatualizado — rode python3 scripts/sincronizar.py")
     rel = p.relative_to(RAIZ).as_posix()
     url_pag = DOMINIO + "/" + re.sub(r"index\.html$", "", rel)
     if re.search(r'<meta[^>]+name=["\']robots["\'][^>]*noindex', s, re.I) and f"<loc>{url_pag}</loc>" in sitemap:
