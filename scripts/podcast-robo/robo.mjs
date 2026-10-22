@@ -28,7 +28,7 @@ const MAX_TENTATIVAS = 2;
 
 const soConferir = process.argv.includes('--so-conferir');
 const dorme = ms => new Promise(r => setTimeout(r, ms));
-const log = msg => { const l = `${new Date().toISOString().slice(0, 16).replace('T', ' ')} ${msg}`; console.log(l); fs.appendFileSync(LOG, l + '\n'); };
+const log = msg => { const l = `${new Date().toLocaleString('sv-SE').slice(0, 16)} ${msg}`; console.log(l); fs.appendFileSync(LOG, l + '\n'); };
 const avisar = msg => { log('AVISO ' + msg); try { execFileSync('osascript', ['-e', `display notification ${JSON.stringify(msg)} with title "Robô do podcast"`]); } catch {} };
 const git = (...a) => execFileSync('git', ['-C', REPO, ...a], { encoding: 'utf8' }).trim();
 const lerEstado = () => { try { return JSON.parse(fs.readFileSync(ESTADO, 'utf8')); } catch { return {}; } };
@@ -118,7 +118,7 @@ async function conferir(b, p, slug, url) {
   await cdp.send('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: pasta, eventsEnabled: true });
   const fim = new Promise((ok, falha) => {
     cdp.on('Browser.downloadProgress', e => { if (e.state === 'completed') ok(e.filePath); if (e.state === 'canceled') falha(new Error('download cancelado')); });
-    setTimeout(() => falha(new Error('download não terminou em 5 min')), 5 * 60e3);
+    setTimeout(() => falha(new Error('download não terminou em 5 min')), 5 * 60e3).unref();
   });
   await item.getByRole('button', { name: 'Mais' }).click();
   await p.getByRole('menuitem', { name: 'Baixar' }).click();
