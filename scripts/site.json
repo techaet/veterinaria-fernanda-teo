@@ -63,6 +63,12 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "passeios-trilhas-dunas-ilha-caes-cuidados",
+      "titulo": "Perigos das trilhas para cães urbanos",
+      "data": "2026-10-22",
+      "duracao": "21 min"
+    },
+    {
       "artigo": "outubro-rosa-pet-mamas-cadelas-gatas",
       "titulo": "Castração e câncer de mama em pets",
       "data": "2026-10-22",
