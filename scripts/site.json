@@ -63,6 +63,13 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "viagem-internacional-com-pets-planejamento",
+      "titulo": "Sua carteirinha pet não vale no exterior",
+      "data": "2026-10-23",
+      "duracao": "17 min",
+      "trecho": "Quando o assunto deixa de ser o parque do bairro e passa a ser o cruzamento de fronteiras internacionais, a coisa muda de figura."
+    },
+    {
       "artigo": "viagem-de-carro-com-cao-e-gato-seguranca",
       "titulo": "Viagem de carro com cães e gatos",
       "data": "2026-10-23",
