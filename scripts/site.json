@@ -66,31 +66,36 @@
       "artigo": "vacinacao-caes-gatos-protocolo",
       "titulo": "Vacinação personalizada para cães e gatos",
       "data": "2026-10-22",
-      "duracao": "23 min"
+      "duracao": "23 min",
+      "trecho": "Essa mentalidade do pacote padrão anual é uma relíquia do passado. A medicina veterinária moderna opera hoje com base em estratégias altamente personalizadas."
     },
     {
       "artigo": "saude-bucal-caes-gatos-tartaro-escovacao",
       "titulo": "Mau hálito em pets esconde infecções graves",
       "data": "2026-10-22",
-      "duracao": "26 min"
+      "duracao": "26 min",
+      "trecho": "Olha, pensa no mau hálito crônico não como o problema em si, tá? Ele é mais como a fumaça de um incêndio que está queimando lá no subsolo."
     },
     {
       "artigo": "rotina-do-gato-agua-caixa-de-areia-apetite",
       "titulo": "Sinais silenciosos de dor em gatos",
       "data": "2026-10-22",
-      "duracao": "23 min"
+      "duracao": "23 min",
+      "trecho": "O sinal de alerta neurológico ou metabólico não é só o volume de água que ele bebe, mas o gato começar a pedir água em locais completamente atípicos."
     },
     {
       "artigo": "prevencao-rotina-pet-consulta",
       "titulo": "Diagnóstico do pet começa em casa",
       "data": "2026-10-22",
-      "duracao": "21 min"
+      "duracao": "21 min",
+      "trecho": "Um leve aumento no consumo não significa só que bateu uma sede. Fisiologicamente, pode ser o primeiro sinal de que os néfrons, que são as unidades funcionais dos rins, estão perdendo a capacidade de concentrar a urina."
     },
     {
       "artigo": "pet-idoso-conforto-mobilidade-em-casa",
       "titulo": "Como adaptar sua casa para pets idosos",
       "data": "2026-10-22",
-      "duracao": "20 min"
+      "duracao": "20 min",
+      "trecho": "Gatos se sentem seguros observando o território lá de cima. Quando um gato que sempre dormiu no topo da estante e passa a dormir só debaixo da cama ou em cadeiras baixinhas, não é uma mudança de preferência de decoração."
     },
     {
       "artigo": "peso-ideal-caes-gatos-condicao-corporal",
@@ -110,7 +115,8 @@
       "artigo": "outubro-rosa-pet-mamas-cadelas-gatas",
       "titulo": "Castração e câncer de mama em pets",
       "data": "2026-10-22",
-      "duracao": "23 min"
+      "duracao": "23 min",
+      "trecho": "O tecido mamário de uma cadela ou de uma gata, ele responde a estímulos hormonais de um jeito incrivelmente semelhante ao nosso. A vulnerabilidade não liga pra espécie."
     },
     {
       "artigo": "gato-dentro-de-casa-enriquecimento-seguranca",
