@@ -53,6 +53,9 @@ function pendentes(estado) {
 function publicar(slug, arquivo, titulo) {
   if (!TESTE) git('pull', '-q', '--ff-only'); // a main pode ter mudado durante a rodada
   execFileSync('python3', [path.join(REPO, 'scripts/adicionar_podcast.py'), slug, arquivo, titulo], { stdio: 'inherit' });
+  // trecho do episódio para o player (transcreve com whisper.cpp; se falhar, fica o aviso padrão)
+  try { execFileSync('python3', [path.join(REPO, 'scripts/trecho_podcast.py'), slug], { stdio: 'inherit', timeout: 30 * 60e3 }); }
+  catch (e) { log(`sem trecho para ${slug}: ${e.message.split('\n')[0]}`); }
   execFileSync('python3', [path.join(REPO, 'scripts/verificar.py')], { stdio: 'inherit' });
   git('add', '-A');
   git('-c', 'user.name=robo-podcast', '-c', 'user.email=tech.aetsolidez@gmail.com', 'commit', '-q', '-m', `Podcast: ${titulo} (${slug})`);

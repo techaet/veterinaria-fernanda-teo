@@ -67,6 +67,8 @@ Analytics: GA4 `G-V1JL02NC6J` — todo HTML novo leva o snippet `gtag` no `<head
 
 **Automático:** o robô em `scripts/podcast-robo/` (launchd a cada 3 h) gera, baixa e publica o episódio de todo artigo sem podcast, direto na `main` e sem revisão. Detalhes e o que fazer se o Google deslogar: `scripts/podcast-robo/LEIA-ME.md`.
 
+**Trecho sob o player:** `python3 scripts/trecho_podcast.py [slug]` (sem slug: todos sem trecho). Transcreve um pedaço do original no HD e grava `trecho` em `site.json`; sem trecho, aparece o `podcast_aviso`.
+
 **À mão:** `python3 scripts/adicionar_podcast.py <slug> <arquivo.m4a> "<título>"` (original no HD com SHA-256, MP3 64 kbps em `podcast/audio/`, entrada no topo de `"podcasts"` em `scripts/site.json`, sincronizar) → `verificar.py` → commit. O `sincronizar.py` põe o player abaixo da capa do artigo, troca o destaque da home pelo mais novo e lista em `/podcast/`.
 
 ## Novo guia (isca digital)

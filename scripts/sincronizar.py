@@ -124,7 +124,8 @@ def player(ep):
             f'<audio controls preload="metadata" src="{mp3}"><a href="{mp3}">Baixar o áudio</a></audio>'
             f'<div class="pp-barra" hidden><input type="range" min="0" max="1000" value="0" step="1" aria-label="Posição no episódio">'
             f'<span class="pp-tempo">0:00</span><button class="pp-vel" type="button" aria-label="Velocidade">1x</button></div></div>'
-            f'<p class="pp-aviso">{h(CFG["podcast_aviso"])}</p></div>')
+            + (f'<blockquote class="pp-trecho"><p>“{h(ep["trecho"])}”</p></blockquote>' if ep.get("trecho")  # trecho falado no episódio
+               else f'<p class="pp-aviso">{h(CFG["podcast_aviso"])}</p>') + '</div>')
 
 
 def capa(slug):
