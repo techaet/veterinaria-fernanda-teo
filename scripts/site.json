@@ -63,6 +63,13 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "viagem-de-carro-com-cao-e-gato-seguranca",
+      "titulo": "Viagem de carro com cães e gatos",
+      "data": "2026-10-23",
+      "duracao": "25 min",
+      "trecho": "Para entender a segurança na estrada, a gente precisa dar uns passos para trás. A viagem, na verdade, ela começa lá no consultório veterinário e no meio da nossa sala de estar."
+    },
+    {
       "artigo": "vermifugacao-pulgas-carrapatos-prevencao",
       "titulo": "A falsa segurança do pet de apartamento",
       "data": "2026-10-23",
