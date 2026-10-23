@@ -63,6 +63,13 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "viajar-sem-o-pet-pet-sitter-ou-hospedagem",
+      "titulo": "Como viajar sem estressar seu pet",
+      "data": "2026-10-23",
+      "duracao": "18 min",
+      "trecho": "Quando ele esfrega o rosto na quina da mesa ou na porta, ele está depositando marcadores químicos. Ele está dizendo para si mesmo que aquele espaço é seguro e pertence a ele."
+    },
+    {
       "artigo": "viagem-internacional-com-pets-planejamento",
       "titulo": "Sua carteirinha pet não vale no exterior",
       "data": "2026-10-23",
