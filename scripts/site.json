@@ -63,6 +63,12 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "vacinacao-caes-gatos-protocolo",
+      "titulo": "Vacinação personalizada para cães e gatos",
+      "data": "2026-10-22",
+      "duracao": "23 min"
+    },
+    {
       "artigo": "saude-bucal-caes-gatos-tartaro-escovacao",
       "titulo": "Mau hálito em pets esconde infecções graves",
       "data": "2026-10-22",
