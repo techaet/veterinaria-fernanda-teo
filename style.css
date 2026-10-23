@@ -1648,6 +1648,15 @@ body.agenda-page .agenda-embed { padding-top: 100px; }
   min-width: 48px;
 }
 .pp-vel:hover { background: rgba(0, 0, 0, 0.13); }
+.pp-trecho {
+  grid-column: 1 / -1;
+  margin: 14px 0 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--cor-texto);
+}
+.pp-trecho p { margin: 0; }
 .pp-aviso {
   grid-column: 1 / -1;
   margin: 14px 0 0;
@@ -1682,6 +1691,7 @@ body.agenda-page .agenda-embed { padding-top: 100px; }
 .home-podcast-sub { margin: 16px 0 0; font-size: 1.1rem; line-height: 1.55; color: rgba(255, 255, 255, 0.88); }
 .home-podcast .podcast-player { background: rgba(255, 255, 255, 0.1); color: #fff; }
 .home-podcast .pp-meta, .home-podcast .pp-aviso { color: rgba(255, 255, 255, 0.78); }
+.home-podcast .pp-trecho { color: rgba(255, 255, 255, 0.92); }
 .home-podcast .pp-vel { background: rgba(255, 255, 255, 0.16); }
 .home-podcast .pp-vel:hover { background: rgba(255, 255, 255, 0.26); }
 .home-podcast .pp-play:focus-visible, .home-podcast .pp-vel:focus-visible { outline-color: #fff; }

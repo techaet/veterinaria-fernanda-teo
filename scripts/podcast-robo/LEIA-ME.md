@@ -8,6 +8,7 @@ Gera no NotebookLM (Gemini Notebook) o podcast de cada artigo do blog que ainda 
 - Por rodada: começa até 5 episódios (Resumo em Áudio → **Análise detalhada**, duração **Padrão**, **português (Brasil)**), espera 5 min, confere a cada 3 min por até 45 min. Baixa o que ficou pronto e publica (`scripts/adicionar_podcast.py`: original no HD com SHA-256, MP3 64 kbps, `site.json`, sincronizar). Depois roda o `verificar.py`, faz commit e push na `main`, e o deploy sai sozinho. O que não ficar pronto é conferido na próxima rodada.
 - Sem HD conectado não faz nada. Se bater no limite de uso do NotebookLM, para de começar episódios novos até a rodada seguinte.
 - O título do episódio é o que o NotebookLM dá ao áudio.
+- O trecho sob o player sai de `scripts/trecho_podcast.py`: transcreve os minutos 1 a 6 com o whisper.cpp (compilado em `~/Library/Application Support/aet-podcast/whisper.cpp/`, modelo `modelos/ggml-large-v3-turbo.bin`) e o `claude -p` escolhe uma frase literal dentro das regras clínicas. Se falhar, o player mostra o aviso padrão (`podcast_aviso`), e dá para rodar o script depois.
 
 ## Onde fica cada coisa (`~/Library/Application Support/aet-podcast/`)
 
