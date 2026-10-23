@@ -63,6 +63,36 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "vacinacao-caes-gatos-protocolo",
+      "titulo": "Vacinação personalizada para cães e gatos",
+      "data": "2026-10-22",
+      "duracao": "23 min"
+    },
+    {
+      "artigo": "saude-bucal-caes-gatos-tartaro-escovacao",
+      "titulo": "Mau hálito em pets esconde infecções graves",
+      "data": "2026-10-22",
+      "duracao": "26 min"
+    },
+    {
+      "artigo": "rotina-do-gato-agua-caixa-de-areia-apetite",
+      "titulo": "Sinais silenciosos de dor em gatos",
+      "data": "2026-10-22",
+      "duracao": "23 min"
+    },
+    {
+      "artigo": "prevencao-rotina-pet-consulta",
+      "titulo": "Diagnóstico do pet começa em casa",
+      "data": "2026-10-22",
+      "duracao": "21 min"
+    },
+    {
+      "artigo": "pet-idoso-conforto-mobilidade-em-casa",
+      "titulo": "Como adaptar sua casa para pets idosos",
+      "data": "2026-10-22",
+      "duracao": "20 min"
+    },
+    {
       "artigo": "peso-ideal-caes-gatos-condicao-corporal",
       "titulo": "A balança mente sobre seu pet",
       "data": "2026-10-22",
