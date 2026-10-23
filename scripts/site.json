@@ -63,6 +63,13 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "vermifugacao-pulgas-carrapatos-prevencao",
+      "titulo": "A falsa segurança do pet de apartamento",
+      "data": "2026-10-23",
+      "duracao": "29 min",
+      "trecho": "A coceira é tratada como a doença em si quando, na verdade, ela é só o alarme de incêndio de uma casa que já está sendo consumida pelas chamas."
+    },
+    {
       "artigo": "vacinacao-caes-gatos-protocolo",
       "titulo": "Vacinação personalizada para cães e gatos",
       "data": "2026-10-22",
