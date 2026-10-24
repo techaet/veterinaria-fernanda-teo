@@ -24,9 +24,10 @@ const SITES = [
   { nome: 'pousada-campeche-lofts', git: 'https://github.com/techaet/pousada-campeche-lofts.git', pasta: 'site-pousada-campeche-lofts',
     estado: 'estado-pousada-campeche-lofts.json', url: 'https://www.campechelofts.floripa.br', fonte: 'Campeche Lofts', verificar: 'scripts/check_site.py',
     linguas: ['pt', 'es'],
+    // só instrução positiva: o que se diz para "não falar" de algo (pousada, preço) os apresentadores falam em voz alta
     foco: {
-      pt: 'Conversem em português do Brasil, para viajantes brasileiros que planejam conhecer o Campeche e Florianópolis. Vocês comentam o artigo do blog: não são da pousada e não falam em nome dela. Não citem preços, descontos nem disponibilidade.',
-      es: 'Hablen en español rioplatense, con el voseo de Argentina (vos tenés, vos podés), para viajeros argentinos que planean conocer Campeche y Florianópolis. Ustedes comentan el artículo del blog: no son de la posada y no hablan en nombre de ella. No mencionen precios, descuentos ni disponibilidad.',
+      pt: 'Conversa em português do Brasil para viajantes brasileiros que planejam conhecer o Campeche e Florianópolis: o que fazer, como se organizar e o que conferir antes de ir.',
+      es: 'Conversación en español rioplatense, con el voseo de Argentina en toda la charla (vos tenés, vos podés, mirá, fijate, andá), para viajeros argentinos que planean conocer Campeche y Florianópolis: qué hacer, cómo organizarse y qué chequear antes de ir.',
     } },
 ].filter(s => !SO || s.nome === SO)
   .map(s => ({ ...s, repo: TESTE || path.join(BASE, s.pasta), estado: path.join(BASE, s.estado) }));
