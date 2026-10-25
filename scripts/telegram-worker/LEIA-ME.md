@@ -16,4 +16,5 @@ Sem os secrets do GitHub, o passo do Telegram é pulado e tudo segue só por e-m
 - Bot: `@art_dra_fernanda_bot`. Worker: `https://aprovacao-artigos.tech-aetsolidez.workers.dev/`.
 - `GITHUB_TOKEN` da Worker: PAT fine-grained da conta techaet, só este repositório, Issues read/write, sem expiração.
 - Aprovadores (`ALLOWED_IDS`): Leonardo e Dra. Fernanda. O aviso por e-mail foi removido.
+- Desde 25/10/2026 o Leonardo recebe os artigos pela fila de aprovações do bot Carrosseis AET (rotina-carrossel, um processo por vez). O aviso deste workflow pula o ID guardado no secret `TELEGRAM_FILA_ID`; sem esse secret, todos os IDs de `TELEGRAM_CHAT_IDS` recebem como antes.
 - Se os botões pararem: confira o token (permissão/revogação), os secrets `TELEGRAM_TOKEN`/`TELEGRAM_CHAT_IDS` no GitHub e as variáveis da Worker.

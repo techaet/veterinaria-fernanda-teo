@@ -22,6 +22,8 @@ jobs:
           PREVIA: https://raw.githack.com/${{ github.repository }}/${{ github.sha }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+          # Leonardo recebe os artigos pela fila de aprovações do bot Carrosseis AET (rotina-carrossel, 25/10/2026)
+          TELEGRAM_FILA_ID: ${{ secrets.TELEGRAM_FILA_ID }}
         run: |
           slug="${BRANCH#artigo/}"
           f="blog/$slug/index.html"
@@ -64,6 +66,7 @@ jobs:
           if [ -n "$TELEGRAM_TOKEN" ] && [ -n "$TELEGRAM_CHAT_IDS" ]; then
             texto=$(printf 'Novo artigo para revisão\n\n%s\n\nPrévia: %s\n\nPontos para conferir:\n%s' "$titulo" "$link" "$notas")
             for chat in ${TELEGRAM_CHAT_IDS//,/ }; do
+              [ "$chat" = "$TELEGRAM_FILA_ID" ] && continue
               curl -s "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
                 --data-urlencode "chat_id=$chat" --data-urlencode "text=$texto" \
                 --data-urlencode "reply_markup={\"inline_keyboard\":[[{\"text\":\"✅ Publicar\",\"callback_data\":\"publicar:$num\"},{\"text\":\"🗑️ Excluir\",\"callback_data\":\"excluir:$num\"}]]}" || true
