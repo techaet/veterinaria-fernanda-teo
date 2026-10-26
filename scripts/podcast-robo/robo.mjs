@@ -209,7 +209,8 @@ async function main() {
     }
     // 2. confere: 5 min, depois a cada 3 min, até 45 min
     const inicio = Date.now();
-    const gerando = () => sites.flatMap(s => Object.entries(s.est).filter(([, v]) => v.status === 'gerando').map(([id, v]) => [s, id, v]));
+    const parados = new Set(); // publicação falhou: não baixa de novo a cada volta, só na próxima rodada
+    const gerando = () => sites.flatMap(s => Object.entries(s.est).filter(([id, v]) => v.status === 'gerando' && !parados.has(id)).map(([id, v]) => [s, id, v]));
     for (let volta = 0; ; volta++) {
       if (!gerando().length) break;
       if (volta === 0 && novos) await dorme(ESPERA_1);
@@ -220,7 +221,10 @@ async function main() {
           if (r === 'erro') { Object.assign(v, { status: 'erro', erro: 'o NotebookLM não gerou o áudio' }); log(`ERRO ${id}: áudio não gerado`); }
           else {
             try { publicar(s, id, r.arquivo, r.titulo); }
-            catch (e) { git(s, 'reset', '-q', '--hard'); git(s, 'clean', '-qfd', 'podcast', 'scripts'); throw e; } // desfaz o meio-publicado
+            catch (e) { // desfaz o meio-publicado
+              git(s, 'reset', '-q', '--hard'); git(s, 'clean', '-qfd', 'podcast', 'scripts');
+              parados.add(id); avisar(`Não publiquei ${id}: ${e.message.split('\n')[0]}`); throw e;
+            }
             fs.rmSync(path.dirname(r.arquivo), { recursive: true, force: true }); // original já conferido no HD
             Object.assign(v, { status: 'publicado', titulo: r.titulo, em: new Date().toISOString() });
             log(`publicado ${id}: "${r.titulo}"`);
