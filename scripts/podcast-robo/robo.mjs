@@ -183,6 +183,9 @@ async function main() {
     sites.push(s);
   }
   if (!sites.length) return log('nenhum site com podcast');
+  // nada para começar nem conferir: não abre o NotebookLM
+  const temTrabalho = sites.some(s => (!soConferir && pendentes(s, s.est).length) || Object.values(s.est).some(v => v.status === 'gerando'));
+  if (!temTrabalho) return log('nada a fazer: todos os artigos têm episódio');
   const b = await conectar();
   const ctx = b.contexts()[0];
   const p = await ctx.newPage();
