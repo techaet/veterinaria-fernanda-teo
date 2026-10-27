@@ -63,6 +63,13 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "viagem-de-aviao-com-cao-e-gato",
+      "titulo": "Regras e riscos de voar com pets",
+      "data": "2026-10-27",
+      "duracao": "20 min",
+      "trecho": "Antes de passar o cartão de crédito para a passagem humana, é obrigatório ler as regras da empresa específica. Confirmar a vaga para o pet naquele voo pontual e obter essa confirmação por escrito."
+    },
+    {
       "artigo": "apresentar-novo-pet-cao-gato-em-casa",
       "titulo": "Como apresentar um novo pet em casa",
       "data": "2026-10-27",
