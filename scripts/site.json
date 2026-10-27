@@ -63,6 +63,13 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "apresentar-novo-pet-cao-gato-em-casa",
+      "titulo": "Como apresentar um novo pet em casa",
+      "data": "2026-10-27",
+      "duracao": "22 min",
+      "trecho": "O pet residente não precisa ver o novo morador para saber que ele está ali. Ele capta o cheiro pela fresta da porta, escuta os passos diferentes, percebe até a respiração."
+    },
+    {
       "artigo": "viajar-sem-o-pet-pet-sitter-ou-hospedagem",
       "titulo": "Como viajar sem estressar seu pet",
       "data": "2026-10-23",
