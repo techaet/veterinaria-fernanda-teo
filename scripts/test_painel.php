@@ -74,6 +74,8 @@ ok(meta_custo(['gasto' => 30.0, 'leads' => 0, 'conversas' => 3]) === 10.0, 'sem 
 $af = meta_afazeres($m + ['erro' => null]);
 ok(nivel($af) === 'erro' && (bool) array_filter($af, fn($i) => str_contains($i[1], 'subiu 100%')), 'custo por resultado dobrou = aviso, avisos da conta = erro');
 ok(meta_afazeres(null)[0][0] === 'aviso', 'sem token dos anúncios');
+ok(meta_afazeres(['ativas' => 1], $agora - 55 * 86400, $agora)[0][1] === 'O token dos anúncios vence em 5 dias (60 dias desde que foi salvo): gere outro no Graph API Explorer e cole nos Ajustes.', 'aviso de token dos anúncios vencendo');
+ok(meta_afazeres(['ativas' => 1], $agora - 10 * 86400, $agora) === [], 'token novo não avisa');
 ok(meta_anuncios(periodo_escolhido([], '2026-11-07'), true, fn() => [400, ['error' => ['code' => 190, 'message' => 'Invalid OAuth access token']]])['erro'] !== null, 'token errado vira aviso claro');
 
 array_map('unlink', glob(DADOS . '/*'));

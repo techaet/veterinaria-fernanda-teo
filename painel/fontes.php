@@ -276,9 +276,12 @@ function meta_custo(array $t): ?float {
     return $r ? $t['gasto'] / $r : null;
 }
 
-function meta_afazeres(?array $an): array {
+/** $tokenEm = quando o token foi salvo nos Ajustes: o do Graph API Explorer estendido vale 60 dias e a Meta não diz a validade sem a chave do app. */
+function meta_afazeres(?array $an, ?int $tokenEm = null, int $agora = 0): array {
     if ($an === null) return [['aviso', 'Falta o token dos anúncios da Meta (Ajustes).']];
     $l = [];
+    if ($tokenEm && ($d = 60 - intdiv($agora - $tokenEm, 86400)) <= 10)
+        $l[] = [$d <= 3 ? 'erro' : 'aviso', 'O token dos anúncios vence em ' . plural(max(0, $d), 'dia', 'dias') . ' (60 dias desde que foi salvo): gere outro no Graph API Explorer e cole nos Ajustes.'];
     if (!empty($an['erro'])) $l[] = [isset($an['total']) ? 'aviso' : 'erro', 'Não consegui ler os anúncios: ' . $an['erro'] . '.'];
     foreach ($an['avisos'] ?? [] as $a) $l[] = ['erro', $a . '.'];
     if (isset($an['ativas']) && !$an['ativas'] && !($an['avisos'] ?? [])) $l[] = ['aviso', 'Nenhuma campanha no ar agora.'];

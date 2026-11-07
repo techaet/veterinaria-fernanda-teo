@@ -80,7 +80,7 @@ if ($post) {
     if ($acao === 'ajustes') {
         $novo = ['meta_conta' => preg_replace('/\D/', '', (string) ($_POST['meta_conta'] ?? ''))];
         if (($t = trim((string) ($_POST['ig_token'] ?? ''))) !== '') $novo += ['ig_token' => $t, 'ig_token_em' => 0, 'ig_token_ate' => null];
-        if (($t = trim((string) ($_POST['meta_token'] ?? ''))) !== '') $novo['meta_token'] = $t;
+        if (($t = trim((string) ($_POST['meta_token'] ?? ''))) !== '') $novo += ['meta_token' => $t, 'meta_token_em' => time()];
         cfg_salvar($novo);
         @unlink(DADOS . '/instagram.json'); @unlink(DADOS . '/anuncios.json');  // lê de novo com o token novo
         voltar('aba=ajustes&ok=salvo');
@@ -144,7 +144,7 @@ if (in_array($aba, ['resumo', 'instagram'], true)) {
 }
 if (in_array($aba, ['resumo', 'anuncios'], true)) {
     $an = meta_anuncios($per);
-    $anAf = meta_afazeres($an);
+    $anAf = meta_afazeres($an, cfg('meta_token_em') ? (int) cfg('meta_token_em') : null, $agora);
 }
 
 if ($aba === 'resumo'):
@@ -270,7 +270,7 @@ foreach ($an['campanhas'] ?? [] as $c) {
   <input id="meta_conta" name="meta_conta" inputmode="numeric" value="<?= h(cfg('meta_conta', '') ?: META_CONTA_PADRAO) ?>">
   <label class="c" for="meta_token">Token dos anúncios · <?= $fim('meta_token') ?></label>
   <input id="meta_token" name="meta_token" type="password" autocomplete="off" placeholder="EAA… (vazio = manter o atual)">
-  <p class="dica">Token do Facebook (de preferência de usuário do sistema do Gerenciador de Negócios) com a permissão <code>ads_read</code> nesta conta. O token do Instagram não serve aqui.</p>
+  <p class="dica">Token do Facebook com a permissão <code>ads_read</code> nesta conta (o do Graph API Explorer, estendido, vale 60 dias; o painel avisa 10 dias antes). O token do Instagram não serve aqui.</p>
   <button>Salvar</button></form>
 </div>
 <div>
