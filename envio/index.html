@@ -184,7 +184,10 @@ document.querySelectorAll('.env-chip').forEach(b=>b.onclick=()=>{filtro=b.datase
  const trava=document.getElementById('trava');
  if(!k){trava.hidden=false;return}
  try{
-  const bruto=b64((await (await fetch('dados.enc?'+Date.now(),{cache:'no-store'})).text()).trim());
+  // Lista ao vivo do Worker (lê a planilha na hora); se ele falhar, usa a última cópia publicada no site.
+  let txt='';try{const r=await fetch('https://fernanda-whatsapp.tech-aetsolidez.workers.dev/envio/lista',{cache:'no-store'});if(r.ok)txt=await r.text()}catch(_){}
+  if(!txt)txt=await (await fetch('dados.enc?'+Date.now(),{cache:'no-store'})).text();
+  const bruto=b64(txt.trim());
   const chave=await crypto.subtle.importKey('raw',b64(k),'AES-GCM',false,['decrypt']);
   const claro=await crypto.subtle.decrypt({name:'AES-GCM',iv:bruto.slice(0,12)},chave,bruto.slice(12));
   const dados=JSON.parse(new TextDecoder().decode(claro));
