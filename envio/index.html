@@ -143,19 +143,20 @@ const PEDIDO={coceira:'o checklist de coceira',dor:'o checklist de dor',vacinas:
 const KIT={coceira:'um kit pra você marcar os sinais no celular e acompanhar por 14 dias',dor:'um kit pra você marcar os sinais no celular e acompanhar por 14 dias',vacinas:'um kit pra conferir a carteirinha em 2 minutos',visita:'um kit pra deixar a visita pronta em 5 minutos',fogos:'um kit com o que já dá pra fazer agora, que é o que mais ajuda'};
 const PET={cao:'cão',gato:'gato','os-dois':'cão e gato'};
 const BAIRRO={campeche:'Campeche','rio-tavares':'Rio Tavares','lagoa-da-conceicao':'Lagoa da Conceição','morro-das-pedras':'Morro das Pedras'};
-function linkKit(l){const p=new URLSearchParams({t:l.tipo});if(l.pet)p.set('p',l.pet);if(l.bairro&&BAIRRO[l.bairro])p.set('b',l.bairro);if(l.data)p.set('d',l.data.slice(8,10)+l.data.slice(5,7));p.set('utm_source','whatsapp');p.set('utm_medium','mensagem-1');p.set('utm_campaign',l.campanha);return SITE+'/kit/?'+p.toString()}
+function linkKit(l){const p=new URLSearchParams({t:l.tipo});if(l.pet)p.set('p',l.pet);if(l.bairro&&BAIRRO[l.bairro])p.set('b',l.bairro);if(l.data)p.set('d',l.data.slice(8,10)+l.data.slice(5,7));p.set('utm_source','whatsapp');p.set('utm_medium','mensagem-1');p.set('utm_campaign',l.campanha);if(l.tok)p.set('l',l.tok);return SITE+'/kit/?'+p.toString()}
+const tokenDe=async(id)=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(String(id))))].slice(0,8).map(x=>x.toString(16).padStart(2,'0')).join('');
 function mensagem(l){
  const k=linkKit(l), onde=l.bairro&&BAIRRO[l.bairro]?' aí no '+BAIRRO[l.bairro]:'', pet=l.pet?PET[l.pet]:'';
- const pergunta=l.pet==='os-dois'?'Como se chamam os seus pets e quantos anos eles têm? Assim te mando dicas certas pra eles.':'Como se chama o seu pet e quantos anos ele tem? Assim te mando dicas certas pra ele.';
+ const pergunta=l.pet==='os-dois'?'No fim do kit tem um espacinho pra me contar dos seus pets (leva 20 segundos). Assim te mando dicas certas pra eles.':'No fim do kit tem um espacinho pra me contar do seu pet (leva 20 segundos). Assim te mando dicas certas pra ele.';
  if(l.campanha==='nov'){
   let m='Oi, '+l.nome+'! Aqui é a Dra. Fernanda Teo, veterinária. 🐾 Vi que você pediu '+PEDIDO[l.tipo]+(pet?' pro seu '+pet:'')+'. Montei '+KIT[l.tipo]+':\n'+k+'\n\n';
-  if(l.tipo==='visita')m+='Quer que eu já te passe os horários desta semana'+onde+'? Me conta o nome do seu pet e o que você gostaria que eu visse.';
+  if(l.tipo==='visita')m+='Quer que eu já te passe os horários desta semana'+onde+'? No fim do kit tem um espacinho pra me contar do seu pet (leva 20 segundos).';
   else if(l.tipo==='fogos')m+='Ainda dá tempo de começar o treino com calma. '+pergunta;
   else m+=pergunta+(onde?' E se precisar, eu atendo em casa'+onde+'.':'');
   return m+'\n\nSe preferir não receber mensagens, é só me dizer.';
  }
- if(l.tipo==='visita')return 'Oi, '+l.nome+'! Aqui é a Dra. Fernanda Teo, veterinária. Você pediu uma visita em casa pelo meu anúncio e eu te devo uma resposta: desculpa a demora! 🙏\nPra compensar, montei '+KIT.visita+':\n'+k+'\n\nAinda quer marcar? Me conta o nome do seu pet e o que você gostaria que eu visse, que eu te passo os horários desta semana.';
- return 'Oi, '+l.nome+'! Aqui é a Dra. Fernanda Teo, veterinária aqui do Sul da Ilha. 🐾 Há umas semanas você baixou '+PEDIDO[l.tipo]+'. Preparei '+KIT[l.tipo]+', com um bônus pro Réveillon:\n'+k+'\n\nPra acertar nas próximas dicas, me conta: como se chama o seu pet e quantos anos ele tem?\nSe preferir não receber, é só me dizer.';
+ if(l.tipo==='visita')return 'Oi, '+l.nome+'! Aqui é a Dra. Fernanda Teo, veterinária. Você pediu uma visita em casa pelo meu anúncio e eu te devo uma resposta: desculpa a demora! 🙏\nPra compensar, montei '+KIT.visita+':\n'+k+'\n\nAinda quer marcar? No fim do kit tem um espacinho pra me contar do seu pet (leva 20 segundos), que eu te passo os horários desta semana.';
+ return 'Oi, '+l.nome+'! Aqui é a Dra. Fernanda Teo, veterinária aqui do Sul da Ilha. 🐾 Há umas semanas você baixou '+PEDIDO[l.tipo]+'. Preparei '+KIT[l.tipo]+', com um bônus pro Réveillon:\n'+k+'\n\nPra acertar nas próximas dicas, no fim do kit tem um espacinho pra me contar do seu pet (leva 20 segundos).\nSe preferir não receber, é só me dizer.';
 }
 let LEADS=[],filtro='enviar';
 function desenha(){
@@ -172,7 +173,7 @@ function desenha(){
   c.querySelector('.env-meta').append(PEDIDO[l.tipo]+' · '+quando+(l.pet?' · '+PET[l.pet]:'')+(l.bairro&&BAIRRO[l.bairro]?' · '+BAIRRO[l.bairro]:l.bairro==='outro'?' · fora dos 4 bairros':''));
   const ta=c.querySelector('textarea');ta.value=mensagem(l);
   c.querySelector('.ver').onclick=()=>c.classList.toggle('abre');
-  c.querySelector('.env-zap').onclick=()=>{enviados[l.id]=Date.now();guardar();window.open('https://wa.me/'+l.tel+'?text='+encodeURIComponent(ta.value),'_blank');setTimeout(desenha,400)};
+  c.querySelector('.env-zap').onclick=()=>{enviados[l.id]=Date.now();guardar();if(l.tok)navigator.sendBeacon('https://fernanda-whatsapp.tech-aetsolidez.workers.dev/contatado',JSON.stringify({l:l.tok}));window.open('https://wa.me/'+l.tel+'?text='+encodeURIComponent(ta.value),'_blank');setTimeout(desenha,400)};
   const d=c.querySelector('.desfaz');if(d)d.onclick=(e)=>{e.preventDefault();delete enviados[l.id];guardar();desenha()};
   lista.append(c);
  }
@@ -187,7 +188,7 @@ document.querySelectorAll('.env-chip').forEach(b=>b.onclick=()=>{filtro=b.datase
   const chave=await crypto.subtle.importKey('raw',b64(k),'AES-GCM',false,['decrypt']);
   const claro=await crypto.subtle.decrypt({name:'AES-GCM',iv:bruto.slice(0,12)},chave,bruto.slice(12));
   const dados=JSON.parse(new TextDecoder().decode(claro));
-  LEADS=dados.leads;document.getElementById('gerado').textContent='Lista atualizada em '+new Date(dados.gerado).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+  LEADS=dados.leads;for(const l of LEADS)l.tok=await tokenDe(l.id);document.getElementById('gerado').textContent='Lista atualizada em '+new Date(dados.gerado).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
   document.getElementById('painel').hidden=false;desenha();
  }catch(e){trava.hidden=false;trava.querySelector('p').textContent='Não consegui abrir a lista. Abra de novo pelo link completo (QR code).'}
 })();

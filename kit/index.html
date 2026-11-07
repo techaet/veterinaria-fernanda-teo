@@ -101,6 +101,12 @@
 .kit-tab th,.kit-tab td{border:1px solid #dde3ea;padding:6px;text-align:center}.kit-tab th{background:#F5F7FA}
 .kit-evitar{border-left:4px solid #FF6F00;background:#fff8f2;padding:12px 14px;border-radius:0 10px 10px 0}
 .kit-btn{display:block;text-align:center;background:#FF6F00;color:#fff!important;text-decoration:none;font-weight:700;padding:15px;border-radius:12px;margin:22px 0 8px}
+.kit-pet{background:#fff;border:1.5px solid #2E7D32;border-radius:14px;padding:16px 18px;margin:22px 0}
+.kit-pet label{display:block;font-weight:600;margin:10px 0 4px}
+.kit-pet input[type=text],.kit-pet select{width:100%;box-sizing:border-box;border:1.5px solid #dde3ea;border-radius:10px;padding:11px;font:16px Inter,sans-serif}
+.kit-pet .op{display:flex;gap:8px;flex-wrap:wrap}.kit-pet .op label{font-weight:500;margin:0;display:flex;gap:6px;align-items:center;border:1.5px solid #dde3ea;border-radius:10px;padding:9px 12px}
+.kit-pet button{margin-top:14px;width:100%;background:#2E7D32;color:#fff;border:0;border-radius:12px;padding:14px;font:700 16px Inter,sans-serif;cursor:pointer}
+.kit-pet small{display:block;color:#546E7A;margin-top:8px}
 .kit-btn2{display:inline-block;border:1.5px solid #2E7D32;color:#2E7D32;background:#fff;font-weight:600;padding:9px 14px;border-radius:10px;cursor:pointer;font:inherit}
 @media print{header.top,.site-footer,.kit-btn,.kit-btn2,.kit-capa{display:none}}
 </style>
@@ -180,14 +186,29 @@ if(t==='visita'){h+='<h2>2. Como é a visita</h2><p>A Dra. Fernanda vai até a s
 if(t==='fogos'){h+='<h2>2. Na noite de 31</h2><p>Feche portas, janelas e cortinas; deixe um ventilador ou música com batida grave ligada; fique por perto e pode consolar: ignorar o pet com medo não ajuda. Petisco ou brinquedo recheado a cada estouro. Gato fica no esconderijo, com água e caixa de areia perto.</p><p><a href="'+SITE+'/isca/plano-fogos-reveillon/">Ler o plano completo, da semana do Réveillon ao dia seguinte</a></p>'}
 if(TXT.evitar)h+='<h2>'+(TXT.diario||t==='vacinas'?'3':'3')+'. '+(t==='vacinas'?'Bom saber':'Enquanto isso, evite')+'</h2><p class="kit-evitar">'+TXT.evitar+'</p>';
 if(t!=='fogos')h+='<h2>Bônus: o Réveillon está chegando</h2><p>Metade dos cães tem algum medo de fogos, e o que mais ajuda leva semanas para fazer efeito. <a href="'+SITE+'/isca/plano-fogos-reveillon/">Abrir o plano anti-fogos</a></p>';
+const L=/^[0-9a-f]{16}$/.test(q.get('l')||'')?q.get('l'):'';
+if(L){const vis=t==='visita';h+='<form class="kit-pet" id="pet"><h2 style="margin-top:0">Me conta do seu pet</h2><p>Leva 20 segundos e me ajuda a te mandar as dicas certas'+(vis?' e os horários da visita':'')+'.</p>'+
+ '<label for="pn">Nome</label><input type="text" id="pn" maxlength="40" autocomplete="off">'+
+ '<label for="pe">É</label><select id="pe"><option value="">Escolha</option><option value="cao">Cão</option><option value="gato">Gato</option><option value="os-dois">Cão e gato</option><option value="outro">Outro</option></select>'+
+ '<label for="pi">Idade</label><input type="text" id="pi" maxlength="20" placeholder="ex.: 3 anos, 8 meses">'+
+ '<label>'+(vis?'Quer que eu te passe os horários desta semana?':'Quer que eu te passe os horários pra uma visita em casa?')+'</label><div class="op"><label><input type="radio" name="qv" value="1"'+(vis?' checked':'')+'> Sim</label><label><input type="radio" name="qv" value="0"'+(vis?'':' checked')+'> Agora não</label></div>'+
+ '<button type="submit">Enviar pra Dra. Fernanda</button><small>Fica só com a Dra. Fernanda. <a href="'+SITE+'/privacidade.html">Privacidade</a></small></form>'}
 h+='<a class="kit-btn" target="_blank" rel="noopener" href="https://wa.me/'+'5548999690448?text='+encodeURIComponent('Oi, Dra. Fernanda! '+TXT.wa)+'">Falar com a Dra. Fernanda no WhatsApp</a>';
 c.innerHTML=h;
-function at(){const n=c.querySelectorAll('input:checked').length,tot=c.querySelectorAll('input').length,r=document.getElementById('res');
+function at(){const n=c.querySelectorAll('.kit-item input:checked').length,tot=c.querySelectorAll('.kit-item input').length,r=document.getElementById('res');
  let msg,ok=false;
  if(t==='coceira'||t==='dor'){ok=n<2;msg=n==0?'Nenhum sinal marcado. Ótimo: guarde o kit e confira de novo daqui a um mês.':n<2?'Um sinal: vale acompanhar pelo diário abaixo.':n+' sinais: juntos, eles dizem que '+seu+' merece uma avaliação. Quanto antes, mais conforto.'}
  else{ok=n==tot;msg=n==tot?'Tudo pronto.':n+' de '+tot+' prontos.'}
  r.className='kit-res'+(ok?' ok':'');r.textContent=msg}
-c.querySelectorAll('input').forEach(x=>x.addEventListener('change',()=>{try{localStorage.setItem(K,JSON.stringify([...c.querySelectorAll('input:checked')].map(y=>+y.dataset.i)))}catch(e){}at()}));at();
+const F=document.getElementById('pet');
+if(F){if(pet)F.querySelector('#pe').value=pet;
+ const pronto=()=>{F.innerHTML='<h2 style="margin-top:0">Recebi! 🐾</h2><p>Obrigada. Já anotei aqui e te mando as dicas certas'+(t==='visita'?' e os horários':'')+' pelo WhatsApp.</p>'};
+ try{if(localStorage.getItem('kit-pet-'+L))pronto()}catch(e){}
+ F.onsubmit=async(e)=>{e.preventDefault();const b=F.querySelector('button');b.disabled=true;b.textContent='Enviando…';
+  try{const r=await fetch('https://fernanda-whatsapp.tech-aetsolidez.workers.dev/resposta',{method:'POST',body:JSON.stringify({l:L,pet_nome:F.querySelector('#pn').value,especie:F.querySelector('#pe').value,idade:F.querySelector('#pi').value,quer_visita:F.querySelector('input[name=qv]:checked').value==='1'})});
+   if(!r.ok)throw 0;try{localStorage.setItem('kit-pet-'+L,'1')}catch(e){}pronto();if(typeof gtag==='function')gtag('event','kit_respondido',{tipo:t})}
+  catch(_){b.disabled=false;b.textContent='Não foi. Tentar de novo'}}}
+c.querySelectorAll('.kit-item input').forEach(x=>x.addEventListener('change',()=>{try{localStorage.setItem(K,JSON.stringify([...c.querySelectorAll('.kit-item input:checked')].map(y=>+y.dataset.i)))}catch(e){}at()}));at();
 if(typeof gtag==='function')gtag('event','kit_aberto',{tipo:t,pet:pet||'nd',bairro:q.get('b')||'nd'});
 </script>
 </body>
