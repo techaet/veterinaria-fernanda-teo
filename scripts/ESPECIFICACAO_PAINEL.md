@@ -41,7 +41,7 @@ Período (Resumo, Instagram, Anúncios): 1, 2, 4 (padrão), 8 ou 12 semanas com 
 ## Tokens
 
 - **Instagram**: token de login do Instagram (`IGAA…`), o mesmo tipo que o motor dos carrosséis usa (`META_TOKEN_FERNANDA_TEO`). O painel renova sozinho 1x por semana (`refresh_access_token`) e guarda a nova validade.
-- **Anúncios**: token do Facebook com `ads_read` na conta `act_10151653454237128`. O token do Instagram é recusado pela Meta ("Cannot parse access token").
+- **Anúncios**: token do Facebook com `ads_read` na conta `act_10151653454237128` (07/11/2026: token de usuário do Graph API Explorer, estendido para 60 dias; o painel avisa 10 dias antes, contando da data em que foi salvo. O portfólio da Fernanda não tem app, então não há usuário do sistema). O token do Instagram é recusado pela Meta ("Cannot parse access token").
 - **Google**: sem chave. O `painel.yml` usa a federação de identidade do GitHub e age como a conta de serviço `ga4-leitura`. Precisa: (1) o provedor `techaet` do pool `github` aceitar também `techaet/veterinaria-fernanda-teo` e a conta de serviço ter `roles/iam.workloadIdentityUser` para esse repositório; (2) a conta de serviço ser usuária (Restrita) do Search Console da propriedade `https://www.fernandateo.vet.br/`. Enquanto faltar, o painel mostra o motivo.
 
 ## Fora do escopo (por ora)
