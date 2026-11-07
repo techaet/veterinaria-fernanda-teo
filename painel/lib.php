@@ -5,8 +5,8 @@ declare(strict_types=1);
 
 defined('DADOS') || define('DADOS', __DIR__ . '/_dados');  // o teste troca por uma pasta temporária
 const SITE = 'https://www.fernandateo.vet.br';
-// sha256 do código de instalação (o mesmo do painel da pousada; o código só o Leonardo conhece)
-const CODIGO_INSTALACAO_SHA256 = 'f80ec50046bef84a15717bb1905f9bccc653d6fea1ada606fce81d33bf311dfc';
+// sha256 do código de instalação, próprio deste painel (07/11/2026); o código fica no Keychain do Mac do Leonardo: item painel-fernanda-instalacao
+const CODIGO_INSTALACAO_SHA256 = '0eb83b1d8652118e2e7da64501fc8b3700657372bfdc154089cb74434c7fe1df';
 const LEMBRAR_COOKIE = 'painel_ft';
 const LEMBRAR_DIAS = 180;
 

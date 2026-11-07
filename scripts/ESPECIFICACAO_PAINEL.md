@@ -18,7 +18,7 @@ Criado em 07/11/2026 a pedido do Leonardo, no molde das abas Site, Instagram e A
 
 ## Acesso
 
-- 1ª vez: código de instalação (o mesmo do painel da pousada; o painel guarda só o sha256) e senha de 10+ caracteres.
+- 1ª vez: código de instalação (próprio, no Keychain do Mac do Leonardo, item `painel-fernanda-instalacao`; o painel guarda só o sha256) e senha de 10+ caracteres.
 - Senha com `password_hash`; 5 erros em 15 min por IP bloqueiam. "Lembrar neste aparelho" = cookie assinado (HMAC com o `segredo` da config) por 180 dias, só em `/painel/`. Trocar a senha sorteia outro segredo e desconecta os outros aparelhos.
 - Nada de dado pessoal de cliente no painel: só contagens.
 
