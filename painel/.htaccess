@@ -1,0 +1,14 @@
+Options -Indexes
+DirectoryIndex index.php
+# arquivos internos: só o PHP lê
+<FilesMatch "^(lib|fontes)\.php$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # este RewriteEngine desliga as regras da raiz aqui: o painel força https sozinho
+  RewriteCond %{HTTP_HOST} ^fernandateo\.vet\.br$ [NC]
+  RewriteRule ^ https://www.fernandateo.vet.br%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>

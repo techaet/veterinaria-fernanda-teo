@@ -15,6 +15,9 @@ jobs:
       - name: Verificar o site (sitemap, feed, conformidade, imagens)
         run: python3 scripts/verificar.py
 
+      - name: Testar o painel (/painel/)
+        run: php scripts/test_painel.php
+
       - name: Gerar o índice de busca (Pagefind) — vai para /pagefind/ no servidor
         run: npx --yes pagefind@1.5.2 --site . --glob "blog/*/index.html"
 
@@ -41,3 +44,12 @@ jobs:
             **/scripts/**
             **/incorporacao-agenda-vet/**
             **/.DS_Store
+
+      - name: Avisar o painel (último deploy)
+        if: success()
+        continue-on-error: true  # sem o secret PAINEL_TOKEN o painel só não mostra o "Último deploy"; o site já foi
+        env:
+          MENSAGEM: ${{ github.event.head_commit.message }}
+        run: |
+          python3 -c 'import json,os;print(json.dumps({"commit":os.environ["GITHUB_SHA"][:7],"mensagem":(os.environ.get("MENSAGEM") or "").split("\n")[0]}))' > "$RUNNER_TEMP/deploy.json"
+          curl -fsS -X POST -H "X-Painel-Key: ${{ secrets.PAINEL_TOKEN }}" -H "Content-Type: application/json" --data-binary @"$RUNNER_TEMP/deploy.json" "https://www.fernandateo.vet.br/painel/api.php?acao=deploy"
