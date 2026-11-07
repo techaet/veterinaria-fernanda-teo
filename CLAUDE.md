@@ -27,6 +27,7 @@ Arquivos internos (este, `regras-compliance.md`, `scripts/`, `.claude/`, `incorp
 | `blog/assets/<slug>.webp` | Imagem de capa do artigo (também é o og:image) |
 | `blog/blog.css`, `blog/blog.js`, `blog/feed.xml` | Estilos do blog, filtro por tema e RSS |
 | `dra-fernanda-teo/` | Página da autora (E-E-A-T): credenciais, linkada na byline de todo artigo |
+| `painel/` | Painel com senha (PHP): saúde do site, Instagram e anúncios da Meta. Dados e tokens só no servidor, em `painel/_dados/`. Spec: `scripts/ESPECIFICACAO_PAINEL.md`; teste `scripts/test_painel.php` roda no deploy |
 | `scripts/site.json` | Fonte única: marca, autora, **temas** do blog e artigos de "Comece por aqui" |
 | `scripts/nav.html` | Menu de todas as páginas (o `sincronizar.py` o espalha) |
 | `scripts/sincronizar.py` | Gera o que se repete: menu, `<head>` padrão, tema/byline/caixa da autora nos artigos, chips e cards do blog, "Últimos artigos" da home. **Não edite à mão** esses trechos |

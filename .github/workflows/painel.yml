@@ -1,0 +1,58 @@
+name: Painel (velocidade e Google)
+
+# 1x por dia manda ao painel (/painel/, aba Site) a velocidade da home e os números do Google. Secret necessário: PAINEL_TOKEN
+# (a "Chave dos robôs" que aparece em /painel/?aba=ajustes). Spec: scripts/ESPECIFICACAO_PAINEL.md.
+on:
+  schedule:
+    - cron: '0 9 * * *'   # 6h de Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  velocidade:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          # 3 medições por aparelho e fica a do meio (a nota do celular varia ~20 pontos de uma vez para outra; o Google recomenda a mediana)
+          for modo in celular computador; do
+            extra=""; [ "$modo" = computador ] && extra="--preset=desktop"
+            for i in 1 2 3; do
+              npx -y lighthouse@13.4.1 https://www.fernandateo.vet.br/ --only-categories=performance --output=json --output-path="$RUNNER_TEMP/$modo-$i.json" --chrome-flags="--headless=new --no-sandbox" --quiet $extra
+            done
+          done
+          python3 - "$RUNNER_TEMP" > "$RUNNER_TEMP/vel.json" <<'PY'
+          import json, sys
+          out = {}
+          for modo in ("celular", "computador"):
+              medidas = []
+              for i in (1, 2, 3):
+                  j = json.load(open(f"{sys.argv[1]}/{modo}-{i}.json"))
+                  a = j["audits"]
+                  medidas.append({"nota": round((j["categories"]["performance"]["score"] or 0) * 100),
+                                  "lcp": a["largest-contentful-paint"]["numericValue"] / 1000, "cls": a["cumulative-layout-shift"]["numericValue"]})
+              print(modo, medidas, file=sys.stderr)
+              out[modo] = sorted(medidas, key=lambda x: x["nota"])[1]
+          print(json.dumps(out))
+          PY
+          curl -fsS -X POST -H "X-Painel-Key: ${{ secrets.PAINEL_TOKEN }}" -H "Content-Type: application/json" --data-binary @"$RUNNER_TEMP/vel.json" "https://www.fernandateo.vet.br/painel/api.php?acao=velocidade"
+
+  google:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Sem chave: o GitHub prova quem é (federação de identidade) e age como a conta de serviço ga4-leitura, só leitura.
+      # Enquanto o Google não liberar este repositório, o passo falha e o painel mostra o motivo (o script manda o erro de cada parte).
+      - id: auth
+        continue-on-error: true
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/214316769879/locations/global/workloadIdentityPools/github/providers/techaet
+          service_account: ga4-leitura@project-6cf07bdb-2853-4176-9aa.iam.gserviceaccount.com
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/webmasters.readonly
+      - run: |
+          GOOGLE_TOKEN="${{ steps.auth.outputs.access_token }}" python3 scripts/google_painel.py > "$RUNNER_TEMP/google.json"
+          curl -fsS -X POST -H "X-Painel-Key: ${{ secrets.PAINEL_TOKEN }}" -H "Content-Type: application/json" --data-binary @"$RUNNER_TEMP/google.json" "https://www.fernandateo.vet.br/painel/api.php?acao=google"

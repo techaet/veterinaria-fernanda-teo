@@ -5,3 +5,5 @@ incorporacao-agenda-vet/
 pagefind/
 __pycache__/
 node_modules/
+painel/_dados/*
+!painel/_dados/.htaccess
