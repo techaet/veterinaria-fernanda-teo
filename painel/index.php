@@ -277,6 +277,7 @@ foreach ($an['campanhas'] ?? [] as $c) {
 <h2>Chave dos robôs do GitHub</h2>
 <div class="card"><p class="dica">Os workflows <code>painel.yml</code> (velocidade e Google) e <code>deploy.yml</code> mandam os números com esta chave. Ela precisa estar igual no GitHub: repositório → Settings → Secrets and variables → Actions → <code>PAINEL_TOKEN</code>.</p>
   <label class="c" for="cron">Chave</label><input id="cron" type="password" readonly value="<?= h((string) cfg('cron_token', '')) ?>">
+  <button type="button" class="sec" onclick="var b=this;navigator.clipboard.writeText(document.getElementById('cron').value).then(function(){b.textContent='Copiada ✓'})">Copiar a chave</button>
   <form method="post" onsubmit="return confirm('Gerar uma chave nova? A antiga para de valer e o GitHub precisa da nova.')"><?= csrf_campo() ?><input type="hidden" name="acao" value="chave"><button class="sec">Gerar chave nova</button></form></div>
 <h2>Senha do painel</h2>
 <form method="post" class="card"><?= csrf_campo() ?><input type="hidden" name="acao" value="senha">
