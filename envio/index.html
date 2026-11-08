@@ -160,7 +160,9 @@ function mensagem(l){
 }
 // "Enviada" vale em qualquer aparelho: vem do lead_status da planilha (o botão Enviar marca contatado); o aparelho só guarda a hora.
 const STATUS={contatado:'enviada',respondeu:'respondeu no kit','quer-marcar':'quer marcar visita',agendou:'agendou','nao-quer':'não quer mensagens'};
-const feito=(l)=>!!enviados[l.id]||!!STATUS[l.status];
+// Número corrigido (faltava 55 ou o 9): a mensagem antiga não deve ter chegado; só conta o reenvio feito depois da correção.
+const LOJA2='envio-reenviados';let reenv={};try{reenv=JSON.parse(localStorage.getItem(LOJA2)||'{}')}catch(e){}
+const feito=(l)=>l.corrigido?(!!l.reenviado||!!reenv[l.id]):(!!enviados[l.id]||!!STATUS[l.status]);
 let LEADS=[],filtro='enviar';
 function desenha(){
  const lista=document.getElementById('lista');lista.innerHTML='';
@@ -170,13 +172,13 @@ function desenha(){
  for(const l of vis){
   const c=document.createElement('article');c.className='env-card'+(feito(l)?' feito':'')+(l.campanha==='nov'&&!feito(l)?' novo':'');
   const quando=l.data?l.data.slice(8,10)+'/'+l.data.slice(5,7):'';
-  c.innerHTML='<p class="env-nome"></p><p class="env-meta"></p><div class="env-msg"><textarea></textarea></div><div class="env-acoes"><button class="env-zap">Enviar no WhatsApp</button><button class="env-sec ver">Ver mensagem</button></div>'+(feito(l)?'<p class="env-feito">'+(enviados[l.id]?'Enviada em '+new Date(enviados[l.id]).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'Enviada')+(STATUS[l.status]&&l.status!=='contatado'?' · '+STATUS[l.status]:'')+(STATUS[l.status]?'':' · <a href="#" class="desfaz">desfazer</a>')+'</p>':'');
+  c.innerHTML='<p class="env-nome"></p><p class="env-meta"></p><div class="env-msg"><textarea></textarea></div><div class="env-acoes"><button class="env-zap">Enviar no WhatsApp</button><button class="env-sec ver">Ver mensagem</button></div>'+(feito(l)?'<p class="env-feito">'+(enviados[l.id]&&(!l.corrigido||reenv[l.id])?'Enviada em '+new Date(enviados[l.id]).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'Enviada')+(STATUS[l.status]&&l.status!=='contatado'?' · '+STATUS[l.status]:'')+(STATUS[l.status]||l.corrigido?'':' · <a href="#" class="desfaz">desfazer</a>')+'</p>':'');
   c.querySelector('.env-nome').textContent=l.nome;
-  c.querySelector('.env-meta').innerHTML='<span class="env-tag'+(l.campanha==='nov'?' novo':'')+'">'+(l.campanha==='nov'?'novo':'outubro')+'</span>';
+  c.querySelector('.env-meta').innerHTML='<span class="env-tag'+(l.campanha==='nov'?' novo':'')+'">'+(l.campanha==='nov'?'novo':'outubro')+'</span>'+(l.corrigido?'<span class="env-tag novo">número corrigido</span>':'');
   c.querySelector('.env-meta').append(PEDIDO[l.tipo]+' · '+quando+(l.pet?' · '+PET[l.pet]:'')+(l.bairro&&BAIRRO[l.bairro]?' · '+BAIRRO[l.bairro]:l.bairro==='outro'?' · fora dos 4 bairros':''));
   const ta=c.querySelector('textarea');ta.value=mensagem(l);
   c.querySelector('.ver').onclick=()=>c.classList.toggle('abre');
-  c.querySelector('.env-zap').onclick=()=>{enviados[l.id]=Date.now();guardar();if(l.tok)navigator.sendBeacon('https://fernanda-whatsapp.tech-aetsolidez.workers.dev/contatado',JSON.stringify({l:l.tok}));window.open('https://wa.me/'+l.tel+'?text='+encodeURIComponent(ta.value),'_blank');setTimeout(desenha,400)};
+  c.querySelector('.env-zap').onclick=()=>{enviados[l.id]=Date.now();guardar();if(l.corrigido){reenv[l.id]=Date.now();try{localStorage.setItem(LOJA2,JSON.stringify(reenv))}catch(e){}}if(l.tok)navigator.sendBeacon('https://fernanda-whatsapp.tech-aetsolidez.workers.dev/contatado',JSON.stringify({l:l.tok,reenvio:!!l.corrigido}));window.open('https://wa.me/'+l.tel+'?text='+encodeURIComponent(ta.value),'_blank');setTimeout(desenha,400)};
   const d=c.querySelector('.desfaz');if(d)d.onclick=(e)=>{e.preventDefault();delete enviados[l.id];guardar();desenha()};
   lista.append(c);
  }
