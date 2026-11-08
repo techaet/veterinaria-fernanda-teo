@@ -158,16 +158,19 @@ function mensagem(l){
  if(l.tipo==='visita')return 'Oi, '+l.nome+'! Aqui é a Dra. Fernanda Teo, veterinária. Você pediu uma visita em casa pelo meu anúncio e eu te devo uma resposta: desculpa a demora! 🙏\nPra compensar, montei '+KIT.visita+':\n'+k+'\n\nAinda quer marcar? No fim do kit tem um espacinho pra me contar do seu pet (leva 20 segundos), que eu te passo os horários desta semana.';
  return 'Oi, '+l.nome+'! Aqui é a Dra. Fernanda Teo, veterinária aqui do Sul da Ilha. 🐾 Há umas semanas você baixou '+PEDIDO[l.tipo]+'. Preparei '+KIT[l.tipo]+', com um bônus pro Réveillon:\n'+k+'\n\nPra acertar nas próximas dicas, no fim do kit tem um espacinho pra me contar do seu pet (leva 20 segundos).\nSe preferir não receber, é só me dizer.';
 }
+// "Enviada" vale em qualquer aparelho: vem do lead_status da planilha (o botão Enviar marca contatado); o aparelho só guarda a hora.
+const STATUS={contatado:'enviada',respondeu:'respondeu no kit','quer-marcar':'quer marcar visita',agendou:'agendou','nao-quer':'não quer mensagens'};
+const feito=(l)=>!!enviados[l.id]||!!STATUS[l.status];
 let LEADS=[],filtro='enviar';
 function desenha(){
  const lista=document.getElementById('lista');lista.innerHTML='';
- const vis=LEADS.filter(l=>filtro==='todos'||(filtro==='enviar'?!enviados[l.id]:!!enviados[l.id]));
- document.getElementById('cont').textContent=LEADS.filter(l=>!enviados[l.id]).length+' para enviar · '+LEADS.filter(l=>enviados[l.id]).length+' enviados';
+ const vis=LEADS.filter(l=>filtro==='todos'||(filtro==='enviar'?!feito(l):feito(l)));
+ document.getElementById('cont').textContent=LEADS.filter(l=>!feito(l)).length+' para enviar · '+LEADS.filter(feito).length+' enviados';
  if(!vis.length){lista.innerHTML='<p class="env-aviso">Nada aqui. '+(filtro==='enviar'?'Todo mundo já recebeu a mensagem.':'')+'</p>';return}
  for(const l of vis){
-  const c=document.createElement('article');c.className='env-card'+(enviados[l.id]?' feito':'')+(l.campanha==='nov'&&!enviados[l.id]?' novo':'');
+  const c=document.createElement('article');c.className='env-card'+(feito(l)?' feito':'')+(l.campanha==='nov'&&!feito(l)?' novo':'');
   const quando=l.data?l.data.slice(8,10)+'/'+l.data.slice(5,7):'';
-  c.innerHTML='<p class="env-nome"></p><p class="env-meta"></p><div class="env-msg"><textarea></textarea></div><div class="env-acoes"><button class="env-zap">Enviar no WhatsApp</button><button class="env-sec ver">Ver mensagem</button></div>'+(enviados[l.id]?'<p class="env-feito">Enviada em '+new Date(enviados[l.id]).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+' · <a href="#" class="desfaz">desfazer</a></p>':'');
+  c.innerHTML='<p class="env-nome"></p><p class="env-meta"></p><div class="env-msg"><textarea></textarea></div><div class="env-acoes"><button class="env-zap">Enviar no WhatsApp</button><button class="env-sec ver">Ver mensagem</button></div>'+(feito(l)?'<p class="env-feito">'+(enviados[l.id]?'Enviada em '+new Date(enviados[l.id]).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'Enviada')+(STATUS[l.status]&&l.status!=='contatado'?' · '+STATUS[l.status]:'')+(STATUS[l.status]?'':' · <a href="#" class="desfaz">desfazer</a>')+'</p>':'');
   c.querySelector('.env-nome').textContent=l.nome;
   c.querySelector('.env-meta').innerHTML='<span class="env-tag'+(l.campanha==='nov'?' novo':'')+'">'+(l.campanha==='nov'?'novo':'outubro')+'</span>';
   c.querySelector('.env-meta').append(PEDIDO[l.tipo]+' · '+quando+(l.pet?' · '+PET[l.pet]:'')+(l.bairro&&BAIRRO[l.bairro]?' · '+BAIRRO[l.bairro]:l.bairro==='outro'?' · fora dos 4 bairros':''));
