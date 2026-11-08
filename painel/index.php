@@ -81,6 +81,10 @@ if ($post) {
         $novo = ['meta_conta' => preg_replace('/\D/', '', (string) ($_POST['meta_conta'] ?? ''))];
         if (($t = trim((string) ($_POST['ig_token'] ?? ''))) !== '') $novo += ['ig_token' => $t, 'ig_token_em' => 0, 'ig_token_ate' => null];
         if (($t = trim((string) ($_POST['meta_token'] ?? ''))) !== '') $novo += ['meta_token' => $t, 'meta_token_em' => time()];
+        if (($t = trim((string) ($_POST['envio_link'] ?? ''))) !== '') {
+            if (!preg_match('~^https://(www\.)?fernandateo\.vet\.br/envio/#k=[A-Za-z0-9_-]{40,50}$~', $t)) voltar('aba=ajustes&ok=envio_link');
+            $novo['envio_link'] = $t;
+        }
         cfg_salvar($novo);
         @unlink(DADOS . '/instagram.json'); @unlink(DADOS . '/anuncios.json');  // lê de novo com o token novo
         voltar('aba=ajustes&ok=salvo');
@@ -125,7 +129,7 @@ $tituloAba = ['resumo' => 'Painel', 'site' => 'Site', 'instagram' => 'Instagram'
 pagina_topo($tituloAba, $aba, periodo_query($per));
 $ok = (string) ($_GET['ok'] ?? '');
 $okTxt = ['instalado' => 'Painel instalado. Agora cole os tokens abaixo.', 'salvo' => 'Ajustes salvos.', 'chave' => 'Chave nova gerada: troque também o secret PAINEL_TOKEN no GitHub.', 'senha' => 'Senha trocada. Os outros aparelhos vão pedir a senha de novo.'];
-$erroTxt = ['expirou' => 'A sessão expirou e nada foi feito. Tente de novo.', 'senha_atual' => 'A senha atual não confere.', 'senha_nova' => 'A senha nova precisa de 10+ caracteres e as duas precisam ser iguais.'];
+$erroTxt = ['expirou' => 'A sessão expirou e nada foi feito. Tente de novo.', 'senha_atual' => 'A senha atual não confere.', 'senha_nova' => 'A senha nova precisa de 10+ caracteres e as duas precisam ser iguais.', 'envio_link' => 'O link do painel de envio precisa ser o completo, no formato https://www.fernandateo.vet.br/envio/#k=… Nada foi salvo.'];
 if (isset($okTxt[$ok])) echo '<p class="ok-msg">' . h($okTxt[$ok]) . '</p>';
 if (isset($erroTxt[$ok])) echo '<p class="erro">' . h($erroTxt[$ok]) . '</p>';
 
@@ -271,6 +275,9 @@ foreach ($an['campanhas'] ?? [] as $c) {
   <label class="c" for="meta_token">Token dos anúncios · <?= $fim('meta_token') ?></label>
   <input id="meta_token" name="meta_token" type="password" autocomplete="off" placeholder="EAA… (vazio = manter o atual)">
   <p class="dica">Token do Facebook com a permissão <code>ads_read</code> nesta conta (o do Graph API Explorer, estendido, vale 60 dias; o painel avisa 10 dias antes). O token do Instagram não serve aqui.</p>
+  <label class="c" for="envio">Link do painel de envio · <?= $fim('envio_link') ?></label>
+  <input id="envio" name="envio_link" type="password" autocomplete="off" placeholder="https://www.fernandateo.vet.br/envio/#k=… (vazio = manter o atual)">
+  <p class="dica">O link completo, com a chave depois de <code>#k=</code>. Vira o atalho "Mensagens aos leads" do menu. A lista dentro dele é atualizada sozinha a cada lead novo.</p>
   <button>Salvar</button></form>
 </div>
 <div>

@@ -161,24 +161,35 @@ function periodo_form(array $per, string $aba): string {
 // ---------- layout ----------
 const ABAS = ['resumo' => 'Resumo', 'site' => 'Site', 'instagram' => 'Instagram', 'anuncios' => 'Anúncios', 'ajustes' => 'Ajustes'];
 
+// Com aba (logado): menu na barra lateral (Leonardo, 08/11/2026); no celular ela abre pelo botão "Menu". Sem aba: login/instalação.
+// O link do painel de envio leva a chave no #k=, por isso fica só na config do servidor (Ajustes), nunca no repositório.
 function pagina_topo(string $titulo, ?string $aba = null, string $query = ''): void {
     echo '<!DOCTYPE html><html lang="pt-BR" translate="no"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
-        . '<meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#eaf3ee"><link rel="icon" href="/favicon-32x32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">'
-        . '<title>' . h($titulo) . ' · Painel Dra. Fernanda Teo</title><style>' . PAINEL_CSS . '</style></head><body>'
-        . '<header class="topo"><div class="lin"><div><div class="marca">Dra. Fernanda Teo</div><h1>' . h($titulo) . '</h1></div>';
-    if ($aba !== null) {
-        echo '<form method="post" class="sair">' . csrf_campo() . '<input type="hidden" name="acao" value="sair"><button class="link">Sair</button></form></div><nav class="abas" aria-label="Seções">';
-        foreach (ABAS as $k => $t) echo '<a href="?aba=' . $k . ($k === 'ajustes' ? '' : $query) . '"' . ($k === $aba ? ' aria-current="page"' : '') . '>' . $t . '</a>';
-        echo '</nav>';
-    } else echo '</div>';
-    echo '</header><main>';
+        . '<meta name="robots" content="noindex, nofollow"><meta name="referrer" content="no-referrer"><meta name="theme-color" content="#eaf3ee"><link rel="icon" href="/favicon-32x32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">'
+        . '<title>' . h($titulo) . ' · Painel Dra. Fernanda Teo</title><style>' . PAINEL_CSS . '</style></head><body>';
+    if ($aba === null) {
+        echo '<header class="topo"><div class="lin"><div><div class="marca">Dra. Fernanda Teo</div><h1>' . h($titulo) . '</h1></div></div></header><main>';
+        return;
+    }
+    $GLOBALS['painel_lateral'] = true;
+    echo '<div class="casca"><aside class="lateral" id="lateral"><div class="marca">Dra. Fernanda Teo</div><div class="nome">Painel</div><nav class="menu" aria-label="Seções">';
+    foreach (ABAS as $k => $t) echo '<a href="?aba=' . $k . ($k === 'ajustes' ? '' : $query) . '"' . ($k === $aba ? ' aria-current="page"' : '') . '>' . $t . '</a>';
+    echo '</nav><div class="sep">Atalhos</div><nav class="menu" aria-label="Atalhos">';
+    $envio = (string) cfg('envio_link', '');
+    echo $envio !== ''
+        ? '<a href="' . h($envio) . '" target="_blank" rel="noopener noreferrer">Mensagens aos leads <span aria-hidden="true">↗</span></a>'
+        : '<a href="?aba=ajustes#envio" class="falta">Mensagens aos leads <span class="sub">pôr o link em Ajustes</span></a>';
+    echo '</nav><form method="post" class="sair">' . csrf_campo() . '<input type="hidden" name="acao" value="sair"><button class="link">Sair</button></form></aside>'
+        . '<div class="fundo-menu" hidden></div><div class="conteudo"><header class="topo-c"><button type="button" class="menu-btn" aria-controls="lateral" aria-expanded="false">Menu</button><h1>' . h($titulo) . '</h1></header><main>';
 }
 
 function pagina_fim(): void {
-    // botão "Mostrar" nos campos de senha; "Atualizando…" nos botões que esperam a Meta ou o Instagram
-    echo '</main><script>document.querySelectorAll("input[type=password]").forEach(function(i){var b=document.createElement("button");b.type="button";b.className="mostrar";b.textContent="Mostrar";'
+    // botão "Mostrar" nos campos de senha; "Atualizando…" nos botões que esperam a Meta ou o Instagram; menu lateral no celular
+    echo '</main>' . (empty($GLOBALS['painel_lateral']) ? '' : '</div></div>') . '<script>document.querySelectorAll("input[type=password]").forEach(function(i){var b=document.createElement("button");b.type="button";b.className="mostrar";b.textContent="Mostrar";'
         . 'b.onclick=function(){var v=i.type==="password";i.type=v?"text":"password";b.textContent=v?"Ocultar":"Mostrar"};i.insertAdjacentElement("afterend",b)});'
-        . 'document.querySelectorAll("form[data-espera]").forEach(function(f){f.addEventListener("submit",function(){var b=f.querySelector("button");b.disabled=true;b.textContent=f.dataset.espera})});</script></body></html>';
+        . 'document.querySelectorAll("form[data-espera]").forEach(function(f){f.addEventListener("submit",function(){var b=f.querySelector("button");b.disabled=true;b.textContent=f.dataset.espera})});'
+        . 'var mb=document.querySelector(".menu-btn"),fm=document.querySelector(".fundo-menu");if(mb){var tg=function(a){document.body.classList.toggle("menu-aberto",a);mb.setAttribute("aria-expanded",a);fm.hidden=!a};'
+        . 'mb.onclick=function(){tg(!document.body.classList.contains("menu-aberto"))};fm.onclick=function(){tg(false)};document.addEventListener("keydown",function(e){if(e.key==="Escape")tg(false)})}</script></body></html>';
 }
 
 // Glassmorphism (07/11/2026, pedido do Leonardo): fundo com manchas de cor fixas e cartões de vidro fosco por cima.
@@ -202,10 +213,23 @@ const PAINEL_CSS = ':root{--verde:#2E7D32;--verde-esc:#1B5E20;--ink:#14231c;--mu
     . 'header.topo{position:sticky;top:0;z-index:5;margin:12px 12px 0;padding:12px 16px 10px;padding-top:max(12px,env(safe-area-inset-top));border-radius:20px}'
     . '.topo .lin{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding-bottom:10px}'
     . '.marca{font-size:13px;color:var(--muted)}h1{font:600 22px/1.2 Poppins,Inter,system-ui,sans-serif;margin:2px 0 0;color:var(--verde-esc)}'
-    . '.abas{max-width:1180px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}.abas::-webkit-scrollbar{display:none}'
-    . '.abas a{flex:none;padding:7px 15px;border-radius:999px;color:var(--ink);text-decoration:none;font-weight:500;font-size:15px;border:1px solid transparent}'
-    . '.abas a:hover{background:var(--vidro-forte);border-color:var(--borda)}.abas a[aria-current]{background:var(--verde);color:#fff;box-shadow:0 4px 14px rgba(46,125,50,.35)}'
-    . '@media(prefers-color-scheme:dark){.abas a[aria-current]{color:#0b1411}}'
+    . '.lateral,.topo-c{background:var(--vidro);border:1px solid var(--borda);box-shadow:var(--sombra);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%)}'
+    . '@media(prefers-reduced-transparency:reduce){.lateral,.topo-c{background:var(--vidro-forte);-webkit-backdrop-filter:none;backdrop-filter:none}}'
+    . '.casca{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:232px minmax(0,1fr);gap:16px;padding:12px}'
+    . '.lateral{position:sticky;top:12px;align-self:start;height:calc(100vh - 24px);border-radius:20px;padding:18px 12px;display:flex;flex-direction:column;overflow-y:auto}'
+    . '.lateral .marca{padding:0 10px}.lateral .nome{font:600 20px/1.2 Poppins,Inter,system-ui,sans-serif;color:var(--verde-esc);padding:2px 10px 14px}'
+    . '.menu{display:flex;flex-direction:column;gap:2px}.menu a{display:block;padding:9px 12px;border-radius:12px;color:var(--ink);text-decoration:none;font-weight:500;font-size:15px;border:1px solid transparent}'
+    . '.menu a:hover{background:var(--vidro-forte);border-color:var(--borda)}.menu a[aria-current]{background:var(--verde);color:#fff;box-shadow:0 4px 14px rgba(46,125,50,.35)}'
+    . '@media(prefers-color-scheme:dark){.menu a[aria-current]{color:#0b1411}}.menu a.falta{color:var(--muted)}.menu .sub{display:block;font-size:12px;font-weight:400}'
+    . '.sep{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:18px 12px 6px}'
+    . '.lateral .sair{margin-top:auto;padding:12px 4px 0}'
+    . '.topo-c{border-radius:20px;padding:12px 16px;display:flex;align-items:center;gap:12px}.topo-c h1{margin:0}'
+    . '.menu-btn{display:none}.conteudo main{max-width:none;padding:16px 4px 48px}'
+    . '@media(max-width:899px){.casca{display:block;padding:12px}'
+    . '.lateral{position:fixed;z-index:20;top:0;left:0;bottom:0;height:auto;align-self:stretch;width:min(80vw,280px);border-radius:0 20px 20px 0;padding-top:max(18px,env(safe-area-inset-top));transform:translateX(-105%);transition:transform .2s;background:var(--vidro-forte)}'
+    . '.menu-aberto .lateral{transform:none}.fundo-menu{position:fixed;inset:0;z-index:15;background:rgba(0,0,0,.25)}'
+    . '.topo-c{position:sticky;top:12px;z-index:5}.menu-btn{display:inline-block;flex:none;width:auto;min-height:40px;margin:0;padding:8px 14px;border-radius:12px}}'
+    . '@media(prefers-reduced-motion:reduce){.lateral{transition:none}}'
     . 'button.link{background:none;border:0;box-shadow:none;color:var(--muted);text-decoration:underline;min-height:0;margin:0;padding:4px;font:inherit;cursor:pointer}.sair{margin:0}'
     . 'main{max-width:1180px;margin:0 auto;padding:20px 16px 48px}h2{font-size:16px;font-weight:600;margin:24px 0 10px}'
     . '.card{border-radius:20px;padding:16px;margin-bottom:12px}'

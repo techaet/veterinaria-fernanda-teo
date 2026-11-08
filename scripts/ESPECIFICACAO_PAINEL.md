@@ -22,13 +22,22 @@ Criado em 07/11/2026 a pedido do Leonardo, no molde das abas Site, Instagram e A
 - Senha com `password_hash`; 5 erros em 15 min por IP bloqueiam. "Lembrar neste aparelho" = cookie assinado (HMAC com o `segredo` da config) por 180 dias, só em `/painel/`. Trocar a senha sorteia outro segredo e desconecta os outros aparelhos.
 - Nada de dado pessoal de cliente no painel: só contagens.
 
+## Layout (08/11/2026, Leonardo)
+
+Menu na **barra lateral** (Resumo · Site · Instagram · Anúncios · Ajustes, depois "Atalhos" e Sair embaixo). No celular (< 900 px) a
+barra vira gaveta aberta pelo botão "Menu" (fecha no fundo escuro ou com Esc). Login e instalação seguem com o cabeçalho simples.
+
+Atalho **Mensagens aos leads**: abre o painel de envio `/envio/#k=…` numa aba nova. O link leva a chave do painel, então fica só na
+config do servidor (`_dados/config.json`, campo `envio_link`, colado em Ajustes e validado), nunca no repositório (que é público).
+Sem link salvo, o atalho manda para Ajustes. A lista do `/envio/` vem ao vivo do Worker `fernanda-whatsapp`.
+
 ## Abas
 
 - **Resumo**: um cartão por área (Site, Instagram, Anúncios) com a luz `tudo certo` / `atenção` / `problema` (o pior item da área), o número principal e o "O que fazer" das três áreas juntas, problemas primeiro.
 - **Site** (não usa o período): no ar (código, tempo, validade do cadeado, lido a cada 30 min), velocidade celular/computador, visitas de 28 dias contra os 28 anteriores, páginas no Google (indexadas de quantas do sitemap, cliques e vezes na busca), último deploy, páginas mais vistas e de onde vêm as visitas (com barras), páginas fora do Google com o motivo.
 - **Instagram**: seguidores (+ novos no período, somando o `follower_count` diário; o Instagram só dá 30 dias, então o painel guarda cada dia em `_dados/ig_seguidores.json` e mostra "desde" enquanto a história não cobre), alcance, visualizações e interações com ▲▼ contra o período anterior, engajamento (interações ÷ alcance) e os 6 últimos posts com o alcance de cada um. Lido na hora pela API do Instagram (login do Instagram), cache de 1 h por período.
 - **Anúncios**: gasto, leads (ou conversas no WhatsApp, quando a campanha é de mensagem), custo por resultado (▲ é ruim), alcance e cliques, com ▲▼; campanhas no ar ou que gastaram no período, com orçamento. Mesmas regras da pousada: "no ar" só quando entrega (limite de gastos da conta atingido = "parada: limite da conta"; data de fim passada = "encerrada"), avisos de conta inativa e anúncio reprovado. Cache de 30 min.
-- **Ajustes**: token do Instagram, conta de anúncios (padrão 10151653454237128), token dos anúncios, a chave dos robôs (para o secret `PAINEL_TOKEN`) e a troca de senha. Tokens nunca aparecem: só "termina em …xxxx".
+- **Ajustes**: token do Instagram, conta de anúncios (padrão 10151653454237128), token dos anúncios, link do painel de envio, a chave dos robôs (para o secret `PAINEL_TOKEN`) e a troca de senha. Tokens nunca aparecem: só "termina em …xxxx".
 
 Período (Resumo, Instagram, Anúncios): 1, 2, 4 (padrão), 8 ou 12 semanas com hoje, ou datas escolhidas; vai na URL e acompanha a troca de aba. A comparação é sempre com o mesmo tanto de dias logo antes.
 
