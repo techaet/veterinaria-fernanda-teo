@@ -96,6 +96,11 @@ def pagina(p):
         for prova, linha in HEAD_BUSCA:
             if prova not in s:
                 s = s.replace("</head>", f"  {linha}\n</head>", 1)
+        # visual Floresta noturna (floresta.css) em toda página com menu
+        if "floresta.css" not in s:
+            s = s.replace("</head>", '  <link rel="stylesheet" href="/floresta.css">\n</head>', 1)
+        if "tema-floresta" not in s:
+            s = re.sub(r'<body( class="([^"]*)")?', lambda m: f'<body class="{(m.group(2) + " ") if m.group(2) else ""}tema-floresta"', s, count=1)
     if 'property="og:title"' in s:
         for prova, linha in HEAD:
             if prova not in s:

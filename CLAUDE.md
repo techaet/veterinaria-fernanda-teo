@@ -21,6 +21,7 @@ Arquivos internos (este, `regras-compliance.md`, `scripts/`, `.claude/`, `incorp
 | Caminho | O quê |
 |---|---|
 | `index.html`, `style.css`, `script.js` | Home + estilos/JS globais (usados por todas as páginas) |
+| `floresta.css` | Visual "Floresta noturna" (vidro fosco, fundo escuro) por cima do `style.css`. O `sincronizar.py` põe o link e `class="tema-floresta"` no `<body>` de toda página com menu. Iscas, kit e guia (sem menu, para imprimir) ficam claros |
 | `agendar/` | Agenda online via iframe (`vetplatform-alf9ll8o.manus.space`). Sem botão flutuante de WhatsApp nesta página |
 | `blog/index.html` | Lista de artigos (cards, do mais novo para o mais antigo) |
 | `blog/<slug>/index.html` | Um artigo por pasta |
