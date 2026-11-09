@@ -1,0 +1,189 @@
+/* ============================================================
+   TEMA "FLORESTA NOTURNA" (glassmorphism) — só na home
+   Ativado por <body class="tema-floresta"> no index.html.
+   As outras páginas seguem com o visual claro do style.css.
+   ============================================================ */
+
+body.tema-floresta {
+  --cor-texto: #F1F6F1;
+  --cor-texto-suave: rgba(241, 246, 241, 0.80);
+  --cor-fundo: transparent;
+  --cor-fundo-alt: rgba(255, 255, 255, 0.06);
+  --cor-primaria-clara: rgba(200, 230, 201, 0.14);
+  --verde-claro: #A5D6A7;
+  --laranja-cta: #FF8A3D;
+  --laranja-cta-hover: #FFA25F;
+  --pf-text: #F1F6F1;
+  --pf-text-secondary: rgba(241, 246, 241, 0.80);
+  --pf-border: rgba(255, 255, 255, 0.22);
+  --pf-hover: rgba(255, 255, 255, 0.10);
+  background-color: #0C2215;
+}
+
+/* Manchas de luz desfocadas atrás do vidro (fixas, não rolam) */
+body.tema-floresta::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(42vmax circle at 6% 4%, rgba(46, 125, 50, 0.55), transparent 70%),
+    radial-gradient(36vmax circle at 98% 38%, rgba(21, 101, 192, 0.30), transparent 70%),
+    radial-gradient(30vmax circle at 38% 88%, rgba(255, 111, 0, 0.12), transparent 70%),
+    radial-gradient(40vmax circle at 88% 104%, rgba(67, 160, 71, 0.35), transparent 70%),
+    #0C2215;
+}
+
+/* ---------- Vidro ---------- */
+.tema-floresta .hero-badge-flutuante,
+.tema-floresta .servico-card,
+.tema-floresta .depoimento-card,
+.tema-floresta .credencial-card,
+.tema-floresta .article-card,
+.tema-floresta .podcast-player,
+.tema-floresta .mapa-wrapper,
+.tema-floresta .agendar-inner,
+.tema-floresta .tema-chip,
+.tema-floresta .sobre-imagem-badge {
+  background: rgba(255, 255, 255, 0.07);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+/* Seções sem fundo próprio: o fundo da página aparece por trás */
+.tema-floresta #hero,
+.tema-floresta #sobre,
+.tema-floresta #servicos,
+.tema-floresta #depoimentos,
+.tema-floresta #agendar,
+.tema-floresta #contato,
+.tema-floresta .home-podcast,
+.tema-floresta .home-artigos { background: transparent; }
+.tema-floresta #hero::before,
+.tema-floresta #agendar::before,
+.tema-floresta #agendar::after { display: none; }
+
+/* ---------- Menu ---------- */
+.tema-floresta .navbar {
+  background: rgba(12, 34, 21, 0.55);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.tema-floresta .navbar.scrolled { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35); }
+.tema-floresta .navbar-menu a:hover { color: var(--verde-claro); }
+.tema-floresta .navbar-menu a::after { background: var(--verde-claro); }
+
+/* ---------- Botões laranja: texto escuro (branco no laranja não tem contraste) ---------- */
+.tema-floresta .btn-navbar,
+.tema-floresta .btn-online,
+.tema-floresta .btn-agendar--online,
+.tema-floresta .agendar-float,
+.tema-floresta .pp-play {
+  background: var(--laranja-cta) !important;
+  color: #1A1A2E !important;
+}
+.tema-floresta .btn-navbar:hover,
+.tema-floresta .btn-online:hover,
+.tema-floresta .btn-agendar--online:hover,
+.tema-floresta .agendar-float:hover,
+.tema-floresta .pp-play:hover {
+  background: var(--laranja-cta-hover) !important;
+  color: #1A1A2E !important;
+}
+.tema-floresta .btn-online svg,
+.tema-floresta .btn-agendar--online svg { fill: currentColor; }
+
+.tema-floresta .btn-secundario {
+  color: var(--cor-texto);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.07);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+.tema-floresta .btn-secundario:hover { background: rgba(255, 255, 255, 0.16); color: var(--cor-texto); }
+
+/* ---------- Hero ---------- */
+.tema-floresta .hero-titulo .destaque { color: var(--verde-claro); }
+.tema-floresta .hero-imagem-wrapper {
+  padding: 12px;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.07);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+.tema-floresta .hero-imagem-wrapper img {
+  border-radius: 22px;
+  object-position: center 15%;
+}
+.tema-floresta .hero-badge-flutuante { background: rgba(12, 34, 21, 0.45); }
+.tema-floresta .hero-badge-flutuante .icone svg { fill: var(--verde-claro); }
+
+/* ---------- Rótulos e títulos verdes viram verde-claro ---------- */
+.tema-floresta .sobre-label,
+.tema-floresta .secao-label,
+.tema-floresta .blog-section-label,
+.tema-floresta .article-kicker,
+.tema-floresta .article-card-link,
+.tema-floresta .contato-item-texto a:hover { color: var(--verde-claro); }
+.tema-floresta .article-card-link:hover { color: #C8E6C9; }
+.tema-floresta .servico-titulo { color: var(--cor-texto); }
+.tema-floresta .formacao-ano { color: var(--verde-claro); }
+
+/* ---------- Ícones ---------- */
+.tema-floresta .servico-icone svg { fill: var(--verde-claro); }
+.tema-floresta .servico-card:hover .servico-icone { background: var(--verde-claro); }
+.tema-floresta .servico-card:hover .servico-icone svg { fill: #0C2215; }
+.tema-floresta .servico-card:hover { border-bottom-color: var(--verde-claro); }
+.tema-floresta .contato-item-icone { background: rgba(255, 255, 255, 0.10) !important; }
+.tema-floresta .contato-item-icone svg { fill: var(--verde-claro) !important; }
+
+/* ---------- Cartões ---------- */
+.tema-floresta .tema-chip { color: var(--cor-texto); }
+.tema-floresta .tema-chip:hover { border-color: var(--verde-claro); color: var(--verde-claro); }
+.tema-floresta .tema-chip[aria-current="true"] { background: var(--verde-claro); border-color: var(--verde-claro); color: #0C2215; }
+.tema-floresta .tema-chip[aria-current="true"] span { background: rgba(12, 34, 21, 0.15); color: #0C2215; }
+.tema-floresta .article-card-visual::after { background: none; }
+.tema-floresta .sobre-imagem-badge { color: var(--cor-texto); }
+.tema-floresta .sobre-imagem-wrapper { background: rgba(255, 255, 255, 0.06); }
+.tema-floresta .pp-vel { background: rgba(255, 255, 255, 0.16); }
+
+/* ---------- Agendar ---------- */
+.tema-floresta .agendar-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 56px 40px;
+  border-radius: 32px;
+  background: rgba(46, 125, 50, 0.18);
+}
+
+/* ---------- Rodapé ---------- */
+.tema-floresta footer {
+  background: rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* ---------- Celular: menu aberto em vidro escuro ---------- */
+@media (max-width: 768px) {
+  .tema-floresta .navbar-menu {
+    background: #10281A;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  }
+  .tema-floresta .navbar-menu a { border-bottom-color: rgba(255, 255, 255, 0.08); }
+  .tema-floresta .hero-badge-flutuante { left: 8px; }
+  .tema-floresta .agendar-inner { padding: 40px 20px; }
+}
+
+/* Navegadores sem desfoque: vidro um pouco mais opaco para manter a leitura */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .tema-floresta .navbar { background: rgba(12, 34, 21, 0.95); }
+  .tema-floresta .servico-card,
+  .tema-floresta .depoimento-card,
+  .tema-floresta .article-card,
+  .tema-floresta .agendar-inner { background: rgba(20, 52, 33, 0.92); }
+}
