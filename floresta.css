@@ -1,7 +1,8 @@
 /* ============================================================
-   TEMA "FLORESTA NOTURNA" (glassmorphism) — só na home
-   Ativado por <body class="tema-floresta"> no index.html.
-   As outras páginas seguem com o visual claro do style.css.
+   TEMA "FLORESTA NOTURNA" (glassmorphism) — todas as páginas com menu
+   Ativado por <body class="tema-floresta">; o scripts/sincronizar.py põe
+   a classe e este CSS em toda página com menu. Iscas, kit e guia (sem
+   menu, feitos para imprimir) seguem claros.
    ============================================================ */
 
 body.tema-floresta {
@@ -179,11 +180,117 @@ body.tema-floresta::before {
   .tema-floresta .agendar-inner { padding: 40px 20px; }
 }
 
+/* ============================================================
+   PÁGINAS INTERNAS (blog, artigo, autora, podcast, agenda, privacidade, 404)
+   ============================================================ */
+.tema-floresta .article-page,
+.tema-floresta .pagina-404,
+.tema-floresta .abertura { background: transparent !important; }
+body.tema-floresta, body.tema-floresta.blog-page { background: #0C2215; color: var(--cor-texto); }
+
+/* Vidro padrão nas caixas internas */
+.tema-floresta .article-toc,
+.tema-floresta .article-author,
+.tema-floresta .article-cta,
+.tema-floresta .podcast-ep,
+.tema-floresta .formacao-item,
+.tema-floresta .blog-hero-media,
+.tema-floresta .agenda-vet-wrap,
+.tema-floresta .resumo,
+.tema-floresta .indice,
+.tema-floresta .contato-caixa {
+  background: rgba(255, 255, 255, 0.07);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+/* Topo do blog/podcast: sem faixa verde chapada, vidro sobre o fundo */
+.tema-floresta .blog-hero { background: transparent; }
+.tema-floresta .blog-eyebrow { color: var(--verde-claro); }
+
+/* Artigo */
+.tema-floresta .article-breadcrumb,
+.tema-floresta .article-breadcrumb a,
+.tema-floresta .article-toc-title,
+.tema-floresta .article-byline a { color: var(--verde-claro); }
+.tema-floresta .article-tema { background: rgba(165, 214, 167, 0.16); color: var(--verde-claro); border: 1px solid rgba(165, 214, 167, 0.3); }
+.tema-floresta .article-tema:hover { background: var(--verde-claro); color: #0C2215; }
+.tema-floresta .article-feature-image { border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); }
+.tema-floresta .article-safety {
+  background: rgba(255, 138, 61, 0.12);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 138, 61, 0.30);
+  border-left: 4px solid var(--laranja-cta);
+  color: #FFD9BF;
+}
+.tema-floresta .article-body a,
+.tema-floresta .article-references a { color: #9FD0FF; }
+.tema-floresta .article-toc a { color: var(--cor-texto); }
+.tema-floresta .article-toc a:hover { color: var(--verde-claro); }
+.tema-floresta .article-cta { background: rgba(46, 125, 50, 0.22); }
+.tema-floresta .article-references { border-top-color: rgba(255, 255, 255, 0.14); }
+.tema-floresta .faq-item summary,
+.tema-floresta .faq-item h3 { color: var(--cor-texto); }
+.tema-floresta table th { background: rgba(255, 255, 255, 0.10); color: var(--cor-texto); }
+.tema-floresta table td { border-color: rgba(255, 255, 255, 0.12); }
+
+/* Busca do menu (pagefind) */
+.tema-floresta .navbar-busca button,
+.tema-floresta pagefind-modal-trigger { color-scheme: dark; }
+
+/* Privacidade e 404 (estilos próprios na página) */
+.tema-floresta .abertura,
+.tema-floresta .abertura-interno { background: transparent !important; color: var(--cor-texto); }
+.tema-floresta .corpo,
+.tema-floresta .corpo h2,
+.tema-floresta .corpo p,
+.tema-floresta .corpo li { color: var(--cor-texto); }
+.tema-floresta .corpo a,
+.tema-floresta .indice a { color: var(--verde-claro); }
+
+
+/* FAQ: só linhas finas entre as perguntas */
+.tema-floresta .faq-item { border-bottom-color: rgba(255, 255, 255, 0.12); }
+.tema-floresta .faq-item h3 { color: var(--verde-claro); }
+.tema-floresta .article-related { border-top-color: rgba(255, 255, 255, 0.14); }
+.tema-floresta .article-related a { color: var(--verde-claro); }
+.tema-floresta .article-author-titulo,
+.tema-floresta .article-author a { color: var(--verde-claro); }
+
+/* Agenda: o formulário é de outro site (Manus) e continua claro; ganha moldura de vidro */
+.tema-floresta .agenda-vet-wrap { padding: 12px; border-radius: 32px; }
+.tema-floresta .agenda-vet-frame { border-radius: 22px; }
+
+/* Privacidade */
+.tema-floresta h1, .tema-floresta article h2 { color: var(--cor-texto); }
+.tema-floresta .abertura { border-bottom-color: rgba(255, 255, 255, 0.12); }
+.tema-floresta .atualizacao { color: var(--cor-texto-suave); }
+
+/* 404 */
+.tema-floresta .pagina-404 h1 { color: var(--verde-claro); }
+.tema-floresta .pagina-404-icone svg { fill: var(--verde-claro); stroke: var(--verde-claro); }
+.tema-floresta .pagina-404-btn-primario { background: var(--laranja-cta); color: #1A1A2E; }
+.tema-floresta .pagina-404-btn-secundario {
+  background: rgba(255, 255, 255, 0.07); color: var(--cor-texto);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
+}
+
 /* Navegadores sem desfoque: vidro um pouco mais opaco para manter a leitura */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .tema-floresta .navbar { background: rgba(12, 34, 21, 0.95); }
   .tema-floresta .servico-card,
   .tema-floresta .depoimento-card,
   .tema-floresta .article-card,
-  .tema-floresta .agendar-inner { background: rgba(20, 52, 33, 0.92); }
+  .tema-floresta .agendar-inner,
+  .tema-floresta .article-toc,
+  .tema-floresta .article-author,
+  .tema-floresta .article-cta,
+  .tema-floresta .podcast-ep,
+  .tema-floresta .resumo,
+  .tema-floresta .indice,
+  .tema-floresta .contato-caixa { background: rgba(20, 52, 33, 0.92); }
 }
