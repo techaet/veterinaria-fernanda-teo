@@ -217,11 +217,12 @@ if ($aba === 'resumo'):
   <?= kpi('Interações', isset($ig['interacoes']) ? mil($ig['interacoes']) : '—', seta(variacao($ig['interacoes'] ?? null, $ig['interacoes_antes'] ?? null)) . ' curtidas, comentários, salvos…') ?>
   <?= kpi('Engajamento', $eng !== null ? number_format($eng, 1, ',', '') . '%' : '—', $engAntes !== null ? 'antes: ' . number_format($engAntes, 1, ',', '') . '%' : 'interações ÷ alcance', 'Interações divididas pelo alcance do período. Mostra se quem vê o conteúdo reage a ele.') ?>
 </div>
-<h2>Últimos posts</h2><div class="card" style="padding:4px 16px">
-<?php $maxA = max(array_map(fn($p) => (int) $p['alcance'], $ig['posts'] ?? []) ?: [1]) ?: 1;
+<h2>Últimos posts, do maior engajamento para o menor</h2><div class="card" style="padding:4px 16px">
+<?php $maxE = max(array_map(fn($p) => (float) ($p['engajamento'] ?? 0), $ig['posts'] ?? []) ?: [0]) ?: 1;
 foreach ($ig['posts'] ?? [] as $p) echo '<div class="row"><div class="x">' . ($p['link'] ? '<a href="' . h($p['link']) . '" target="_blank" rel="noopener">' . h($p['legenda'] ?: 'sem legenda') . '</a>' : h($p['legenda']))
-    . '<div class="sub">' . h(['VIDEO' => 'Reel', 'CAROUSEL_ALBUM' => 'Carrossel', 'IMAGE' => 'Foto'][$p['tipo']] ?? $p['tipo']) . ' · ' . ($p['data'] ? date('d/m', strtotime($p['data'])) : '—') . ' · ' . $p['curtidas'] . ' curtidas · ' . $p['comentarios'] . ' comentários</div>'
-    . ($p['alcance'] !== null ? '<div class="barra"><i style="width:' . round($p['alcance'] / $maxA * 100) . '%"></i></div>' : '') . '</div><span class="n">' . ($p['alcance'] !== null ? mil($p['alcance']) . '<br>alcance' : '') . '</span></div>';
+    . '<div class="sub">' . h(['VIDEO' => 'Reel', 'CAROUSEL_ALBUM' => 'Carrossel', 'IMAGE' => 'Foto'][$p['tipo']] ?? $p['tipo']) . ' · ' . ($p['data'] ? date('d/m', strtotime($p['data'])) : '—')
+    . (isset($p['interacoes']) ? ' · ' . plural($p['interacoes'], 'interação', 'interações') : '') . ' · ' . $p['curtidas'] . ' curtidas · ' . $p['comentarios'] . ' comentários' . ($p['alcance'] !== null ? ' · alcance ' . mil($p['alcance']) : '') . '</div>'
+    . (isset($p['engajamento']) ? '<div class="barra"><i style="width:' . round($p['engajamento'] / $maxE * 100) . '%"></i></div>' : '') . '</div><span class="n">' . (isset($p['engajamento']) ? number_format($p['engajamento'], 1, ',', '') . '%<br>engajamento' : '') . '</span></div>';
 if (empty($ig['posts'])) echo '<p class="dica">Nenhum post lido.</p>'; ?>
 </div>
 <?= botao_atualizar('Lido do Instagram ' . (isset($ig['em']) ? date('d/m H:i', (int) $ig['em']) : '') . '; atualiza a cada 1 h.') ?>

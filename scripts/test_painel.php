@@ -47,6 +47,9 @@ $af = ig_afazeres($ig, $agora, $agora + 2 * 86400);
 ok($af[0][0] === 'erro' && str_contains($af[0][1], 'token'), 'token vencendo em 2 dias = erro');
 ok(count($af) === 3, 'último post há 9 dias e alcance caiu 30% = avisos');
 ok(ig_afazeres(null, $agora, null)[0][1] === 'Falta o token do Instagram (Ajustes).', 'sem token');
+$o = ig_resumo([], null, null, [], [['legenda' => 'a', 'alcance' => 100, 'interacoes' => 1], ['legenda' => 'b', 'alcance' => null], ['legenda' => 'c', 'alcance' => 10, 'interacoes' => 1],
+    ['legenda' => 'd', 'alcance' => 50, 'interacoes' => 0], ['legenda' => 'e', 'alcance' => 90, 'interacoes' => 0]], $per)['posts'];
+ok(array_column($o, 'legenda') === ['c', 'a', 'e', 'd', 'b'] && $o[0]['engajamento'] === 10.0, 'posts do maior engajamento para o menor; sem alcance por último');
 // leitura com respostas de mentira (sem internet)
 $falso = function (string $c, array $p) {
     if ($c === 'me') return [200, ['id' => '42', 'username' => 'fernandateoveterinaria', 'followers_count' => 497, 'media_count' => 128]];
