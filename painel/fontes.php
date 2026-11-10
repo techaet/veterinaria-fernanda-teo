@@ -152,11 +152,12 @@ function instagram(array $per, bool $forcar = false, ?callable $get = null): ?ar
     $posts = [];
     foreach ((array) ($media['data'] ?? []) as $m) {
         if (!is_array($m)) continue;
-        [$hr, $r] = $get(($m['id'] ?? '0') . '/insights', ['metric' => 'reach']);  // falha em story ou post antigo: fica sem alcance
+        [$hr, $r] = $get(($m['id'] ?? '0') . '/insights', ['metric' => 'reach,total_interactions']);  // falha em story ou post antigo: fica sem números
+        $v = $hr === 200 ? array_column(array_map(fn($d) => [$d['name'] ?? '', (int) ($d['values'][0]['value'] ?? 0)], (array) ($r['data'] ?? [])), 1, 0) : [];
         $posts[] = ['tipo' => (string) ($m['media_type'] ?? ''), 'legenda' => texto_curto(strtok((string) ($m['caption'] ?? ''), "\n"), 90), 'data' => (string) ($m['timestamp'] ?? ''),
             'curtidas' => (int) ($m['like_count'] ?? 0), 'comentarios' => (int) ($m['comments_count'] ?? 0),
             'link' => preg_match('~^https://www\.instagram\.com/~', (string) ($m['permalink'] ?? '')) ? (string) $m['permalink'] : '',
-            'alcance' => $hr === 200 ? (int) ($r['data'][0]['values'][0]['value'] ?? 0) : null];
+            'alcance' => $v['reach'] ?? null, 'interacoes' => $v['total_interactions'] ?? null];
     }
     $novo = ig_resumo($perfil, $agora, $antes, $hist, $posts, $per) + ['em' => time(), 'erro' => $agora === null ? 'o Instagram não mandou o alcance deste período' : null, 'de' => $per['de'], 'ate' => $per['ate']];
     return json_atualizar('instagram', fn() => $novo);
@@ -167,6 +168,10 @@ function ig_resumo(array $perfil, ?array $agora, ?array $antes, array $hist, arr
     $noPer = array_filter($hist, fn($d) => $d >= $per['de'] && $d <= $per['ate'], ARRAY_FILTER_USE_KEY);
     ksort($noPer);
     $pega = fn(?array $t, string $k) => $t === null ? null : (int) ($t[$k] ?? 0);
+    // posts do maior engajamento (interações ÷ alcance, a mesma conta do engajamento da conta) para o menor; empate: mais interações, depois mais alcance
+    foreach ($posts as &$p) $p['engajamento'] = !empty($p['alcance']) ? round(($p['interacoes'] ?? 0) / $p['alcance'] * 100, 1) : null;
+    unset($p);
+    usort($posts, fn($a, $b) => [$b['engajamento'] ?? -1, $b['interacoes'] ?? 0, $b['alcance'] ?? 0] <=> [$a['engajamento'] ?? -1, $a['interacoes'] ?? 0, $a['alcance'] ?? 0]);
     return ['usuario' => (string) ($perfil['username'] ?? ''), 'seguidores' => (int) ($perfil['followers_count'] ?? 0), 'posts_total' => (int) ($perfil['media_count'] ?? 0),
         'alcance' => $pega($agora, 'reach'), 'visualizacoes' => $pega($agora, 'views'), 'interacoes' => $pega($agora, 'total_interactions'),
         'alcance_antes' => $pega($antes, 'reach'), 'visualizacoes_antes' => $pega($antes, 'views'), 'interacoes_antes' => $pega($antes, 'total_interactions'),
