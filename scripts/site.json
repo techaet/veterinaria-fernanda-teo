@@ -66,6 +66,13 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "decoracao-natal-caes-gatos",
+      "titulo": "Perigos da decoração natalina para pets",
+      "data": "2026-11-16",
+      "duracao": "24 min",
+      "trecho": "Para um gato que já tem o hábito de escalar cortinas, pular em estantes altas ou dormir em cima da geladeira, uma árvore de Natal iluminada não é um enfeite. É um parque de diversões."
+    },
+    {
       "artigo": "gato-acima-do-peso-cuidados",
       "titulo": "Por que gatos gordinhos correm perigo",
       "data": "2026-11-02",
