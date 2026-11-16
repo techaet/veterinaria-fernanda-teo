@@ -66,6 +66,13 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "viagem-de-onibus-com-cao-e-gato",
+      "titulo": "Como viajar de ônibus com seu pet",
+      "data": "2026-11-16",
+      "duracao": "30 min",
+      "trecho": "Existe um abismo gigante entre o que a gente imagina ser o nosso direito como consumidor e a realidade prática das rodoviárias brasileiras."
+    },
+    {
       "artigo": "decoracao-natal-caes-gatos",
       "titulo": "Perigos da decoração natalina para pets",
       "data": "2026-11-16",
