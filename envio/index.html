@@ -153,6 +153,8 @@ function mensagem(l){
   if(l.tipo==='visita')m+='Quer que eu já te passe os horários desta semana'+onde+'? No fim do kit tem um espacinho pra me contar do seu pet (leva 20 segundos).';
   else if(l.tipo==='fogos')m+='Ainda dá tempo de começar o treino com calma. '+pergunta;
   else m+=pergunta+(onde?' E se precisar, eu atendo em casa'+onde+'.':'');
+  // 17/11/2026: leads de vacinas acharam que a vacinação era grátis; deixar claro que só o material é
+  if(l.tipo==='vacinas')m+='\n\nAh, uma coisa que me perguntaram bastante: o calendário e este kit são presentes meus. A vacinação é um atendimento pago, que eu faço em casa. Se quiser saber o valor '+(l.pet==='os-dois'?'pros seus pets':'pro seu '+(pet||'pet'))+', é só me responder aqui.';
   return m+'\n\nSe preferir não receber mensagens, é só me dizer.';
  }
  if(l.tipo==='visita')return 'Oi, '+l.nome+'! Aqui é a Dra. Fernanda Teo, veterinária. Você pediu uma visita em casa pelo meu anúncio e eu te devo uma resposta: desculpa a demora! 🙏\nPra compensar, montei '+KIT.visita+':\n'+k+'\n\nAinda quer marcar? No fim do kit tem um espacinho pra me contar do seu pet (leva 20 segundos), que eu te passo os horários desta semana.';
