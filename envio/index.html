@@ -148,6 +148,10 @@ const tokenDe=async(id)=>[...new Uint8Array(await crypto.subtle.digest('SHA-256'
 function mensagem(l){
  const k=linkKit(l), onde=l.bairro&&BAIRRO[l.bairro]?' aí no '+BAIRRO[l.bairro]:'', pet=l.pet?PET[l.pet]:'';
  const pergunta=l.pet==='os-dois'?'No fim do kit tem um espacinho pra me contar dos seus pets (leva 20 segundos). Assim te mando dicas certas pra eles.':'No fim do kit tem um espacinho pra me contar do seu pet (leva 20 segundos). Assim te mando dicas certas pra ele.';
+ // Iscas do lote 3 (17/11/2026) sem kit próprio: a mensagem 1 leva direto à página da isca.
+ const ISCA={trilha:['a checagem pós-trilha','/isca/checagem-pos-trilha/']};
+ if(ISCA[l.tipo]){const [nomeIsca,url]=ISCA[l.tipo];const p=new URLSearchParams({utm_source:'whatsapp',utm_medium:'mensagem-1',utm_campaign:l.tipo});
+  return 'Oi, '+l.nome+'! Aqui é a Dra. Fernanda Teo, veterinária. 🐾 Vi que você pediu '+nomeIsca+(pet?' pro seu '+pet:'')+'. Está aqui:\n'+SITE+url+'?'+p.toString()+'\n\nQualquer dúvida, é só me responder por aqui'+(onde?'. E se precisar, eu atendo em casa'+onde:'')+'.\n\nSe preferir não receber mensagens, é só me dizer.'}
  if(l.campanha==='nov'){
   let m='Oi, '+l.nome+'! Aqui é a Dra. Fernanda Teo, veterinária. 🐾 Vi que você pediu '+PEDIDO[l.tipo]+(pet?' pro seu '+pet:'')+'. Montei '+KIT[l.tipo]+':\n'+k+'\n\n';
   if(l.tipo==='visita')m+='Quer que eu já te passe os horários desta semana'+onde+'? No fim do kit tem um espacinho pra me contar do seu pet (leva 20 segundos).';
