@@ -13,7 +13,7 @@ Sempre que precisar perguntar algo ao usuário, use o questionário no chat (fer
 
 ## Deploy
 
-Push na `main` → GitHub Actions (`.github/workflows/deploy.yml`) → verificação → FTP para o cPanel. Não existe ambiente de homologação: trabalhe em branch, abra PR, faça merge.
+Push na `main` → GitHub Actions (`.github/workflows/deploy.yml`) → verificação → rsync por SSH para a VPS da AET (desde 22/11/2026; chave `DEPLOY_SSH_KEY` que só grava nesta pasta e nunca apaga; `painel/_dados` fica só no servidor). Não existe ambiente de homologação: trabalhe em branch, abra PR, faça merge.
 Arquivos internos (este, `regras-compliance.md`, `scripts/`, `.claude/`, `incorporacao-agenda-vet/`) estão no `exclude` do deploy. **Arquivo interno novo na raiz? Adicione ao `exclude`**, senão ele vira público.
 
 ## Estrutura

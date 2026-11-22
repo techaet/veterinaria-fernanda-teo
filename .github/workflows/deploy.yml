@@ -1,4 +1,4 @@
-name: Deploy para o cPanel (FTP)
+name: Deploy (rsync para a VPS)
 
 on:
   push:
@@ -21,29 +21,16 @@ jobs:
       - name: Gerar o índice de busca (Pagefind) — vai para /pagefind/ no servidor
         run: npx --yes pagefind@1.5.2 --site . --glob "blog/*/index.html"
 
-      - name: Enviar arquivos via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          local-dir: ./
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.github/**
-            README.md
-            ATUALIZACAO_VISUAL_VETERINARIA_20260826.md
-            LEIA-ME-BLOG-VETERINARIA.txt
-            LEIA-ME_ATUALIZACAO.md
-            CLAUDE.md
-            regras-compliance.md
-            **/.claude/**
-            **/scripts/**
-            **/incorporacao-agenda-vet/**
-            **/.DS_Store
+      - name: Enviar o site por rsync para a VPS
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy && chmod 600 ~/.ssh/deploy
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          # sem --delete e sem tocar em painel/_dados (dados do painel, só no servidor)
+          rsync -rlptz --chmod=D755,F644 --exclude '.git*' --exclude '.github' --exclude 'README.md' --exclude 'ATUALIZACAO_VISUAL_VETERINARIA_20260826.md' --exclude 'LEIA-ME-BLOG-VETERINARIA.txt' --exclude 'LEIA-ME_ATUALIZACAO.md' --exclude 'CLAUDE.md' --exclude 'regras-compliance.md' --exclude '.claude' --exclude 'scripts' --exclude 'incorporacao-agenda-vet' --exclude '.DS_Store' --exclude 'painel/_dados' -e "ssh -i ~/.ssh/deploy -o BatchMode=yes" ./ deploy@189.24.7.25:./
 
       - name: Avisar o painel (último deploy)
         if: success()
