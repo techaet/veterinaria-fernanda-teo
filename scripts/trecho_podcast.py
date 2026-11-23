@@ -3,7 +3,7 @@
 Uso: python3 scripts/trecho_podcast.py <slug> [<slug> ...]      (sem slug: todos os episódios sem trecho)
 Faz: transcreve os minutos 1 a 6 do original do HD (whisper.cpp, português; o episódio inteiro levaria
 ~1,25× a duração neste Mac Intel) para <original>.trecho.txt ao lado dele; pede ao Claude
-(claude -p) um trecho literal de 1 ou 2 frases dentro das regras de regras-compliance.md §2; confere que o
+(claude -p; no servidor, à OpenAI) um trecho literal de 1 ou 2 frases dentro das regras de regras-compliance.md §2; confere que o
 trecho está, palavra por palavra, na transcrição; grava em site.json e roda o sincronizar. Não faz commit."""
 import json, os, re, subprocess, sys, unicodedata
 from pathlib import Path
@@ -53,10 +53,28 @@ def transcrever(audio):
     return txt.read_text(encoding="utf-8")
 
 
+def perguntar(texto):
+    """Com OPENAI_API_KEY no ambiente (robô na VPS, 23/11/2026), pergunta à OpenAI; sem ela (Mac), ao Claude Code (claude -p)."""
+    chave = os.environ.get("OPENAI_API_KEY")
+    if not chave:
+        return subprocess.run(["claude", "-p", texto], capture_output=True, text=True, timeout=300).stdout
+    import urllib.request
+    pedido = urllib.request.Request("https://api.openai.com/v1/responses", method="POST",
+        data=json.dumps({"model": os.environ.get("PODCAST_OPENAI_MODEL", "gpt-6.1-sol"), "input": texto}).encode(),
+        headers={"Authorization": f"Bearer {chave}", "Content-Type": "application/json"})
+    with urllib.request.urlopen(pedido, timeout=300) as r:
+        d = json.load(r)
+    return "".join(c.get("text", "") for o in d.get("output", []) if o.get("type") == "message"
+                   for c in o.get("content", []) if c.get("type") == "output_text")
+
+
 def escolher(transcricao):
     for _ in range(2):
-        r = subprocess.run(["claude", "-p", PEDIDO + transcricao], capture_output=True, text=True, timeout=300)
-        trecho = r.stdout.strip().strip('"“”').strip()
+        try:
+            trecho = perguntar(PEDIDO + transcricao).strip().strip('"“”').strip()
+        except Exception as e:  # falha passageira (503, tempo): tenta de novo; depois, fica o aviso padrão
+            print(f"pergunta falhou: {e}", file=sys.stderr)
+            continue
         if 60 <= len(trecho) <= 260 and norm(trecho) in norm(transcricao):
             return trecho
     return None
