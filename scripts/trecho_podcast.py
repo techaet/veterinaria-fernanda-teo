@@ -5,13 +5,13 @@ Faz: transcreve os minutos 1 a 6 do original do HD (whisper.cpp, português; o e
 ~1,25× a duração neste Mac Intel) para <original>.trecho.txt ao lado dele; pede ao Claude
 (claude -p) um trecho literal de 1 ou 2 frases dentro das regras de regras-compliance.md §2; confere que o
 trecho está, palavra por palavra, na transcrição; grava em site.json e roda o sincronizar. Não faz commit."""
-import json, re, subprocess, sys, unicodedata
+import json, os, re, subprocess, sys, unicodedata
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-PODCASTS_HD = Path("/Volumes/Extreme SSD/AET/fernanda-teo/audios/podcasts")
-MODELO = Path.home() / "Library/Application Support/aet-podcast/modelos/ggml-large-v3-turbo.bin"
-WHISPER = str(Path.home() / "Library/Application Support/aet-podcast/whisper.cpp/build/bin/whisper-cli")  # compilado do código-fonte 1.9.5
+PODCASTS_HD = Path(os.environ.get("AET_HD", "/Volumes/Extreme SSD")) / "AET/fernanda-teo/audios/podcasts"
+MODELO = Path(os.environ.get("PODCAST_MODELO", Path.home() / "Library/Application Support/aet-podcast/modelos/ggml-large-v3-turbo.bin"))
+WHISPER = os.environ.get("PODCAST_WHISPER", str(Path.home() / "Library/Application Support/aet-podcast/whisper.cpp/build/bin/whisper-cli"))  # compilado do código-fonte 1.9.5
 PEDIDO = """Abaixo está a transcrição de um episódio de podcast sobre saúde de cães e gatos, feito a partir de um artigo da Dra. Fernanda Teo, médica-veterinária.
 Escolha UM trecho para aparecer como citação embaixo do player no site.
 
@@ -47,7 +47,7 @@ def transcrever(audio):
     if not txt.exists():
         wav = Path("/tmp") / f"{audio.stem}.wav"  # whisper.cpp lê WAV 16 kHz mono
         subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-ss", "60", "-t", "300", "-i", str(audio), "-ar", "16000", "-ac", "1", str(wav)], check=True)
-        subprocess.run([WHISPER, "-m", str(MODELO), "-l", "pt", "-nt", "-t", "8", "-otxt", "-of", str(txt.with_suffix("")), str(wav)],
+        subprocess.run([WHISPER, "-m", str(MODELO), "-l", "pt", "-nt", "-t", str(min(8, os.cpu_count() or 8)), "-otxt", "-of", str(txt.with_suffix("")), str(wav)],
                        check=True, capture_output=True)
         wav.unlink()
     return txt.read_text(encoding="utf-8")

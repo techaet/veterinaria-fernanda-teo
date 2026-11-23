@@ -4,12 +4,12 @@ Uso: python3 scripts/adicionar_podcast.py <slug-do-artigo> <arquivo.m4a> "<títu
 Faz: copia o original para o HD (SHA-256 conferido, linha no _LOG.md e no manifesto.csv), gera o MP3
 mono 64 kbps em podcast/audio/, põe o episódio no topo de "podcasts" em scripts/site.json e roda o sincronizar.
 Não faz commit."""
-import hashlib, json, shutil, subprocess, sys
+import hashlib, json, os, shutil, subprocess, sys
 from datetime import date, datetime
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-HD = Path("/Volumes/Extreme SSD")
+HD = Path(os.environ.get("AET_HD", "/Volumes/Extreme SSD"))  # servidor: o volume do bot da marca (o vps-sync traz ao HD)
 MARCA = HD / "AET/fernanda-teo"
 
 
@@ -26,7 +26,7 @@ def main(slug, origem, titulo):
     if not (RAIZ / f"blog/{slug}/index.html").exists():
         sys.exit(f"ERRO: artigo não existe: blog/{slug}/")
     if not (HD / "AET").is_dir():  # AGENTS.md: sem HD montado, para
-        sys.exit("ERRO: HD não montado (/Volumes/Extreme SSD/AET)")
+        sys.exit(f"ERRO: HD não montado ({HD}/AET)")
     hoje = str(date.today())
     cfg_p = RAIZ / "scripts/site.json"
     cfg = json.loads(cfg_p.read_text(encoding="utf-8"))

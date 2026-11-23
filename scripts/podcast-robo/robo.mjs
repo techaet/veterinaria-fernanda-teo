@@ -9,7 +9,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 
-const BASE = path.join(os.homedir(), 'Library/Application Support/aet-podcast');
+// Servidor (VPS, 23/11/2026): PODCAST_BASE, PODCAST_LOG, PODCAST_CHROME, PODCAST_HD_RAIZ e PODCAST_TELEGRAM_* vêm do ambiente.
+// No Mac nada disso existe e vale o de sempre.
+const BASE = process.env.PODCAST_BASE || path.join(os.homedir(), 'Library/Application Support/aet-podcast');
+const SERVIDOR = process.platform !== 'darwin';
+// raiz do "HD" de cada site: no Mac, o HD; no servidor, o volume do bot da marca (/srv/criativos/<site>, que o vps-sync traz ao HD)
+const hdDe = nome => process.env.PODCAST_HD_RAIZ ? path.join(process.env.PODCAST_HD_RAIZ, nome) : '/Volumes/Extreme SSD';
 const PERFIL = path.join(BASE, 'chrome');           // Chrome só do robô, logado em tech.aetsolidez
 const TESTE = process.env.PODCAST_REPO;             // teste: usa esse checkout como está, sem pull nem push
 const SO = process.env.PODCAST_SITE || (TESTE ? 'fernanda-teo' : ''); // só um site (nome de SITES)
@@ -30,12 +35,12 @@ const SITES = [
       es: 'Conversación en español rioplatense, con el voseo de Argentina en toda la charla (vos tenés, vos podés, mirá, fijate, andá), para viajeros argentinos que planean conocer Campeche y Florianópolis: qué hacer, cómo organizarse y qué chequear antes de ir.',
     } },
 ].filter(s => !SO || s.nome === SO)
-  .map(s => ({ ...s, repo: TESTE || path.join(BASE, s.pasta), estado: path.join(BASE, s.estado) }));
+  .map(s => ({ ...s, repo: TESTE || path.join(BASE, s.pasta), estado: path.join(BASE, s.estado), hd: hdDe(s.nome) }));
 const IDIOMAS = { pt: 'português (Brasil)', es: 'español (Latinoamérica)' }; // o NotebookLM não tem espanhol da Argentina: o voseo vem do foco
 const BAIXADOS = path.join(BASE, 'baixados');
-const LOG = path.join(os.homedir(), 'Library/Logs/aet-podcast.log');
+const LOG = process.env.PODCAST_LOG || path.join(os.homedir(), 'Library/Logs/aet-podcast.log');
 const PORTA = 9333;
-const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const CHROME = process.env.PODCAST_CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const NB = 'https://notebook.google.com/';
 const LOTE = 5;              // episódios novos por rodada (somando os sites: o limite do NotebookLM é da conta)
 const ESPERA_1 = 5 * 60e3;   // 1ª conferência
@@ -46,7 +51,14 @@ const MAX_TENTATIVAS = 2;
 const soConferir = process.argv.includes('--so-conferir');
 const dorme = ms => new Promise(r => setTimeout(r, ms));
 const log = msg => { const l = `${new Date().toLocaleString('sv-SE').slice(0, 16)} ${msg}`; console.log(l); fs.appendFileSync(LOG, l + '\n'); };
-const avisar = msg => { log('AVISO ' + msg); try { execFileSync('osascript', ['-e', `display notification ${JSON.stringify(msg)} with title "Robô do podcast"`]); } catch {} };
+const avisar = msg => {
+  log('AVISO ' + msg);
+  try {
+    if (!SERVIDOR) execFileSync('osascript', ['-e', `display notification ${JSON.stringify(msg)} with title "Robô do podcast"`]);
+    else if (process.env.PODCAST_TELEGRAM_TOKEN) execFileSync('curl', ['-s', '-m', '20', '-o', '/dev/null', '--data-urlencode', `text=Robô do podcast: ${msg}`,
+      '-d', `chat_id=${process.env.PODCAST_TELEGRAM_CHAT}`, `https://api.telegram.org/bot${process.env.PODCAST_TELEGRAM_TOKEN}/sendMessage`]);
+  } catch {}
+};
 const git = (s, ...a) => execFileSync('git', ['-C', s.repo, ...a], { encoding: 'utf8' }).trim();
 const lerEstado = s => { try { return JSON.parse(fs.readFileSync(s.estado, 'utf8')); } catch { return {}; } };
 const gravarEstado = s => fs.writeFileSync(s.estado, JSON.stringify(s.est, null, 2));
@@ -75,11 +87,12 @@ const lingua = (s, id) => id.split('/')[1]
 
 function publicar(s, id, arquivo, titulo) { // id do episódio: "<slug>" ou "<slug>/<lingua>"
   if (!TESTE) git(s, 'pull', '-q', '--ff-only'); // a main pode ter mudado durante a rodada
-  execFileSync('python3', [path.join(s.repo, 'scripts/adicionar_podcast.py'), id, arquivo, titulo], { stdio: 'inherit' });
+  const amb = { ...process.env, AET_HD: s.hd };
+  execFileSync('python3', [path.join(s.repo, 'scripts/adicionar_podcast.py'), id, arquivo, titulo], { stdio: 'inherit', env: amb });
   // trecho do episódio para o player (transcreve com whisper.cpp; se falhar, fica o aviso padrão)
-  try { execFileSync('python3', [path.join(s.repo, 'scripts/trecho_podcast.py'), id], { stdio: 'inherit', timeout: 30 * 60e3 }); }
+  try { execFileSync('python3', [path.join(s.repo, 'scripts/trecho_podcast.py'), id], { stdio: 'inherit', timeout: 30 * 60e3, env: amb }); }
   catch (e) { log(`sem trecho para ${id}: ${e.message.split('\n')[0]}`); }
-  execFileSync('python3', [path.join(s.repo, s.verificar)], { stdio: 'inherit' });
+  execFileSync('python3', [path.join(s.repo, s.verificar)], { stdio: 'inherit', env: amb });
   git(s, 'add', '-A');
   git(s, '-c', 'user.name=robo-podcast', '-c', 'user.email=tech.aetsolidez@gmail.com', 'commit', '-q', '-m', `Podcast: ${titulo} (${id})`);
   if (!TESTE) git(s, 'push', '-q', 'origin', 'main'); // na hora: deixa a main livre para outras mudanças
@@ -92,7 +105,9 @@ async function conectar() {
   // Chrome aberto sem nenhuma janela: o Playwright só conecta depois que houver uma aba
   try { await fetch(`http://127.0.0.1:${PORTA}/json/new?${NB}`, { method: 'PUT' }); await dorme(3000); return await ligar(); } catch {}
   // Chrome comum (sem as marcas de automação do Playwright, que o login do Google recusa)
-  spawn(CHROME, [`--user-data-dir=${PERFIL}`, `--remote-debugging-port=${PORTA}`, '--no-first-run', '--no-default-browser-check', NB],
+  // no servidor: sem tela e como root no contêiner
+  const extra = SERVIDOR ? ['--headless=new', '--no-sandbox', '--disable-dev-shm-usage', '--lang=pt-BR'] : [];
+  spawn(CHROME, [`--user-data-dir=${PERFIL}`, `--remote-debugging-port=${PORTA}`, '--no-first-run', '--no-default-browser-check', ...extra, NB],
     { detached: true, stdio: 'ignore' }).unref();
   for (let i = 0; i < 30; i++) { await dorme(1000); try { return await ligar(); } catch {} }
   throw new Error('Chrome do robô não abriu');
@@ -174,7 +189,7 @@ async function conferir(b, p, id, url) {
 // ---------- rodada ----------
 async function main() {
   fs.mkdirSync(BAIXADOS, { recursive: true });
-  if (!fs.existsSync('/Volumes/Extreme SSD/AET')) return log('HD não montado: nada a fazer');
+  if (!SITES.every(s => fs.existsSync(path.join(s.hd, 'AET')))) return log('HD não montado: nada a fazer');
   const sites = [];
   for (const s of SITES) {
     try { atualizarRepo(s); } catch (e) { log(`${s.nome}: não consegui atualizar o repo: ${e.message.split('\n')[0]}`); continue; }
@@ -244,7 +259,9 @@ async function main() {
     process.exitCode = 1;
   } finally {
     await p.close().catch(() => {});
-    await b.close(); // só desconecta: o Chrome do robô continua aberto e logado
+    // no servidor o Chrome fecha de verdade (grava os cookies no perfil antes de o contêiner sair); no Mac só desconecta
+    if (SERVIDOR) await (await b.newBrowserCDPSession()).send('Browser.close').catch(() => {});
+    await b.close(); // no Mac: só desconecta, o Chrome do robô continua aberto e logado
   }
   const resto = sites.map(s => `${s.nome} ${pendentes(s, lerEstado(s)).length}`).join(', ');
   log(`fim da rodada: artigo(s) ainda sem episódio: ${resto}`);
