@@ -66,7 +66,8 @@ jobs:
           if [ -n "$TELEGRAM_TOKEN" ] && [ -n "$TELEGRAM_CHAT_IDS" ]; then
             texto=$(printf 'Novo artigo para revisão\n\n%s\n\nPrévia: %s\n\nPontos para conferir:\n%s' "$titulo" "$link" "$notas")
             for chat in ${TELEGRAM_CHAT_IDS//,/ }; do
-              [ "$chat" = "$TELEGRAM_FILA_ID" ] && continue
+              # TELEGRAM_FILA_ID: quem já recebe o artigo pela fila do bot (lista com vírgulas)
+              case ",$TELEGRAM_FILA_ID," in *",$chat,"*) continue ;; esac
               curl -s "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
                 --data-urlencode "chat_id=$chat" --data-urlencode "text=$texto" \
                 --data-urlencode "reply_markup={\"inline_keyboard\":[[{\"text\":\"✅ Publicar\",\"callback_data\":\"publicar:$num\"},{\"text\":\"🗑️ Excluir\",\"callback_data\":\"excluir:$num\"}]]}" || true
