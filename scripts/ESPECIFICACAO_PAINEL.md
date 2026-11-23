@@ -12,7 +12,7 @@ Criado em 07/11/2026 a pedido do Leonardo, no molde das abas Site, Instagram e A
 | `painel/fontes.php` | Leitura de cada fonte e as regras de "o que fazer" (funções puras testadas) |
 | `painel/api.php` | Porta dos robôs do GitHub (POST, header `X-Painel-Key` = `cron_token`): `velocidade`, `google`, `deploy` |
 | `painel/.htaccess`, `painel/_dados/.htaccess` | Força https e www; nega `lib.php`, `fontes.php` e toda a pasta `_dados/` |
-| `scripts/test_painel.php` | Teste (roda no `deploy.yml`, antes do FTP); pasta temporária, sem internet |
+| `scripts/test_painel.php` | Teste (roda no `deploy.yml`, antes do rsync para a VPS); pasta temporária, sem internet |
 | `scripts/google_painel.py` | GA4 (propriedade 553040006) e Search Console (`https://www.fernandateo.vet.br/`) |
 | `.github/workflows/painel.yml` | 1x por dia: velocidade (Lighthouse, 3 medidas, fica a do meio) às 6h e Google às 6h30 |
 
