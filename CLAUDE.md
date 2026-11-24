@@ -22,7 +22,7 @@ Arquivos internos (este, `regras-compliance.md`, `scripts/`, `.claude/`, `incorp
 |---|---|
 | `index.html`, `style.css`, `script.js` | Home + estilos/JS globais (usados por todas as páginas) |
 | `floresta.css` | Visual "Floresta noturna" (vidro fosco, fundo escuro) por cima do `style.css`. O `sincronizar.py` põe o link e `class="tema-floresta"` no `<body>` de toda página com menu. Iscas, kit e guia (sem menu, para imprimir) ficam claros |
-| `agendar/` | Agenda online via iframe (`vetplatform-alf9ll8o.manus.space`). Sem botão flutuante de WhatsApp nesta página |
+| `agendar/` | Agenda online via iframe do TechVet (`www.tech.vet.br`, na VPS da AET desde 24/11/2026; antes era o Manus). Sem botão flutuante de WhatsApp nesta página |
 | `blog/index.html` | Lista de artigos (cards, do mais novo para o mais antigo) |
 | `blog/<slug>/index.html` | Um artigo por pasta |
 | `blog/assets/<slug>.webp` | Imagem de capa do artigo (também é o og:image) |
@@ -63,7 +63,7 @@ Analytics: GA4 `G-V1JL02NC6J` — todo HTML novo leva o snippet `gtag` no `<head
 - O toque chega à Worker da Cloudflare (`scripts/telegram-worker/`), que comenta `PUBLICAR`/`EXCLUIR` na issue com o token da conta techaet → `artigo-decisao.yml`: merge + `publicar_artigo.py` (card, feed, sitemap, "Leia também" recíproco, datas = hoje) + `verificar.py` + push na main + `deploy.yml`. Comentar direto na issue também funciona.
 - Toque uma vez só (o toque duplo gera dois comandos; o segundo falha sem dano). Só os IDs em `ALLOWED_IDS` da Worker aprovam.
 - Reenviar o aviso de uma branch já existente: fechar a issue aberta, dar merge da `main` na branch (com os pontos clínicos no corpo do commit) e push.
-- Setup, secrets e cuidados: `scripts/telegram-worker/LEIA-ME.md`. Não use o bot da agenda (já tem webhook no Manus). O token `GITHUB_TOKEN` da Worker não expira; se for revogado, os botões param sem aviso.
+- Setup, secrets e cuidados: `scripts/telegram-worker/LEIA-ME.md`. Não use o bot da agenda (`@vet_platform_bot`: o webhook é do TechVet, em `www.tech.vet.br`). O token `GITHUB_TOKEN` da Worker não expira; se for revogado, os botões param sem aviso.
 
 ## Podcast (áudio do NotebookLM)
 
