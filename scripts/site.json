@@ -69,6 +69,13 @@
   "podcast_aviso": "Conversa em áudio gerada com inteligência artificial a partir do artigo da Dra. Fernanda Teo. Conteúdo educativo: não substitui a consulta.",
   "podcasts": [
     {
+      "artigo": "adotou-cao-ou-gato-adulto-primeiras-semanas",
+      "titulo": "A real adaptação de pets adultos",
+      "data": "2026-11-24",
+      "duracao": "16 min",
+      "trecho": "O maior obstáculo que eu vejo é aquele mito de que um pet adulto já vem, entre aspas, pronto. Ou pior, que ele é rígido demais para mudar."
+    },
+    {
       "artigo": "viagem-de-onibus-com-cao-e-gato",
       "titulo": "Como viajar de ônibus com seu pet",
       "data": "2026-11-16",
